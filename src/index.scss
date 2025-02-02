@@ -1,0 +1,42 @@
+@font-face {
+  font-family: "Bastion";
+  src: url(./fonts/Bastionkontrastaltc.otf);
+}
+
+@font-face {
+  font-family: "Helios";
+  src: url(./fonts/helios.otf);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  background-color: #fff;
+  --header-color: rgb(109, 111, 115);
+  --text-color: black;
+  --red-color: rgb(227, 6, 19);
+  --gradient: linear-gradient(
+    90deg,
+    rgb(234, 101, 17) 0%,
+    rgb(231, 54, 44) 50%,
+    rgb(204, 17, 44) 100%
+  );
+
+  text-rendering: optimizeLegibility;
+}
+
+h1 {
+  font-weight: normal;
+}
+
+p, a {
+  font-family: "Helios";
+}
+
+a {
+  color: var(--red-color);
+}

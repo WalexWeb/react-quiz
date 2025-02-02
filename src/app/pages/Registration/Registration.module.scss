@@ -1,0 +1,37 @@
+.window {
+  display: flex;
+  justify-content: right;
+  align-items: right;
+  background-image: url(../../../images/register_page.jpg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 100vw;
+  height: 100vh;
+
+  .form {
+    margin: 8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 40vw;
+
+    .header {
+      font-family: "Bastion";
+      font-size: 5rem;
+      color: var(--header-color);
+      margin-bottom: 3rem;
+    }
+
+    label {
+      font-family: "Helios";
+      font-style: 1.1rem;
+      position: sticky;
+      right: 100%;
+    }
+
+    .enter {
+      margin: 2rem 2.5rem 0;
+    }
+  }
+}
