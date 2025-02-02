@@ -1,14 +1,42 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { LazyMotion, domAnimation } from 'framer-motion'
-import App from './app/App.jsx'
-import './index.scss'
-import './fonts/Bastionkontrastaltc.otf'
+import "./index.scss";
+import Login from "./app/pages/Login/Login.jsx";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { LazyMotion, domAnimation } from "framer-motion";
+import "./fonts/Bastionkontrastaltc.otf";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import Registration from "./app/pages/Registration/Registration";
+import Question from "./app/pages/Question/Question";
+import Projector from "./app/pages/Projector/Projector";
 
-createRoot(document.getElementById('root')).render(
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Registration />,
+    errorElement: <div>Error 404</div>,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/question",
+    element: <Question />,
+  },
+  {
+    path: "/projector",
+    element: <Projector />,
+  },
+  {
+    path: "/admin-panel",
+    element: "",
+  },
+]);
+
+createRoot(document.getElementById("root")).render(
   <StrictMode>
     <LazyMotion features={domAnimation}>
-    <App />
+      <RouterProvider router={router} />
     </LazyMotion>
-  </StrictMode>,
-)
+  </StrictMode>
+);
