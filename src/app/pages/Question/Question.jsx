@@ -18,7 +18,7 @@ function Question() {
     <div className={styles.window}>
       <div className={styles.header}>
         <h1 className={styles.chapter}>Раздел</h1>
-        <AnswerTimer duration={10} onTimeUp={handleTimeUp} />
+        <AnswerTimer duration={60} onTimeUp={handleTimeUp} />
         <p className={styles.question}>Вопрос</p>
       </div>
       <form className={styles.form}>
