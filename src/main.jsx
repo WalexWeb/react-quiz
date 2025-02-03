@@ -4,9 +4,12 @@ import { createRoot } from "react-dom/client";
 import { LazyMotion, domAnimation } from "framer-motion";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import Registration from "./app/pages/Registration/Registration";
-import Login from "./app/pages/Login/Login.jsx";
+import Login from "./app/pages/Login/Login";
 import Question from "./app/pages/Question/Question";
 import Projector from "./app/pages/Projector/Projector";
+import Admin from "./app/pages/Admin/Admin";
+import Rating from "./app/pages/Rating/Rating";
+import Jury from "./app/pages/Jury/Jury";
 
 const router = createBrowserRouter([
   {
@@ -28,7 +31,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin-panel",
-    element: "",
+    element: <Admin/>,
+  },
+  {
+    path: "/rating",
+    element: <Rating/>,
+  },
+  {
+    path: "/jury",
+    element: <Jury/>,
   },
 ]);
 

@@ -1,38 +1,91 @@
 .window {
-   display: flex;
-   justify-content: right;
-   align-items: right;
-   background-image: url(../../../images/register_page.jpg);
-   background-repeat: no-repeat;
-   background-size: contain;
-   width: 100vw;
-   height: 100vh;
- 
-   .form {
-     margin: 8rem;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     flex-direction: column;
-     width: 40vw;
- 
-     .header {
-       font-family: "Bastion";
-       font-size: 5rem;
-       color: var(--header-color);
-       margin-bottom: 3rem;
-     }
- 
-     label {
-       font-family: "Helios";
-       font-style: 1.1rem;
-       position: sticky;
-       right: 100%;
-     }
- 
-     .enter {
-       margin: 2rem 2.5rem 0;
-     }
-   }
- }
- 
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  background-image: url(../../../images/register_page.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 100vw;
+  height: 100vh;
+  padding: 1rem;
+
+  @media (max-width: 1024px) {
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    padding: 0;
+  }
+
+  .form {
+    margin: 8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 40vw;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+    @media (max-width: 1024px) {
+      width: 60vw;
+      margin: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      width: 85vw;
+      margin: 1rem;
+      padding: 1.5rem;
+    }
+
+    @media (max-width: 480px) {
+      width: 95vw;
+      margin: 0.5rem;
+      padding: 1rem;
+    }
+
+    .header {
+      font-size: 5rem;
+      color: var(--red-color);
+      margin-bottom: 3rem;
+      text-align: center;
+
+      @media (max-width: 1024px) {
+        font-size: 4rem;
+        margin-bottom: 2rem;
+      }
+
+      @media (max-width: 768px) {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+      }
+
+      @media (max-width: 480px) {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+    }
+
+    label {
+      font-style: 1.1rem;
+      position: sticky;
+      right: 100%;
+      align-self: flex-start;
+
+      @media (max-width: 768px) {
+        font-size: 1rem;
+      }
+    }
+
+    .enter {
+      margin: 2rem 2.5rem 0;
+
+      @media (max-width: 768px) {
+        margin: 1.5rem 0 0.5rem;
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
