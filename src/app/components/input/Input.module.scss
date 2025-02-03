@@ -6,5 +6,9 @@
    color: black;
    outline: none;
    margin: 1rem 0;
-   width: 40vw;
+   width: 100%;
+
+   @media (max-width: 768px) {
+      margin-top: 0.75rem;
+    }
 }

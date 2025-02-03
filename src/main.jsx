@@ -1,11 +1,10 @@
 import "./index.scss";
-import Login from "./app/pages/Login/Login.jsx";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { LazyMotion, domAnimation } from "framer-motion";
-import "./fonts/Bastionkontrastaltc.otf";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import Registration from "./app/pages/Registration/Registration";
+import Login from "./app/pages/Login/Login.jsx";
 import Question from "./app/pages/Question/Question";
 import Projector from "./app/pages/Projector/Projector";
 

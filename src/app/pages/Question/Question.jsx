@@ -5,6 +5,8 @@ import Input from "../../components/input/Input";
 import AnswerTimer from "../../components/answerTimer/AnswerTimer";
 
 function Question() {
+document.title = "Викторина"
+
   const [answer, setAnswer] = useState("");
   const [seconds, setSeconds] = useState(0);
 

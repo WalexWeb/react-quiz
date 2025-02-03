@@ -35,10 +35,18 @@ h1 {
 }
 
 p,
-a {
+a,
+label {
   font-family: "Helios";
 }
 
 a {
   color: var(--red-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
 }

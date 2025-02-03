@@ -5,7 +5,7 @@ import Button from "../../components/button/Button";
 import { Link } from "react-router";
 
 function Login() {
-  document.title = "Викторина | Регистрация";
+  document.title = "Викторина | Вход";
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
