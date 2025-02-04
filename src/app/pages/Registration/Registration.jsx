@@ -5,19 +5,17 @@ import Input from "../../components/input/Input";
 import { Link } from "react-router";
 
 function Registration() {
-document.title = "Викторина | Регистрация"
+  document.title = "Викторина | Регистрация";
 
-   const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
 
   // Отправка данных из формы в БД
   function sendRegistrationData(e) {
     e.preventDefault();
-
-
   }
-  
+
   return (
     <div className={styles.window}>
       <form className={styles.form}>
@@ -40,7 +38,10 @@ document.title = "Викторина | Регистрация"
         <Input type="password" id="passwordRepeat" />
         <div className={styles.enter}>
           <p>
-            Уже есть аккаунт? <Link to='/login'><a>Войти</a></Link> 
+            Уже есть аккаунт?{" "}
+            <Link to="/login">
+              <a>Войти</a>
+            </Link>
           </p>
         </div>
         <Button onClick={sendRegistrationData}>Зарегистрироваться</Button>

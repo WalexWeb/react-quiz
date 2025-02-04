@@ -3,12 +3,32 @@ import { useState } from "react";
 import Input from "../../components/input/Input";
 import Button from "../../components/button/Button";
 import { Link } from "react-router";
+import axios from "axios";
+import { useMutation } from "react-query";
 
 function Login() {
   document.title = "Викторина | Вход";
 
+  const API_URL = "http://localhost:8000/api/v2";
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  // Авторизация пользователя (проверка данных из бд)
+  const { mutate, isLoading } = useMutation(
+    "login",
+    () =>
+      axios.post(
+        `${API_URL}/users/login`,
+        { username, password },
+        { headers: { "Content-Type": "application/json" } }
+      ),
+    {
+      onSuccess: ({ data }) => {
+        setUsername(data.username);
+      },
+    }
+  );
 
   // Отправка данных из формы в БД
   function sendRegistrationData(e) {
@@ -41,7 +61,9 @@ function Login() {
             </Link>
           </p>
         </div>
-        <Button onClick={sendRegistrationData}>Войти</Button>
+        <Button onClick={() => mutate()} disabled={isLoading}>
+          Войти
+        </Button>
       </form>
     </div>
   );
