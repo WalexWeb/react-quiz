@@ -23,6 +23,10 @@
     flex-direction: column;
     align-items: center;
 
+    .timer {
+      margin: 2rem 2rem 3rem;
+    }
+
     .chapter {
       font-size: 3rem;
       color: var(--header-color);

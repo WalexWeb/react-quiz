@@ -6,6 +6,7 @@ import Projector from "./app/pages/Projector/Projector";
 import Admin from "./app/pages/Admin/Admin";
 import Rating from "./app/pages/Rating/Rating";
 import Jury from "./app/pages/Jury/Jury";
+import QuestionWheel from "./app/pages/QuestionWheel/QuestionWheel";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { LazyMotion, domAnimation } from "framer-motion";
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
   {
     path: "/jury",
     element: <Jury />,
+  },
+  {
+    path: "/question-wheel",
+    element: <QuestionWheel/>,
   },
 ]);
 

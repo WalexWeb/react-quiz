@@ -1,39 +1,65 @@
 import styles from "./Login.module.scss";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Input from "../../components/input/Input";
 import Button from "../../components/button/Button";
-import { Link } from "react-router";
-import axios from "axios";
-import { useMutation } from "react-query";
+import { Link } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { instance } from "../../../api/instance";
 
 function Login() {
   document.title = "Викторина | Вход";
-
-  const API_URL = "http://localhost:8000/api/v2";
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Авторизация пользователя (проверка данных из бд)
-  const { mutate, isLoading } = useMutation(
-    "login",
-    () =>
-      axios.post(
-        `${API_URL}/users/login`,
-        { username, password },
-        { headers: { "Content-Type": "application/json" } }
-      ),
-    {
-      onSuccess: ({ data }) => {
-        setUsername(data.username);
-      },
+  // Валидация формы
+  const validateForm = () => {
+    if (!username.trim()) {
+      toast.error("Введите название команды");
+      return false;
     }
-  );
+    if (!password) {
+      toast.error("Введите пароль");
+      return false;
+    }
+    return true;
+  };
 
-  // Отправка данных из формы в БД
-  function sendRegistrationData(e) {
+  // Отправка данных для входа
+  const handleLogin = async (e) => {
     e.preventDefault();
-  }
+
+    if (!validateForm()) return;
+
+    setIsLoading(true);
+    try {
+      const response = await instance.post(
+        `/api/v2/users/login?username=${encodeURIComponent(
+          username
+        )}&password=${encodeURIComponent(password)}`
+      );
+
+      // Сохраняем токены в localStorage
+      const { access_token, refresh_token } = response.data;
+      localStorage.setItem("accessToken", access_token);
+      localStorage.setItem("refreshToken", refresh_token);
+
+      toast.success("Вход успешен! Перенаправляем на колесо вопросов...");
+
+      setTimeout(() => {
+        navigate("/question-wheel");
+      }, 2000);
+    } catch (error) {
+      const errorMessage = error.response?.data?.detail || "Ошибка при входе";
+      toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className={styles.window}>
@@ -55,16 +81,25 @@ function Login() {
         />
         <div className={styles.enter}>
           <p>
-            Нет аккаунта?{" "}
-            <Link to="/">
-              <a>Зарегистрироваться</a>
-            </Link>
+            Нет аккаунта? <Link to="/">Зарегистрироваться</Link>
           </p>
         </div>
-        <Button onClick={() => mutate()} disabled={isLoading}>
-          Войти
+        <Button onClick={handleLogin} disabled={isLoading}>
+          {isLoading ? "Вход..." : "Войти"}
         </Button>
       </form>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }
