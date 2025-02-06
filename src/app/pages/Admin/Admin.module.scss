@@ -1,0 +1,51 @@
+.window {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+
+  .rating,
+  .projector,
+  .question,
+  .timer {
+    position: fixed;
+    width: 50%;
+    height: 50%;
+    border: 1px solid gray;
+
+    h1 {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .rating {
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    overflow-y: scroll;
+    object-fit: fill;
+  }
+
+  .question {
+    top: 0;
+    left: 50%;
+  }
+
+  .projector {
+    top: 50%;
+    left: 0;
+  }
+
+  .timer {
+    top: 50%;
+    left: 50%;
+
+
+    .time {
+      margin: 2rem 2rem 3rem;
+    }
+  }
+}

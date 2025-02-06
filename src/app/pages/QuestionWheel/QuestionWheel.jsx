@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { motion, useAnimationControls } from "framer-motion";
+import { m, useAnimationControls } from "framer-motion";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { instance } from "../../../api/instance";
@@ -13,9 +13,7 @@ const fetchQuestions = async (chapter) => {
     // Если выбран раздел, получаем вопросы из него
     // Убеждаемся, что chapter передается как строка
     const chapterStr = chapter ? String(chapter) : "";
-    const endpoint = chapterStr
-      ? `/question/${chapterStr}`
-      : "/question";
+    const endpoint = chapterStr ? `/question/${chapterStr}` : "/question";
     console.log("Fetching questions from:", endpoint);
     const { data } = await instance.get(endpoint);
     console.log("Received data:", data);
@@ -115,7 +113,7 @@ const QuestionWheel = () => {
       const isMobile = window.innerWidth <= 768;
       const itemHeight = isMobile ? 80 : 120;
 
-      // Clear previous selection before spinning
+      // Очистка полей перед выбором вопроса
       setSelectedQuestion(null);
       setSelectedIndex(null);
 
@@ -174,7 +172,7 @@ const QuestionWheel = () => {
     <div className={styles.wheelContainer}>
       {/* Заголовок и статистика */}
       <div className={styles.header}>
-        <h1>Колесо Вопросов</h1>
+        <h1 className={styles.choice}>Выбор вопроса</h1>
         <select
           className={styles.chapterSelect}
           value={selectedChapter || ""}
@@ -211,7 +209,7 @@ const QuestionWheel = () => {
         </div>
 
         {/* Колесо с вопросами */}
-        <motion.div
+        <m.div
           ref={wheelRef}
           className={styles.wheel}
           animate={controls}
@@ -225,7 +223,7 @@ const QuestionWheel = () => {
               question.repetitionIndex === 1;
 
             return (
-              <motion.div
+              <m.div
                 key={`${question.id}-${index}`}
                 className={`${styles.questionItem} ${
                   isSelected ? styles.selected : ""
@@ -235,27 +233,14 @@ const QuestionWheel = () => {
                 transition={{ duration: 0.3 }}
               >
                 {question.text}
-              </motion.div>
+              </m.div>
             );
           })}
-        </motion.div>
+        </m.div>
 
         {/* Указатель */}
         <div className={styles.pointer} />
       </div>
-
-      {/* Выбранный вопрос */}
-      {selectedQuestion && (
-        <motion.div
-          className={styles.selectedQuestion}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2>Выбранный вопрос:</h2>
-          <p>{selectedQuestion.text}</p>
-        </motion.div>
-      )}
     </div>
   );
 };

@@ -1,0 +1,40 @@
+.window {
+display: flex;
+justify-content: center;
+align-items: center;
+
+.rating {
+   text-align: center;
+
+   tbody tr:nth-child(odd) {
+     background-color: var(--red-color);
+     color: white;
+   }
+
+   th {
+     padding: .8rem;
+   }
+
+   td {
+     width: 19vw;
+     height: 3vh;
+
+   }
+   button {
+    height: 8vh;
+    width: 4vw;
+    margin: 0;
+    padding: 0;
+    background-color: var(--header-color);
+
+    &:hover {
+      background-color: var(--header-color);
+    }
+  
+    &:focus,
+    :focus-visible {
+      background-color: var(--header-color);
+    }
+   }
+ }
+}

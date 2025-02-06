@@ -1,7 +1,7 @@
 import styles from "./AnswerTimer.module.scss";
 import { useEffect, useRef, useState } from "react";
 
-function AnswerTimer({ duration, onTimeUp }) {
+function AnswerTimer({ duration, onTimeUp, time }) {
   const [seconds, setSeconds] = useState(duration);
   const [progressLoaded, setProgressLoaded] = useState(0);
   const intervalRef = useRef();
@@ -18,7 +18,7 @@ function AnswerTimer({ duration, onTimeUp }) {
   // Заполнение контейнера таймера
   useEffect(() => {
     setProgressLoaded((100 / duration) * seconds);
-
+    time(seconds);
     if (seconds === 0) {
       clearInterval(intervalRef.current);
 

@@ -1,69 +1,50 @@
-import styles from './Table.module.scss'
+import styles from "./Table.module.scss";
+import { useQuery } from "react-query";
+import { instance } from "../../../api/instance";
+
+const fetchUsers = async () => {
+  try {
+    const data = await instance.get("/users/");
+    return data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 function Table() {
-  return (
-<table className={styles.rating}>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Команда</th>
-              <th>Баллы</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Reload</td>
-              <td>300</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Творожки</td>
-              <td>200</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Творожки</td>
-              <td>200</td>
-            </tr>
-            <tr>
-              <th scope="row">4</th>
-              <td>Творожки</td>
-              <td>200</td>
-            </tr>
-            <tr>
-              <th scope="row">5</th>
-              <td>Творожки</td>
-              <td>200</td>
-            </tr>
-            <tr>
-              <th scope="row">6</th>
-              <td>Творожки</td>
-              <td>200</td>
-            </tr>
-            <tr>
-              <th scope="row">7</th>
-              <td>Творожки</td>
-              <td>200</td>
-            </tr>
-            <tr>
-              <th scope="row">8</th>
-              <td>Творожки</td>
-              <td>200</td>
-            </tr>
-            <tr>
-              <th scope="row">9</th>
-              <td>Творожки</td>
-              <td>200</td>
-            </tr>
-            <tr>
-              <th scope="row">10</th>
-              <td>Творожки</td>
-              <td>200</td>
-            </tr>
-          </tbody>
-        </table>
-  )
-}
+  const { data: users, isLoading, isError } = useQuery(["users"], fetchUsers);
+  if (isLoading) {
+    return <h1>Загрузка...</h1>;
+  }
+  const formattedUsers = users.map((u) => ({
+    id: u.id,
+    score: u.score,
+    username: u.username,
+  }));
 
-export default Table
+  const scoreSortedUsers = formattedUsers
+    ? [...formattedUsers].sort((a, b) => b.score - a.score)
+    : [];
+
+  return (
+    <table className={styles.rating}>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Команда</th>
+          <th>Баллы</th>
+        </tr>
+      </thead>
+      <tbody>
+        {scoreSortedUsers.map((user, index) => (
+          <tr key={user.id}>
+            <th>{index + 1}</th>
+            <td>{user.username}</td>
+            <td>{user.score}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+export default Table;

@@ -1,10 +1,14 @@
-import styles from './Jury.module.scss'
+import styles from "./Jury.module.scss";
+import TeamsAnswers from "../../components/teamsAnswers/TeamsAnswers";
 
 function Jury() {
-   document.title = "Викторина | Просмотр ответов";
+  document.title = "Викторина | Просмотр ответов";
+
   return (
-    <div>Jury</div>
-  )
+    <div className={styles.window}>
+      <TeamsAnswers question={question} />
+    </div>
+  );
 }
 
-export default Jury
+export default Jury;

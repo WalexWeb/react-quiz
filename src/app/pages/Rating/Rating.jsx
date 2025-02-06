@@ -1,5 +1,5 @@
-import Table from "../../components/Table/Table";
 import styles from "./Rating.module.scss";
+import Table from "../../components/table/Table";
 
 function Rating() {
   document.title = "Викторина | Рейтинг";

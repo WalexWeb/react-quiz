@@ -20,4 +20,9 @@
   :focus-visible {
     background-color: rgb(197, 5, 18);
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: gray;
+  }
 }

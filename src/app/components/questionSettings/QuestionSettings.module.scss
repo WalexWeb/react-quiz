@@ -1,0 +1,64 @@
+.chapterSelect {
+   padding: 0.5rem 1rem;
+   font-size: 1rem;
+   margin: 1rem auto;
+   border-radius: 0.5rem;
+   background: rgba(255, 255, 255, 0.05);
+   color: var(--header-color);
+   border: 1px solid rgba(255, 255, 255, 0.1);
+   cursor: pointer;
+   width: 200px;
+   backdrop-filter: blur(10px);
+
+   &:disabled {
+     opacity: 0.6;
+     cursor: not-allowed;
+   }
+
+   &:focus {
+     outline: none;
+     border-color: rgba(255, 255, 255, 0.2);
+   }
+
+   option {
+     background-color: #2d2d2d;
+     color: #fff;
+   }
+
+   @media (max-width: 768px) {
+     width: 180px;
+     font-size: 0.9rem;
+   }
+ }
+
+ .spinButton {
+   padding: 1rem 2rem;
+   font-size: 1.2rem;
+   background: var(--header-color);
+   border: none;
+   border-radius: 1rem;
+   color: white;
+   cursor: pointer;
+   transition: all 0.3s ease;
+   box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+
+   @media (max-width: 768px) {
+     padding: 0.8rem 1.6rem;
+     font-size: 1.1rem;
+   }
+
+   @media (max-width: 480px) {
+     padding: 0.6rem 1.2rem;
+     font-size: 1rem;
+   }
+
+   &:hover:not(:disabled) {
+     transform: translateY(-2px);
+     box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
+   }
+
+   &:disabled {
+     opacity: 0.6;
+     cursor: not-allowed;
+   }
+ }
