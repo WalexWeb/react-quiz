@@ -3,6 +3,9 @@ import { motion, useAnimationControls } from "framer-motion";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { instance } from "../../../api/instance";
+import { useAuth } from "../../hooks/useAuth";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import styles from "./QuestionWheel.module.scss";
 
 const fetchQuestions = async (chapter) => {
@@ -11,8 +14,8 @@ const fetchQuestions = async (chapter) => {
     // Убеждаемся, что chapter передается как строка
     const chapterStr = chapter ? String(chapter) : "";
     const endpoint = chapterStr
-      ? `/api/v2/question/${chapterStr}`
-      : "/api/v2/question";
+      ? `/question/${chapterStr}`
+      : "/question";
     console.log("Fetching questions from:", endpoint);
     const { data } = await instance.get(endpoint);
     console.log("Received data:", data);
@@ -38,7 +41,15 @@ const fetchQuestions = async (chapter) => {
 
 const QuestionWheel = () => {
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
   const [selectedChapter, setSelectedChapter] = useState(null);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      toast.error("Вы должны быть авторизованы");
+      navigate("/login");
+    }
+  }, [user, loading, navigate]);
   // Константы
   const visibleQuestions = 3; // Сколько вопросов видно в окне
   const repetitions = 3; // Количество повторений

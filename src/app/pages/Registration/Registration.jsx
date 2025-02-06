@@ -42,13 +42,11 @@ function Registration() {
 
     setIsLoading(true);
     try {
-      // Отправляем параметры в query string!!! а не как я вначале
       const response = await instance.post(
-        `/api/v2/users/registration?username=${encodeURIComponent(
+        `/users/registration?username=${encodeURIComponent(
           username
         )}&password=${encodeURIComponent(password)}`
       );
-
       toast.success(
         "Регистрация успешна! Перенаправляем на колесо вопросов..."
       );

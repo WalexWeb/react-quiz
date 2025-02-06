@@ -38,7 +38,7 @@ function Login() {
     setIsLoading(true);
     try {
       const response = await instance.post(
-        `/api/v2/users/login?username=${encodeURIComponent(
+        `/users/login?username=${encodeURIComponent(
           username
         )}&password=${encodeURIComponent(password)}`
       );
