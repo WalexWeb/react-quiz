@@ -1,12 +1,12 @@
+import styles from "./QuestionWheel.module.scss";
 import { useEffect, useState, useRef } from "react";
 import { m, useAnimationControls } from "framer-motion";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { instance } from "../../../api/instance";
 import { useAuth } from "../../hooks/useAuth";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import styles from "./QuestionWheel.module.scss";
 import SelectedQuestion from "../../components/selectedQuestion/SelectedQuestion";
 import QuestionSettings from "../../components/questionSettings/QuestionSettings";
 
@@ -174,7 +174,6 @@ const QuestionWheel = () => {
     <div className={styles.wheelContainer}>
       {/* Заголовок и статистика */}
       <h1 className={styles.choice}>Выбор вопроса</h1>
-
       <QuestionSettings
         selectedChapter={selectedChapter}
         availableQuestions={availableQuestions}
@@ -225,8 +224,6 @@ const QuestionWheel = () => {
         {/* Указатель */}
         <div className={styles.pointer} />
       </div>
-
-      <SelectedQuestion selectedQuestion={selectedQuestion} />
     </div>
   );
 };

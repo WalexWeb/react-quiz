@@ -7,7 +7,7 @@ import QuestionSettings from "../../components/questionSettings/QuestionSettings
 function Admin() {
   document.title = "Викторина | Панель администратора";
 
-  const [seconds, setSeconds] = useState(0)
+  const [seconds, setSeconds] = useState(0);
 
   const handleTimeUp = () => {};
 
@@ -26,7 +26,15 @@ function Admin() {
       {/* Выбор вопроса */}
       <div className={styles.question}>
         <h1>Выбор вопроса</h1>
-        {/* <QuestionSettings /> */}
+        <QuestionSettings
+          selectedChapter={selectedChapter}
+          availableQuestions={availableQuestions}
+          isSpinning={isSpinning}
+          isLoading={isLoading}
+          onChange={(e) => setSelectedChapter(e.target.value || null)}
+          spinCount={spinCount}
+          spinWheel={spinWheel}
+        />
       </div>
 
       {/* Проектор */}
@@ -39,7 +47,11 @@ function Admin() {
         <h1>Настройки таймера</h1>
         <p>До конца раунда: </p>
         <div className={styles.time}>
-          <AnswerTimer time={extractTime} duration={1800} onTimeUp={handleTimeUp} />
+          <AnswerTimer
+            time={extractTime}
+            duration={1800}
+            onTimeUp={handleTimeUp}
+          />
         </div>
       </div>
     </div>

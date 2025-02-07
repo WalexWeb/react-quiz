@@ -3,26 +3,6 @@
   width: 100%;
   max-width: 800px;
 
-  .choice {
-    font-size: 3rem;
-    color: var(--header-color);
-
-    @media (max-width: 1024px) {
-      font-size: 3rem;
-      margin-bottom: 2rem;
-    }
-
-    @media (max-width: 768px) {
-      font-size: 2.5rem;
-      margin-bottom: 1.2rem;
-    }
-
-    @media (max-width: 480px) {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-  }
-
   h1 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
