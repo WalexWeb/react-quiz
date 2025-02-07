@@ -18,7 +18,10 @@ function AnswerTimer({ duration, onTimeUp, time }) {
   // Заполнение контейнера таймера
   useEffect(() => {
     setProgressLoaded((100 / duration) * seconds);
+
+    // Передаем секунды на уровень выше
     time(seconds);
+
     if (seconds === 0) {
       clearInterval(intervalRef.current);
 

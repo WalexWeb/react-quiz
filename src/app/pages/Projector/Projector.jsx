@@ -1,6 +1,5 @@
 import styles from "./Projector.module.scss";
 import AnswerTimer from "../../components/answerTimer/AnswerTimer";
-import image from "../../../images/Pobeda80_cityformat_1_preview.jpg";
 
 function Projector() {
   document.title = "Викторина | Проектор";

@@ -23,17 +23,9 @@ function Question() {
     }
   }, [question, navigate]);
 
-  const mutation = useMutation(async (data) => {
-    const response = await instance.post("/answers", data);
-    setAnswer("");
-    toast.success("Ответ отправлен! Ожидаем ответы других участников...");
-  });
-
   function sendAnswerData(e) {
     e.preventDefault();
     setIsLoading(true);
-
-    // mutation.mutate({ answer: answer, user_id: 11, question_id: 1 });
   }
 
   const handleTimeUp = () => {};

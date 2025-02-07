@@ -6,7 +6,9 @@ function Jury() {
 
   return (
     <div className={styles.window}>
-      <TeamsAnswers question={question} />
+      <h1>Ответы участников</h1>
+      <p>Правильный ответ на вопрос: {}</p>
+      <TeamsAnswers questionId={1} />
     </div>
   );
 }
