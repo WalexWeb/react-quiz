@@ -10,11 +10,11 @@ import { instance } from "../../../api/instance";
 
 function Question() {
   document.title = "Викторина";
-  const location = useLocation();
-  const navigate = useNavigate();
   const [answer, setAnswer] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [seconds, setSeconds] = useState(0);
+  const navigate = useNavigate();
+  const location = useLocation();
   const question = location.state?.question;
 
   useEffect(() => {
@@ -46,7 +46,7 @@ function Question() {
             onTimeUp={handleTimeUp}
           />
         </div>
-        <p className={styles.question}>{question?.text || "Вопрос"}</p>
+        <p className={styles.question}>{question?.question || "Вопрос"}</p>
       </div>
       <form className={styles.form}>
         <Input

@@ -14,17 +14,15 @@ const fetchQuestions = async (chapter) => {
     // Убеждаемся, что chapter передается как строка
     const chapterStr = chapter ? String(chapter) : "";
     const endpoint = chapterStr ? `/question/${chapterStr}` : "/question";
-    console.log("Fetching questions from:", endpoint);
     const { data } = await instance.get(endpoint);
-    console.log("Received data:", data);
 
     // Преобразуем данные в нужный формат
     const questions = Array.isArray(data) ? data : [];
     const formattedQuestions = questions.map((q) => ({
       id: q.id,
-      text: q.question,
+      question: q.question,
       answer: q.answer,
-      category: `Раздел ${q.chapter}`,
+      chapter: `Раздел ${q.chapter}`,
     }));
 
     if (formattedQuestions.length === 0) {
@@ -143,10 +141,12 @@ const QuestionWheel = () => {
       setSpinCount((prev) => prev + 1);
 
       // Remove the selected question from available questions
-      setAvailableQuestions((prev) => prev.filter((q) => q.id !== question.id));
 
-      // Reset spinning state and navigate to question page after a delay
+      // Остановка вращения и переход на страницу вопроса
       setTimeout(() => {
+        setAvailableQuestions((prev) =>
+          prev.filter((q) => q.id !== question.id)
+        );
         setIsSpinning(false);
         navigate("/question", { state: { question: question } });
       }, 1000);
@@ -232,7 +232,7 @@ const QuestionWheel = () => {
                 animate={{ scale: isSelected ? 1.05 : 1 }}
                 transition={{ duration: 0.3 }}
               >
-                {question.text}
+                {question.question}
               </m.div>
             );
           })}

@@ -1,5 +1,5 @@
 import styles from "./Admin.module.scss";
-import Table from "../../components/Table/Table";
+import Table from "../../components/table/Table";
 import AnswerTimer from "../../components/answerTimer/AnswerTimer";
 import { useState } from "react";
 

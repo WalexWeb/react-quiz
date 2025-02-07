@@ -47,28 +47,6 @@
         margin-bottom: 1rem;
       }
     }
-
-    .question {
-      display: flex;
-      justify-content: center;
-      font-size: 1.4rem;
-      width: 75vw;
-
-      @media (max-width: 1024px) {
-        font-size: 1.4rem;
-        margin-bottom: 2rem;
-      }
-
-      @media (max-width: 768px) {
-        font-size: 1.1rem;
-        margin-bottom: 1.2rem;
-      }
-
-      @media (max-width: 480px) {
-        font-size: .6rem;
-        margin-bottom: 1rem;
-      }
-    }
   }
 
   .form {
