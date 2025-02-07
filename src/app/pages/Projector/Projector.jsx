@@ -2,7 +2,7 @@ import styles from "./Projector.module.scss";
 import AnswerTimer from "../../components/answerTimer/AnswerTimer";
 import { useState } from "react";
 
-function Projector() {
+function Projector({question}) {
   document.title = "Викторина | Проектор";
 
   const [seconds, setSeconds] = useState(0);
@@ -25,7 +25,7 @@ function Projector() {
             onTimeUp={handleTimeUp}
           />
         </div>
-        <p className={styles.question}>Вопрос</p>
+        <p className={styles.question}>{question?.question || "Вопрос"}</p>
       </div>
       <div className={styles.container}>
         <img src="" className={styles.image} />

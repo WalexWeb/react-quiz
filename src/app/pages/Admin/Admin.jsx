@@ -2,6 +2,7 @@ import styles from "./Admin.module.scss";
 import Table from "../../components/table/Table";
 import AnswerTimer from "../../components/answerTimer/AnswerTimer";
 import { useState } from "react";
+import QuestionSettings from "../../components/questionSettings/QuestionSettings";
 
 function Admin() {
   document.title = "Викторина | Панель администратора";
@@ -25,6 +26,7 @@ function Admin() {
       {/* Выбор вопроса */}
       <div className={styles.question}>
         <h1>Выбор вопроса</h1>
+        {/* <QuestionSettings /> */}
       </div>
 
       {/* Проектор */}

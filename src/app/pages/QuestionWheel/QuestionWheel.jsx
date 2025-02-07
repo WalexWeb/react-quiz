@@ -7,6 +7,8 @@ import { useAuth } from "../../hooks/useAuth";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "./QuestionWheel.module.scss";
+import SelectedQuestion from "../../components/selectedQuestion/SelectedQuestion";
+import QuestionSettings from "../../components/questionSettings/QuestionSettings";
 
 const fetchQuestions = async (chapter) => {
   try {
@@ -171,34 +173,17 @@ const QuestionWheel = () => {
   return (
     <div className={styles.wheelContainer}>
       {/* Заголовок и статистика */}
-      <div className={styles.header}>
-        <h1 className={styles.choice}>Выбор вопроса</h1>
-        <select
-          className={styles.chapterSelect}
-          value={selectedChapter || ""}
-          onChange={(e) => setSelectedChapter(e.target.value || null)}
-          disabled={isLoading}
-        >
-          <option value="">Все разделы</option>
-          <option value="1">Раздел 1</option>
-          <option value="2">Раздел 2</option>
-          <option value="3">Раздел 3</option>
-          <option value="4">Раздел 4</option>
-        </select>
-        <div className={styles.stats}>
-          <span>Осталось вопросов: {availableQuestions.length}</span>
-          <span>Вопросов отвечено: {spinCount}</span>
-        </div>
-      </div>
+      <h1 className={styles.choice}>Выбор вопроса</h1>
 
-      {/* Кнопка вращения */}
-      <button
-        className={styles.spinButton}
-        onClick={spinWheel}
-        disabled={isSpinning || availableQuestions.length === 0}
-      >
-        {isSpinning ? "Вращается..." : "Крутить колесо"}
-      </button>
+      <QuestionSettings
+        selectedChapter={selectedChapter}
+        availableQuestions={availableQuestions}
+        isSpinning={isSpinning}
+        isLoading={isLoading}
+        onChange={(e) => setSelectedChapter(e.target.value || null)}
+        spinCount={spinCount}
+        spinWheel={spinWheel}
+      />
 
       {/* Окно колеса */}
       <div className={styles.wheelWindow}>
@@ -237,10 +222,11 @@ const QuestionWheel = () => {
             );
           })}
         </m.div>
-
         {/* Указатель */}
         <div className={styles.pointer} />
       </div>
+
+      <SelectedQuestion selectedQuestion={selectedQuestion} />
     </div>
   );
 };
