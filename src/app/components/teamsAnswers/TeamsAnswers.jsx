@@ -2,10 +2,11 @@ import styles from "./TeamsAnswers.module.scss";
 import { useQuery } from "react-query";
 import { instance } from "../../../api/instance";
 import CorrectAnswerButton from "../correctAnswerButton/CorrectAnswerButton";
+import { ToastContainer, toast } from "react-toastify";
+import { useState } from "react";
 
 function TeamsAnswers({ questionId }) {
-
-  // Получение вопросов
+  // Получение всех ответов пользователей и времени ответа
   const fetchAnswers = async () => {
     try {
       const data = await instance.get(`/answers/question/${questionId}`);
@@ -18,7 +19,7 @@ function TeamsAnswers({ questionId }) {
   if (isLoading) {
     return <h1>Загрузка...</h1>;
   }
-  
+
   // Форматируем
   const formattedAnswers = answers.map((a) => ({
     answer: a.answer,
@@ -27,34 +28,49 @@ function TeamsAnswers({ questionId }) {
     answer_at: a.answer_at,
   }));
 
-  // Добавление очков пользователю
-  const addPoints = async (e) => {
+  function handleClick(e) {
     e.preventDefault();
-  };
+  }
 
   return (
-    <table className={styles.rating}>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Время ответа</th>
-          <th>Ответ</th>
-          <th>Действие</th>
-        </tr>
-      </thead>
-      <tbody>
-        {formattedAnswers.map((answer, index) => (
-          <tr key={answer.answer_at}>
-            <th>{index + 1}</th>
-            <td>{answer.answer_at}</td>
-            <td>{answer.answer}</td>
-            <td>
-              <CorrectAnswerButton onClick={addPoints}/>
-            </td>
+    <div>
+      <table className={styles.rating}>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Время ответа</th>
+            <th>Ответ</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {formattedAnswers.map((answer, index) => (
+            <tr key={answer.answer_at}>
+              <th>{index + 1}</th>
+              <td>{answer.answer_at}</td>
+              <td>{answer.answer}</td>
+              <td>
+                <CorrectAnswerButton
+                  onClick={handleClick}
+                  userId={answer.user_id}
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    </div>
   );
 }
 export default TeamsAnswers;

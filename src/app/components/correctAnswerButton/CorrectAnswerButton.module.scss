@@ -1,0 +1,28 @@
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(65, 65, 65);
+  color: #fff;
+  width: 13rem;
+  padding: 1rem 2.7rem;
+  font-size: 1rem;
+  font-family: "Helios";
+  border: none;
+  cursor: pointer;
+  transition: border-color 0.25s;
+
+  &:hover {
+    background-color: rgb(82, 82, 82);
+  }
+
+  &:focus,
+  :focus-visible {
+    background-color: rgb(61, 61, 61);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: gray;
+  }
+}

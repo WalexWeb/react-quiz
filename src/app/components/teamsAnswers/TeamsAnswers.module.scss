@@ -1,16 +1,36 @@
 .rating {
-   text-align: center;
+  text-align: center;
+  // border-collapse: collapse;
 
-   tbody tr:nth-child(odd) {
-     background-color: var(--red-color);
-     color: white;
-   }
+  tbody tr:nth-child(odd) {
+    background-color: var(--red-color);
+    color: white;
+    border: 2px solid var(--red-color);
 
-   th {
-     padding: .8rem;
-   }
+    button {
+      background-color: var(--red-color);
 
-   td {
-     width: 19vw;
-   }
- }
+      &:hover {
+        background-color: rgb(240, 6, 22);
+      }
+    
+      &:focus,
+      :focus-visible {
+        background-color: rgb(197, 5, 18);
+      }
+    }
+  }
+
+  th {
+    padding: 0.8rem;
+  }
+
+  td {
+    width: 19vw;
+
+    &:last-child {
+      background-color: white;
+      width: 10vw;
+    }
+  }
+}
