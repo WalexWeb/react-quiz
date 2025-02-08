@@ -5,14 +5,24 @@ import Input from "../../components/input/Input";
 import AnswerTimer from "../../components/answerTimer/AnswerTimer";
 import { useLocation, useNavigate } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
-import { useMutation } from "react-query";
 import { instance } from "../../../api/instance";
+import { useQuery } from "react-query";
+
+// Получение данных текущего пользователя
+const fetchUser = async () => {
+  try {
+    const data = await instance.get("/users/me");
+    return data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 function Question() {
   document.title = "Викторина";
-  const [answer, setAnswer] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [seconds, setSeconds] = useState(0);
+  const [answer, setAnswer] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [seconds, setSeconds] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const question = location.state?.question;
@@ -23,9 +33,28 @@ function Question() {
     }
   }, [question, navigate]);
 
-  function sendAnswerData(e) {
+  // Передаем данные в переменную user
+  const { data: user } = useQuery(["user"], fetchUser);
+
+  // Отправка ответа
+  async function sendAnswerData(e) {
     e.preventDefault();
-    setIsLoading(true);
+    setLoading(true);
+
+    try {
+      await instance.post(
+        `/answers/?question_id=${encodeURIComponent(
+          question.id
+        )}&user_id=${encodeURIComponent(user.id)}&answer=${encodeURIComponent(
+          answer
+        )}`
+      );
+      toast.success("Ответ отправлен!");
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.detail || "Ошибка при отправке ответа";
+      toast.error(errorMessage);
+    }
   }
 
   const handleTimeUp = () => {};
@@ -55,7 +84,7 @@ function Question() {
           type="text"
         />
         <Button
-          disabled={(seconds === 0 ? true : false) || isLoading}
+          disabled={(seconds === 0 ? true : false) || loading}
           onClick={sendAnswerData}
         >
           Отправить ответ
