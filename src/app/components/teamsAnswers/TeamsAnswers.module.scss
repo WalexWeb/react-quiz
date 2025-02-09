@@ -1,36 +1,54 @@
-.rating {
-  text-align: center;
-  // border-collapse: collapse;
+.example {
+  width: 86.5vw;
+  position: relative;
 
-  tbody tr:nth-child(odd) {
-    background-color: var(--red-color);
-    color: white;
-    border: 2px solid var(--red-color);
+  li {
+    flex: 0 0 19.5vw;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-rows: auto 20vh auto;
+    justify-content: stretch;
+    align-items: stretch;
+    font-size: 1.5rem;
+    border-radius: 0 0 18px 18px;
 
-    button {
-      background-color: var(--red-color);
+    .time {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 2px solid gray;
+    }
 
-      &:hover {
-        background-color: rgb(240, 6, 22);
-      }
-    
-      &:focus,
-      :focus-visible {
-        background-color: rgb(197, 5, 18);
-      }
+    .team_answer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 
-  th {
-    padding: 0.8rem;
+  ul {
+    display: flex;
+    flex: 0 0 600px;
+    list-style: none;
+    height: 50vh;
+    padding: 1.1rem;
+    gap: 2rem;
+    overflow-x: scroll;
   }
 
-  td {
-    width: 19vw;
+  &::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+    background: #fff3;
+    -webkit-border-radius: 1ex;
+  }
 
-    &:last-child {
-      background-color: white;
-      width: 10vw;
-    }
+  &::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 1ex;
+  }
+
+  &::-webkit-scrollbar-corner {
+    background: #fff3;
   }
 }

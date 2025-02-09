@@ -1,11 +1,55 @@
 import styles from "./TeamsAnswers.module.scss";
+import { useRef } from "react";
 import { useQuery } from "react-query";
 import { instance } from "../../../api/instance";
 import CorrectAnswerButton from "../correctAnswerButton/CorrectAnswerButton";
-import { ToastContainer, toast } from "react-toastify";
-import { useState } from "react";
+import { ToastContainer } from "react-toastify";
+import {
+  animate,
+  m,
+  MotionValue,
+  useMotionValue,
+  useMotionValueEvent,
+  useScroll,
+} from "framer-motion";
+
+const transparent = `#0000`;
+const opaque = `#000`;
+function useScrollOverflowMask(scrollXProgress) {
+  const maskImage = useMotionValue(
+    `linear-gradient(90deg, ${transparent}, ${opaque} 20%, ${opaque} 80%, ${transparent})`
+  );
+
+  useMotionValueEvent(scrollXProgress, "change", (value) => {
+    if (value === 0) {
+      animate(
+        maskImage,
+        `linear-gradient(90deg, ${opaque}, ${opaque} 20%, ${opaque} 80%, ${transparent})`
+      );
+    } else if (value === 1) {
+      animate(
+        maskImage,
+        `linear-gradient(90deg, ${transparent}, ${opaque} 20%, ${opaque} 80%, ${opaque})`
+      );
+    } else if (
+      scrollXProgress.getPrevious() === 0 ||
+      scrollXProgress.getPrevious() === 1
+    ) {
+      animate(
+        maskImage,
+        `linear-gradient(90deg, ${transparent}, ${opaque} 20%, ${opaque} 80%, ${transparent})`
+      );
+    }
+  });
+
+  return maskImage;
+}
 
 function TeamsAnswers({ questionId }) {
+  const ref = useRef(null);
+  const { scrollXProgress } = useScroll({ container: ref });
+  const maskImage = useScrollOverflowMask(scrollXProgress);
+
   // Получение всех ответов пользователей и времени ответа
   const fetchAnswers = async () => {
     try {
@@ -33,31 +77,21 @@ function TeamsAnswers({ questionId }) {
   }
 
   return (
-    <div>
-      <table className={styles.rating}>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Время ответа</th>
-            <th>Ответ</th>
-          </tr>
-        </thead>
-        <tbody>
-          {formattedAnswers.map((answer, index) => (
-            <tr key={answer.answer_at}>
-              <th>{index + 1}</th>
-              <td>{answer.answer_at}</td>
-              <td>{answer.answer}</td>
-              <td>
-                <CorrectAnswerButton
-                  onClick={handleClick}
-                  userId={answer.user_id}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className={styles.example}>
+      <m.ul ref={ref} style={{ maskImage }}>
+        {formattedAnswers.map((answer, index) => (
+          <li key={index}>
+            <div className={styles.time}>{answer.answer_at}</div>
+            <div className={styles.team_answer}>{answer.answer}</div>
+            <div className={styles.currentAnswer}>
+              <CorrectAnswerButton
+                onClick={handleClick}
+                userId={answer.user_id}
+              />
+            </div>
+          </li>
+        ))}
+      </m.ul>
       <ToastContainer
         position="top-right"
         autoClose={3000}

@@ -1,9 +1,8 @@
 .window {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  background-image: url(../../../backgrounds/rating_page.jpg);
+  background-image: url(../../../backgrounds/jury_page.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -12,50 +11,37 @@
   padding: 1rem;
 
   .header {
-    color: var(--red-color);
-     font-size: 4rem;
-     margin-bottom: .5rem;
-   }
- 
-   .answer {
-    color: black;
-     font-size: 1.1rem;
-     margin-bottom: 2rem;
-     font-weight: bold;
-   }
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    justify-items: start;
+    align-items: center;
 
-.rating {
-   text-align: center;
+    .chapter {
+      color: var(--red-color);
+      font-size: 4rem;
+      margin-bottom: 0.5rem;
 
-   tbody tr:nth-child(odd) {
-     background-color: var(--red-color);
-     color: white;
-   }
+      @media (max-width: 1024px) {
+        font-size: 3rem;
+        margin-bottom: 2rem;
+      }
 
-   th {
-     padding: .8rem;
-   }
+      @media (max-width: 768px) {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+      }
 
-   td {
-     width: 19vw;
-     height: 3vh;
-
-   }
-   button {
-    height: 8vh;
-    width: 4vw;
-    margin: 0;
-    padding: 0;
-    background-color: var(--header-color);
-
-    &:hover {
-      background-color: var(--header-color);
+      @media (max-width: 480px) {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
     }
-  
-    &:focus,
-    :focus-visible {
-      background-color: var(--header-color);
+
+    .answer {
+      color: black;
+      font-size: 1.5rem;
+      margin-bottom: 3rem;
     }
-   }
- }
+  }
 }

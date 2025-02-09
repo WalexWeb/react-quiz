@@ -6,8 +6,11 @@ function Jury() {
 
   return (
     <div className={styles.window}>
-      <h1 className={styles.header}>Ответы участников</h1>
-      <p className={styles.answer}>Правильный ответ на вопрос: {}</p>
+      <div className={styles.header}>
+        <h1 className={styles.chapter}>Ответы участников</h1>
+        <p className={styles.answer}>Вопрос{}</p>
+        <p className={styles.answer}>Правильный ответ на вопрос: {}</p>
+      </div>
       <TeamsAnswers questionId={1} />
     </div>
   );
