@@ -51,7 +51,7 @@ function Login() {
       toast.success("Вход успешен! Перенаправляем на колесо вопросов...");
 
       setTimeout(() => {
-        navigate("/question-wheel");
+        navigate("/question");
       }, 2000);
     } catch (error) {
       const errorMessage = error.response?.data?.detail || "Ошибка при входе";

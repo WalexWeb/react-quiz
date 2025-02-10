@@ -61,7 +61,7 @@ function Registration() {
 
       // Даем время увидеть уведомление (можешь менять)
       setTimeout(() => {
-        navigate("/question-wheel");
+        navigate("/question");
       }, 2000);
     } catch (error) {
       const errorMessage =
