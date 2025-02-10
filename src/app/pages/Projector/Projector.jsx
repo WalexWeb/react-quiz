@@ -3,7 +3,7 @@ import AnswerTimer from "../../components/answerTimer/AnswerTimer";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Projector({question}) {
+function Projector() {
   document.title = "Викторина | Проектор";
 
   const [seconds, setSeconds] = useState(0);

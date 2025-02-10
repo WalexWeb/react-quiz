@@ -56,6 +56,9 @@ function Registration() {
       localStorage.setItem("accessToken", access_token);
       localStorage.setItem("refreshToken", refresh_token);
 
+      // Сохраняем имя пользователя в localStorage
+      localStorage.setItem("playerName", username);
+
       // Даем время увидеть уведомление (можешь менять)
       setTimeout(() => {
         navigate("/question-wheel");

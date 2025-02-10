@@ -51,6 +51,8 @@
     .question {
       font-size: 1.5rem;
       width: 75vw;
+      display: flex;
+      justify-content: center;
 
       @media (max-width: 1024px) {
         font-size: 1.3rem;

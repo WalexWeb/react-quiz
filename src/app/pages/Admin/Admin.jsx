@@ -2,13 +2,12 @@ import styles from "./Admin.module.scss";
 import Table from "../../components/table/Table";
 import AnswerTimer from "../../components/answerTimer/AnswerTimer";
 import { useState } from "react";
-import QuestionSettings from "../../components/questionSettings/QuestionSettings";
 import Button from "../../components/button/Button";
 
 function Admin() {
   document.title = "Викторина | Панель администратора";
 
-  const [seconds, setSeconds] = useState(0);
+  const [seconds, setSeconds] = useState(null);
 
   const handleTimeUp = () => {};
 
@@ -29,7 +28,8 @@ function Admin() {
   function showRating() {
     fetch("http://localhost:8000/admin/show_rating", { method: "POST" });
   }
-  function showQuestion() {
+  function showQuestion(e) {
+    e.preventDefault();
     fetch("http://localhost:8000/admin/show_question", { method: "POST" });
   }
 

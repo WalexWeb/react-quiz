@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Button from "../../components/button/Button";
 import Input from "../../components/input/Input";
 import AnswerTimer from "../../components/answerTimer/AnswerTimer";
-import { useLocation, useNavigate } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import { instance } from "../../../api/instance";
 import { useQuery } from "react-query";
@@ -23,15 +22,34 @@ function Question() {
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
   const [seconds, setSeconds] = useState(null);
-  const navigate = useNavigate();
-  const location = useLocation();
-  const question = location.state?.question;
+  // const navigate = useNavigate();
+  // const location = useLocation();
+  // const question = location.state?.question;
 
-  useEffect(() => {
-    if (!question) {
-      navigate("/question-wheel");
+  const [question, setQuestion] = useState("");
+
+  var ws;
+
+  ws = new WebSocket("ws://localhost:8000/ws/player");
+  ws.onopen = () => {
+    ws.send(JSON.stringify({ type: "set_name", name: "Stas" }));
+  };
+  ws.onmessage = (event) => {
+    const data = event.data;
+    if (data === "clear_storage") {
+      localStorage.clear();
+      location.reload();
+      return;
     }
-  }, [question, navigate]);
+
+    setQuestion(data);
+  };
+
+  // useEffect(() => {
+  //   if (!question) {
+  //     navigate("/question-wheel");
+  //   }
+  // }, [question, navigate]);
 
   // Передаем данные в переменную user
   const { data: user } = useQuery(["user"], fetchUser);
@@ -57,6 +75,11 @@ function Question() {
     }
   }
 
+  const questionText = (e) => {
+    e.preventDefault();
+    console.log(question);
+  };
+
   const handleTimeUp = () => {};
 
   // Извлекаем время из таймера
@@ -75,7 +98,7 @@ function Question() {
             onTimeUp={handleTimeUp}
           />
         </div>
-        <p className={styles.question}>{question?.question || "Вопрос"}</p>
+        <p className={styles.question}>{question || "Ждите начала игры..."}</p>
       </div>
       <form className={styles.form}>
         <Input
