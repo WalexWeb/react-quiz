@@ -6,7 +6,8 @@ function AnswerTimer({ duration, onTimeUp, time }) {
   const [progressLoaded, setProgressLoaded] = useState(0);
   const intervalRef = useRef();
 
-  // Таймер
+  if (seconds !== null) {
+      // Таймер
   useEffect(() => {
     intervalRef.current = setInterval(() => {
       setSeconds((seconds) => seconds - 1);
@@ -14,6 +15,7 @@ function AnswerTimer({ duration, onTimeUp, time }) {
 
     return () => clearInterval(intervalRef.current);
   }, []);
+  }
 
   // Заполнение контейнера таймера
   useEffect(() => {

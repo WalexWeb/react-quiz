@@ -22,9 +22,6 @@ function Question() {
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
   const [seconds, setSeconds] = useState(null);
-  // const navigate = useNavigate();
-  // const location = useLocation();
-  // const question = location.state?.question;
 
   const [question, setQuestion] = useState("");
 
@@ -32,7 +29,7 @@ function Question() {
 
   ws = new WebSocket("ws://localhost:8000/ws/player");
   ws.onopen = () => {
-    ws.send(JSON.stringify({ type: "set_name", name: "Stas" }));
+    ws.send(JSON.stringify({ type: "set_name", name: `${JSON.stringify(localStorage.getItem('playerName'))}` }));
   };
   ws.onmessage = (event) => {
     const data = event.data;
@@ -44,12 +41,6 @@ function Question() {
 
     setQuestion(data);
   };
-
-  // useEffect(() => {
-  //   if (!question) {
-  //     navigate("/question-wheel");
-  //   }
-  // }, [question, navigate]);
 
   // Передаем данные в переменную user
   const { data: user } = useQuery(["user"], fetchUser);
@@ -74,11 +65,6 @@ function Question() {
       toast.error(errorMessage);
     }
   }
-
-  const questionText = (e) => {
-    e.preventDefault();
-    console.log(question);
-  };
 
   const handleTimeUp = () => {};
 

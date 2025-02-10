@@ -7,6 +7,7 @@ function Projector() {
   document.title = "Викторина | Проектор";
 
   const [seconds, setSeconds] = useState(0);
+  const [question, setQuestion] = useState('')
   const navigate = useNavigate();
 
   const ws = new WebSocket("ws://localhost:8000/ws/spectator");
@@ -16,11 +17,25 @@ function Projector() {
       navigate("/rating", { state: { data: data } });
     }
   }
-
+  ws.onopen = () => {
+    ws.send(JSON.stringify({ type: "set_name", name: "Stas" }));
+  };
   ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
     updateDisplay(data);
   };
+
+    // Получение вопроса
+    ws.onmessage = (event) => {
+      const data = event.data;
+  
+      if (data === "clear_storage") {
+        localStorage.clear();
+        location.reload();
+        return;
+      }
+      setQuestion(data);
+    };
 
   const handleTimeUp = () => {};
 
@@ -40,7 +55,7 @@ function Projector() {
             onTimeUp={handleTimeUp}
           />
         </div>
-        <p className={styles.question}>{question?.question || "Вопрос"}</p>
+        <p className={styles.question}>{question || "Скоро начнем..."}</p>
       </div>
       <div className={styles.container}>
         <img src="" className={styles.image} />

@@ -7,7 +7,6 @@ import { instance } from "../../../api/instance";
 import { useAuth } from "../../hooks/useAuth";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import SelectedQuestion from "../../components/selectedQuestion/SelectedQuestion";
 import QuestionSettings from "../../components/questionSettings/QuestionSettings";
 
 const fetchQuestions = async (chapter) => {

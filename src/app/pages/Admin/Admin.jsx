@@ -28,8 +28,7 @@ function Admin() {
   function showRating() {
     fetch("http://localhost:8000/admin/show_rating", { method: "POST" });
   }
-  function showQuestion(e) {
-    e.preventDefault();
+  function showQuestion() {
     fetch("http://localhost:8000/admin/show_question", { method: "POST" });
   }
 
