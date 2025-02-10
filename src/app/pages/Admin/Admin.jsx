@@ -3,6 +3,7 @@ import Table from "../../components/table/Table";
 import AnswerTimer from "../../components/answerTimer/AnswerTimer";
 import { useState } from "react";
 import QuestionSettings from "../../components/questionSettings/QuestionSettings";
+import Button from "../../components/button/Button";
 
 function Admin() {
   document.title = "Викторина | Панель администратора";
@@ -16,6 +17,22 @@ function Admin() {
     setSeconds(second);
   };
 
+  function startGame() {
+    fetch("http://localhost:8000/admin/start", { method: "POST" });
+  }
+  function nextQuestion() {
+    fetch("http://localhost:8000/admin/next", { method: "POST" });
+  }
+  function stopGame() {
+    fetch("http://localhost:8000/admin/stop", { method: "POST" });
+  }
+  function showRating() {
+    fetch("http://localhost:8000/admin/show_rating", { method: "POST" });
+  }
+  function showQuestion() {
+    fetch("http://localhost:8000/admin/show_question", { method: "POST" });
+  }
+
   return (
     <div className={styles.window}>
       {/* Рейтинг */}
@@ -26,20 +43,16 @@ function Admin() {
       {/* Выбор вопроса */}
       <div className={styles.question}>
         <h1>Выбор вопроса</h1>
-        <QuestionSettings
-          selectedChapter={selectedChapter}
-          availableQuestions={availableQuestions}
-          isSpinning={isSpinning}
-          isLoading={isLoading}
-          onChange={(e) => setSelectedChapter(e.target.value || null)}
-          spinCount={spinCount}
-          spinWheel={spinWheel}
-        />
+        <Button onClick={startGame}>Начать игру</Button>
+        <Button onClick={nextQuestion}>Следующий вопрос</Button>
+        <Button onClick={stopGame}>Закончить игру</Button>
       </div>
 
       {/* Проектор */}
       <div className={styles.projector}>
         <h1>Проектор</h1>
+        <Button onClick={showRating}>Показать рейтинг</Button>
+        <Button onClick={showQuestion}>Показать вопрос</Button>
       </div>
 
       {/* Таймер */}

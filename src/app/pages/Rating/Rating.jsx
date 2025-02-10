@@ -1,8 +1,25 @@
 import styles from "./Rating.module.scss";
 import Table from "../../components/table/Table";
+import { useNavigate } from "react-router-dom";
 
 function Rating() {
   document.title = "Викторина | Рейтинг";
+
+  const navigate = useNavigate();
+
+  const ws = new WebSocket("ws://localhost:8000/ws/spectator");
+
+  function updateDisplay(data) {
+    if (data.type === "question") {
+      navigate("/projector", { state: { data: data } });
+    }
+  }
+
+  ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    updateDisplay(data);
+  };
+
   return (
     <div className={styles.window}>
       <h1 className={styles.header}>Рейтинг участников</h1>
