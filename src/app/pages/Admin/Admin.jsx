@@ -17,19 +17,19 @@ function Admin() {
   };
 
   function startGame() {
-    fetch("http://localhost:8000/admin/start", { method: "POST" });
+    fetch("http://80.253.19.93:5000/admin/start", { method: "POST" });
   }
   function nextQuestion() {
-    fetch("http://localhost:8000/admin/next", { method: "POST" });
+    fetch("http://80.253.19.93:5000/admin/next", { method: "POST" });
   }
   function stopGame() {
-    fetch("http://localhost:8000/admin/stop", { method: "POST" });
+    fetch("http://80.253.19.93:5000/admin/stop", { method: "POST" });
   }
   function showRating() {
-    fetch("http://localhost:8000/admin/show_rating", { method: "POST" });
+    fetch("http://80.253.19.93:5000/admin/show_rating", { method: "POST" });
   }
   function showQuestion() {
-    fetch("http://localhost:8000/admin/show_question", { method: "POST" });
+    fetch("http://80.253.19.93:5000/admin/show_question", { method: "POST" });
   }
 
   return (

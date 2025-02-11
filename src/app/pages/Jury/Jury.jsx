@@ -8,10 +8,8 @@ function Jury() {
     <div className={styles.window}>
       <div className={styles.header}>
         <h1 className={styles.chapter}>Ответы участников</h1>
-        <p className={styles.answer}>Вопрос{}</p>
-        <p className={styles.answer}>Правильный ответ на вопрос: {}</p>
       </div>
-      <TeamsAnswers questionId={1} />
+      <TeamsAnswers questionId={63} />
     </div>
   );
 }

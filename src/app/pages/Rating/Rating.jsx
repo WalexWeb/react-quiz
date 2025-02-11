@@ -7,7 +7,7 @@ function Rating() {
 
   const navigate = useNavigate();
 
-  const ws = new WebSocket("ws://localhost:8000/ws/spectator");
+  const ws = new WebSocket("ws://80.253.19.93:5000/ws/spectator");
 
   function updateDisplay(data) {
     if (data.type === "question") {

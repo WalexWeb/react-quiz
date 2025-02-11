@@ -22,24 +22,31 @@ function Question() {
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
   const [seconds, setSeconds] = useState(null);
-
   const [question, setQuestion] = useState("");
+  const [chapter, setChapter] = useState("");
 
   var ws;
 
-  ws = new WebSocket("ws://localhost:8000/ws/player");
+  ws = new WebSocket("ws://80.253.19.93:5000/ws/player");
   ws.onopen = () => {
-    ws.send(JSON.stringify({ type: "set_name", name: `${JSON.stringify(localStorage.getItem('playerName'))}` }));
+    ws.send(
+      JSON.stringify({
+        type: "set_name",
+        name: `${JSON.stringify(localStorage.getItem("playerName"))}`,
+      })
+    );
   };
   ws.onmessage = (event) => {
-    const data = event.data;
-    if (data === "clear_storage") {
+    const state = event.data;
+    if (state === "clear_storage") {
       localStorage.clear();
       location.reload();
       return;
     }
+    const data = JSON.parse(event.data);
 
-    setQuestion(data);
+    setChapter(data.section);
+    setQuestion(data.text);
   };
 
   // Передаем данные в переменную user
@@ -53,7 +60,7 @@ function Question() {
     try {
       await instance.post(
         `/answers/?question_id=${encodeURIComponent(
-          question.id
+          63
         )}&user_id=${encodeURIComponent(user.id)}&answer=${encodeURIComponent(
           answer
         )}`
@@ -76,7 +83,7 @@ function Question() {
   return (
     <div className={styles.window}>
       <div className={styles.header}>
-        <h1 className={styles.chapter}>Раздел</h1>
+        <h1 className={styles.chapter}>{chapter || "Ожидайте раздел"}</h1>
         <div className={styles.timer}>
           <AnswerTimer
             time={extractTime}
