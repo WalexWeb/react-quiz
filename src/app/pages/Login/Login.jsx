@@ -37,12 +37,12 @@ function Login() {
 
     setIsLoading(true);
     try {
-      const response = await instance.post(
-        `/users/login?username=${encodeURIComponent(
-          username
-        )}&password=${encodeURIComponent(password)}`
-      );
-
+        const response = await instance.post(
+          `/users/login?username=${encodeURIComponent(
+            username
+          )}&password=${encodeURIComponent(password)}`
+        );
+        
       // Сохраняем токены в localStorage
       const { access_token, refresh_token } = response.data;
       localStorage.setItem("accessToken", access_token);

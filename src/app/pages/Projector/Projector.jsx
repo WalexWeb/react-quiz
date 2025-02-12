@@ -22,6 +22,11 @@ function Projector() {
 
   ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
+    if (event.data === "clear_storage") {
+      localStorage.clear();
+      location.reload();
+      return;
+    }
     updateDisplay(data);
     setQuestion(data.content);
     setChapter(data.section)

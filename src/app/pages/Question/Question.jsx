@@ -60,12 +60,13 @@ function Question() {
     try {
       await instance.post(
         `/answers/?question_id=${encodeURIComponent(
-          63
+          1
         )}&user_id=${encodeURIComponent(user.id)}&answer=${encodeURIComponent(
           answer
         )}`
       );
       toast.success("Ответ отправлен!");
+      setAnswer("");
     } catch (error) {
       const errorMessage =
         error.response?.data?.detail || "Ошибка при отправке ответа";

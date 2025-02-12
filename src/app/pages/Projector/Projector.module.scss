@@ -47,8 +47,11 @@
     }
 
     .question {
-      font-size: 2rem;
+      font-size: 3rem;
       margin-bottom: 1rem;
+      width: 75vw;
+      display: flex;
+      justify-content: center;
 
       @media (max-width: 1024px) {
         font-size: 2rem;

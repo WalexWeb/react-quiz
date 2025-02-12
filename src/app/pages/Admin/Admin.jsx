@@ -32,6 +32,10 @@ function Admin() {
     fetch("http://80.253.19.93:5000/admin/show_question", { method: "POST" });
   }
 
+  function showAnswers() {
+    
+  }
+
   return (
     <div className={styles.window}>
       {/* Рейтинг */}
@@ -52,6 +56,7 @@ function Admin() {
         <h1>Проектор</h1>
         <Button onClick={showRating}>Показать рейтинг</Button>
         <Button onClick={showQuestion}>Показать вопрос</Button>
+        <Button onClick={showAnswers}>Показать ответы игроков</Button>
       </div>
 
       {/* Таймер */}
