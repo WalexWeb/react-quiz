@@ -24,7 +24,8 @@ function Question() {
   const [seconds, setSeconds] = useState(null);
   const [question, setQuestion] = useState("");
   const [chapter, setChapter] = useState("");
-
+const [newSeconds, setNewSeconds] = useState(null)
+  
   var ws;
 
   ws = new WebSocket("ws://80.253.19.93:8000/api/v2/websocket/ws/player");
@@ -45,6 +46,7 @@ function Question() {
     }
     const data = JSON.parse(event.data);
 
+    setNewSeconds(40)
     setChapter(data.section);
     setQuestion(data.text);
   };
@@ -88,7 +90,7 @@ function Question() {
         <div className={styles.timer}>
           <AnswerTimer
             time={extractTime}
-            duration={60}
+            duration={newSeconds}
             onTimeUp={handleTimeUp}
           />
         </div>

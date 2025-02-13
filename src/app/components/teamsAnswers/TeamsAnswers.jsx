@@ -44,7 +44,7 @@ function useScrollOverflowMask(scrollXProgress) {
   return maskImage;
 }
 
-function TeamsAnswers({ question }) {
+function TeamsAnswers({ questionId }) {
   const ref = useRef(null);
   const { scrollXProgress } = useScroll({ container: ref });
   const maskImage = useScrollOverflowMask(scrollXProgress);
@@ -52,7 +52,7 @@ function TeamsAnswers({ question }) {
   // Получение всех ответов пользователей и времени ответа
   const fetchAnswers = async () => {
     try {
-      const data = await instance.get(`/answers/question/${question}`);
+      const data = await instance.get(`/answers/question/${questionId}`);
       return data.data;
     } catch (error) {
       console.log(error.message);

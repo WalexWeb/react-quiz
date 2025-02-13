@@ -1,0 +1,27 @@
+.window {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: url(../../../backgrounds/rating_page.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100vw;
+    height: 100vh;
+    padding: 1rem;
+  
+    .header {
+     color: var(--red-color);
+      font-size: 4rem;
+      margin-bottom: .5rem;
+    }
+  
+    .caption {
+     color: black;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      font-weight: bold;
+    }
+  }
+  
