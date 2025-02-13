@@ -1,5 +1,5 @@
 import styles from "./Question.module.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "../../components/button/Button";
 import Input from "../../components/input/Input";
 import AnswerTimer from "../../components/answerTimer/AnswerTimer";
@@ -27,7 +27,7 @@ function Question() {
 
   var ws;
 
-  ws = new WebSocket("ws://80.253.19.93:5000/ws/player");
+  ws = new WebSocket("ws://80.253.19.93:8000/api/v2/websocket/ws/player");
   ws.onopen = () => {
     ws.send(
       JSON.stringify({
@@ -59,9 +59,9 @@ function Question() {
 
     try {
       await instance.post(
-        `/answers/?question_id=${encodeURIComponent(
-          1
-        )}&user_id=${encodeURIComponent(user.id)}&answer=${encodeURIComponent(
+        `/answers/?question=${encodeURIComponent(
+          question
+        )}&username=${encodeURIComponent(user.username)}&answer=${encodeURIComponent(
           answer
         )}`
       );
@@ -101,7 +101,7 @@ function Question() {
           type="text"
         />
         <Button
-          disabled={(seconds === 0 ? true : false) || loading}
+          // disabled={(seconds === 0 ? true : false) || loading}
           onClick={sendAnswerData}
         >
           Отправить ответ

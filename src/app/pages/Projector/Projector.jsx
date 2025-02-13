@@ -12,7 +12,7 @@ function Projector() {
   const [chapter, setChapter] = useState('')
 
 
-  const ws = new WebSocket("ws://80.253.19.93:5000/ws/spectator");
+  const ws = new WebSocket("ws://80.253.19.93:8000/api/v2/websocket/ws/spectator");
 
   function updateDisplay(data) {
     if (data.type === "rating") {

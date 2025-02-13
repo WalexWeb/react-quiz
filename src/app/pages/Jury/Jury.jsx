@@ -4,6 +4,8 @@ import TeamsAnswers from "../../components/teamsAnswers/TeamsAnswers";
 function Jury() {
   document.title = "Викторина | Просмотр ответов";
 
+
+  
   return (
     <div className={styles.window}>
       <div className={styles.header}>

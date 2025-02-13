@@ -3,11 +3,11 @@ import { instance } from "../../../api/instance";
 import { toast } from "react-toastify";
 import { useState } from "react";
 
-function CorrectAnswerButton({ userId }) {
+function CorrectAnswerButton({ username }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = () => {
-    addPoints(userId);
+    addPoints(username);
     setIsLoading(true);
   };
 
@@ -40,11 +40,11 @@ function CorrectAnswerButton({ userId }) {
 }
 
 // Добавление баллов конкретному пользователю
-const addPoints = async (user_id) => {
+const addPoints = async (username) => {
   try {
     await instance.post(
       `/users/score/add?user_id=${encodeURIComponent(
-        user_id
+        username
       )}&points=${encodeURIComponent(1)}`
     );
     toast.success("Балл присвоен!");

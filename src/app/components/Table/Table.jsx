@@ -20,7 +20,6 @@ function Table() {
 
   // Форматируем список пользователей
   const formattedUsers = users.map((u) => ({
-    id: u.id,
     score: u.score,
     username: u.username,
   }));
