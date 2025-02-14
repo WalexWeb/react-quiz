@@ -48,7 +48,7 @@ function Registration() {
         )}&password=${encodeURIComponent(password)}`
       );
       toast.success(
-        "Регистрация успешна! Перенаправляем на колесо вопросов..."
+        "Регистрация успешна! Перенаправляем на страницу вопроса..."
       );
 
       // Сохраняем токены в localStorage

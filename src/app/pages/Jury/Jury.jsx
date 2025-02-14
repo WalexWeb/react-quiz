@@ -35,10 +35,6 @@ function Jury() {
   const createWebSocket = useCallback(() => {
     const newWs = new WebSocket("ws://80.253.19.93:8000/api/v2/websocket/ws/spectator");
 
-    newWs.onopen = () => {
-      console.log("Jury WebSocket connected");
-    };
-
     newWs.onmessage = (event) => {
       if (event.data === "clear_storage") {
         localStorage.clear();
@@ -48,7 +44,6 @@ function Jury() {
       
       try {
         const data = JSON.parse(event.data);
-        console.log("Jury received data:", data);
 
         if (data.type === "question") {
           // Получаем данные из сообщения
@@ -60,7 +55,6 @@ function Jury() {
           if (content) setQuestion(content);
           if (section) setChapter(section);
           if (answer) {
-            console.log("Setting correct answer:", answer);
             setCorrectAnswer(answer);
           }
           
@@ -75,7 +69,6 @@ function Jury() {
         }
       } catch (error) {
         // Если не удалось распарсить JSON, проверяем не текстовый ли это вопрос
-        console.log("Received possible text question:", event.data);
         if (typeof event.data === "string" && !event.data.includes('"type":')) {
           setQuestion(event.data);
         } else {
@@ -90,7 +83,6 @@ function Jury() {
     };
 
     newWs.onclose = () => {
-      console.log("WebSocket disconnected. Reconnecting...");
       setTimeout(() => {
         setWs(createWebSocket());
       }, 3000);
@@ -109,7 +101,6 @@ function Jury() {
       }
     };
   }, [createWebSocket]);
-
   return (
     <div className={styles.window}>
       <div className={styles.content}>
@@ -135,7 +126,7 @@ function Jury() {
 
         <div className={styles.answersContainer}>
           <h2 className={styles.sectionTitle}>Ответы команд:</h2>
-          {questionId && <TeamsAnswers questionId={questionId} key={questionId} />}
+          {question && <TeamsAnswers question={question} />}
         </div>
       </div>
       <ToastContainer position="bottom-right" />

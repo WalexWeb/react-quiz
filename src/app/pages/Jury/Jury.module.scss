@@ -9,6 +9,7 @@
   background-repeat: no-repeat;
   color: white;
   overflow: hidden;
+  font-family: 'Helios';
 
   .content {
     width: 100%;
@@ -39,7 +40,6 @@
           margin: 0;
           font-size: 4rem;
           color: white;
-          font-weight: bold;
 
           @media (max-width: 1024px) {
             font-size: 2.5rem;
@@ -60,7 +60,6 @@
         backdrop-filter: blur(10px);
         border-radius: 1rem;
         padding: 1.5rem;
-        font-family: 'Helios';
 
         .sectionTitle {
           font-size: 1.2rem;

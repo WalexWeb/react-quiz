@@ -23,8 +23,9 @@ function Question() {
   const [loading, setLoading] = useState(false);
   const [seconds, setSeconds] = useState(null);
   const [question, setQuestion] = useState("");
-  const [newSeconds, setNewSeconds] = useState(null)
-
+  const [chapter, setChapter] = useState("");
+const [newSeconds, setNewSeconds] = useState(null)
+  
   var ws;
 
   ws = new WebSocket("ws://80.253.19.93:8000/api/v2/websocket/ws/player");
@@ -45,13 +46,14 @@ function Question() {
     }
     const data = JSON.parse(event.data);
 
-    setNewSeconds(40)
+    setNewSeconds(40);
+    setChapter(data.section);
     setQuestion(data.text);
-    localStorage.setItem('answerTimerSeconds', newSeconds)
+    
+    localStorage.setItem('answerTimerSeconds', newSeconds);
     localStorage.setItem('chapter', data.section)
     localStorage.setItem('question', data.text)
   };
-
   // Передаем данные в переменную user
   const { data: user } = useQuery(["user"], fetchUser);
 
@@ -91,7 +93,7 @@ function Question() {
         <div className={styles.timer}>
           <AnswerTimer
             time={extractTime}
-            duration={localStorage.getItem('answerTimerSeconds')}
+            duration={newSeconds}
             onTimeUp={handleTimeUp}
           />
         </div>
