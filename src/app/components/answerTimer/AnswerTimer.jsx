@@ -21,12 +21,11 @@ function AnswerTimer({ duration, onTimeUp, time }) {
         }, 1000);
     
         return () => {
-          clearInterval(intervalRef.current);
           localStorage.removeItem('answerTimerSeconds');
+          clearInterval(intervalRef.current);
         };
       }, []);
     }
-
   // Заполнение контейнера таймера
   useEffect(() => {
     setProgressLoaded((100 / duration) * seconds);

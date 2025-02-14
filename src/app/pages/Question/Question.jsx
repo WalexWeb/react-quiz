@@ -23,9 +23,8 @@ function Question() {
   const [loading, setLoading] = useState(false);
   const [seconds, setSeconds] = useState(null);
   const [question, setQuestion] = useState("");
-  const [chapter, setChapter] = useState("");
-const [newSeconds, setNewSeconds] = useState(null)
-  
+  const [newSeconds, setNewSeconds] = useState(null)
+
   var ws;
 
   ws = new WebSocket("ws://80.253.19.93:8000/api/v2/websocket/ws/player");
@@ -47,8 +46,10 @@ const [newSeconds, setNewSeconds] = useState(null)
     const data = JSON.parse(event.data);
 
     setNewSeconds(40)
-    setChapter(data.section);
     setQuestion(data.text);
+    localStorage.setItem('answerTimerSeconds', newSeconds)
+    localStorage.setItem('chapter', data.section)
+    localStorage.setItem('question', data.text)
   };
 
   // Передаем данные в переменную user
@@ -86,15 +87,15 @@ const [newSeconds, setNewSeconds] = useState(null)
   return (
     <div className={styles.window}>
       <div className={styles.header}>
-        <h1 className={styles.chapter}>{chapter || "Ожидайте раздел"}</h1>
+        <h1 className={styles.chapter}>{localStorage.getItem('chapter') || "Ожидайте раздел"}</h1>
         <div className={styles.timer}>
           <AnswerTimer
             time={extractTime}
-            duration={newSeconds}
+            duration={localStorage.getItem('answerTimerSeconds')}
             onTimeUp={handleTimeUp}
           />
         </div>
-        <p className={styles.question}>{question || "Ждите начала игры..."}</p>
+        <p className={styles.question}>{localStorage.getItem('question') || "Ждите начала игры..."}</p>
       </div>
       <form className={styles.form}>
         <Input

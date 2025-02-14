@@ -32,7 +32,6 @@ function Projector() {
       const websocket = new WebSocket("ws://80.253.19.93:8000/api/v2/websocket/ws/spectator");
 
       websocket.onopen = () => {
-        console.log("Projector WebSocket connected");
         isConnecting.current = false;
         wsRef.current = websocket;
       };

@@ -41,12 +41,6 @@ const QuestionWheel = () => {
   const { user, loading } = useAuth();
   const [selectedChapter, setSelectedChapter] = useState(null);
 
-  useEffect(() => {
-    if (!loading && !user) {
-      toast.error("Вы должны быть авторизованы");
-      navigate("/login");
-    }
-  }, [user, loading, navigate]);
   // Константы
   const visibleQuestions = 3; // Сколько вопросов видно в окне
   const repetitions = 3; // Количество повторений
@@ -149,7 +143,6 @@ const QuestionWheel = () => {
           prev.filter((q) => q.id !== question.id)
         );
         setIsSpinning(false);
-        navigate("/question", { state: { question: question } });
       }, 1000);
     } catch (error) {
       console.error("Ошибка при вращении колеса:", error);
@@ -173,15 +166,6 @@ const QuestionWheel = () => {
     <div className={styles.wheelContainer}>
       {/* Заголовок и статистика */}
       <h1 className={styles.choice}>Выбор вопроса</h1>
-      <QuestionSettings
-        selectedChapter={selectedChapter}
-        availableQuestions={availableQuestions}
-        isSpinning={isSpinning}
-        isLoading={isLoading}
-        onChange={(e) => setSelectedChapter(e.target.value || null)}
-        spinCount={spinCount}
-        spinWheel={spinWheel}
-      />
 
       {/* Окно колеса */}
       <div className={styles.wheelWindow}>
