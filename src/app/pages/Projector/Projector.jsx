@@ -37,7 +37,6 @@ function Projector() {
       };
 
       websocket.onclose = (event) => {
-        console.log("Projector WebSocket closed:", event);
         wsRef.current = null;
         isConnecting.current = false;
 
@@ -61,7 +60,6 @@ function Projector() {
           }
 
           const data = JSON.parse(event.data);
-          console.log("Projector received data:", data);
           
           if (data.type === "rating") {
             navigate("/rating", { state: { data: data } });
@@ -72,7 +70,6 @@ function Projector() {
             setChapter(data.section);
             if (data.question_image) {
               const imagePath = `/src/images/${data.question_image}`;
-              console.log("Setting question image:", imagePath);
               setQuestionImage(imagePath);
             } else {
               setQuestionImage("");

@@ -43,7 +43,7 @@ function CorrectAnswerButton({ username }) {
 const addPoints = async (username) => {
   try {
     await instance.post(
-      `/users/score/add?user_id=${encodeURIComponent(
+      `/users/score/add?username=${encodeURIComponent(
         username
       )}&points=${encodeURIComponent(1)}`
     );

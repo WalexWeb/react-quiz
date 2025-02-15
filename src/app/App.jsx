@@ -6,6 +6,7 @@ import Projector from "../app/pages/Projector/Projector";
 import Admin from "../app/pages/Admin/Admin";
 import Rating from "../app/pages/Rating/Rating";
 import Jury from "../app/pages/Jury/Jury";
+import Answers from '../app/pages/Answers/Answers'
 import QuestionWheel from "../app/pages/QuestionWheel/QuestionWheel";
 import { useState } from "react";
 
@@ -25,6 +26,7 @@ function App() {
         <Route path="/projector" element={<Projector question={question} />} />
         <Route path="/admin-panel" element={<Admin />} />
         <Route path="/rating" element={<Rating />} />
+        <Route path="/answers" element={<Answers />}/>
         <Route path="/jury" element={<Jury />} />
         <Route path="/question-wheel" element={<QuestionWheel onChange={handleQuestion} />} />
       </Routes>

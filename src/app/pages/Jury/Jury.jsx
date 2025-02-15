@@ -76,7 +76,6 @@ function Jury() {
         }
       }
     };
-
     newWs.onerror = (error) => {
       console.error("WebSocket error:", error);
       toast.error("Ошибка подключения к серверу");
@@ -101,6 +100,7 @@ function Jury() {
       }
     };
   }, [createWebSocket]);
+
   return (
     <div className={styles.window}>
       <div className={styles.content}>
