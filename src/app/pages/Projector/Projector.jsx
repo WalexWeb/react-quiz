@@ -69,7 +69,8 @@ function Projector() {
             setQuestion(data.content);
             setChapter(data.section);
             if (data.question_image) {
-              const imagePath = `/src/images/${data.question_image}`;
+              const imagePath = `http://80.253.19.93:8000/static/images/${data.question_image}`
+;
               setQuestionImage(imagePath);
             } else {
               setQuestionImage("");
