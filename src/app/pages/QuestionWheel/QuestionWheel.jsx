@@ -1,213 +1,177 @@
+import { motion, AnimatePresence } from "framer-motion";
 import styles from "./QuestionWheel.module.scss";
-import { useEffect, useState, useRef } from "react";
-import { m, useAnimationControls } from "framer-motion";
-import { useQuery } from "react-query";
-import { useNavigate } from "react-router-dom";
-import { instance } from "../../../api/instance";
-import { useAuth } from "../../hooks/useAuth";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import QuestionSettings from "../../components/questionSettings/QuestionSettings";
+import { useEffect, useRef, useState } from 'react';
 
-const fetchQuestions = async (chapter) => {
-  try {
-    // Если выбран раздел, получаем вопросы из него
-    // Убеждаемся, что chapter передается как строка
-    const chapterStr = chapter ? String(chapter) : "";
-    const endpoint = chapterStr ? `/question/${chapterStr}` : "/question";
-    const { data } = await instance.get(endpoint);
+const questions = [
+  "Подвигу защитникам какой крепости посвящена картина «Бессмертие»?",
+  "Назовите имя поэтессы блокадного Ленинграда, автора «Никто не забыт...»",
+  "Как называлась первая советская кинокартина, получившая «Оскар»?",
+  "В каком прифронтовом городе написана песня «Прощай, любимый город»?",
+  "Как назывался коллектив художников, создавший плакат о внуках Суворова?",
+  "Какое оружие получило прозвище «папаша»?",
+  "Как бойцы называли 45-мм противотанковую пушку?",
+  "Какое противотанковое изобретение представляло собой шестиконечную фигуру?",
+  "Какой самолет называли «летающим танком»?",
+  "Какой танк изображен на советской медали «За отвагу»?",
+  "Как называется поэма Твардовского о переправе?",
+  "Как называется песня 1943 года из фильма «Два бойца»?",
+  "Какому событию посвящена карикатура «Потеряла я колечко»?",
+  "Обороне какого города посвящена картина Дейнеки 1942 года?",
+  "Как называется картина Сергея Герасимова 1943 года?",
+  "Какой грузовик называли «Захар Иванович»?",
+  "Какой истребитель впервые участвовал в боях при Сталинграде?",
+  "Какая САУ удивила немцев на Курской дуге?",
+  "Как называлось оружие на базе ППШ из блокадного Ленинграда?",
+  "Что означает ИС в названии советского тяжёлого танка?"
+];
 
-    // Преобразуем данные в нужный формат
-    const questions = Array.isArray(data) ? data : [];
-    const formattedQuestions = questions.map((q) => ({
-      id: q.id,
-      question: q.question,
-      answer: q.answer,
-      chapter: `Раздел ${q.chapter}`,
-    }));
-
-    if (formattedQuestions.length === 0) {
-      throw new Error("Нет доступных вопросов");
-    }
-    return formattedQuestions;
-  } catch (error) {
-    console.error("Ошибка при получении вопросов:", error);
-    throw error;
-  }
+const truncateText = (text, maxWords = 8) => {
+  const words = text.split(' ');
+  if (words.length <= maxWords) return text;
+  return words.slice(0, maxWords).join(' ') + '...';
 };
 
-const QuestionWheel = () => {
-  const navigate = useNavigate();
-  const { user, loading } = useAuth();
-  const [selectedChapter, setSelectedChapter] = useState(null);
+const QuestionWheel = ({ isVisible, onAnimationComplete, animationSpeed = 4 }) => {
+  const audioRef = useRef(null);
+  const [audioEnabled, setAudioEnabled] = useState(false);
+  const [showAudioPrompt, setShowAudioPrompt] = useState(true);
 
-  // Константы
-  const visibleQuestions = 3; // Сколько вопросов видно в окне
-  const repetitions = 3; // Количество повторений
-
-  // Refs и контроллеры
-  const wheelRef = useRef(null);
-  const controls = useAnimationControls();
-
-  // Состояния
-  const [isSpinning, setIsSpinning] = useState(false);
-  const [selectedQuestion, setSelectedQuestion] = useState(null);
-  const [selectedIndex, setSelectedIndex] = useState(null);
-  const [spinCount, setSpinCount] = useState(0);
-  const [displayQuestions, setDisplayQuestions] = useState([]);
-
-  // Данные
-  const {
-    data: questions = [],
-    isLoading,
-    isError,
-  } = useQuery(
-    ["questions", selectedChapter],
-    () => fetchQuestions(selectedChapter),
-    {
-      retry: 1,
-      refetchOnWindowFocus: false,
-    }
-  );
-  const [availableQuestions, setAvailableQuestions] = useState([]);
-
-  // Инициализация вопросов
   useEffect(() => {
-    // Обновляем доступные вопросы при каждом изменении списка вопросов
-    setAvailableQuestions(questions);
-    // Сбрасываем счетчик при смене главы
-    setSpinCount(0);
-  }, [questions]);
+    // Создаем аудио элемент при монтировании компонента
+    audioRef.current = new Audio('/wheel.mp3');
+    audioRef.current.volume = 0.5;
+    
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
 
-  // Обновляем displayQuestions при изменении availableQuestions
-  useEffect(() => {
-    const newDisplayQuestions = [];
-    for (let i = 0; i < repetitions; i++) {
-      availableQuestions.forEach((question, baseIndex) => {
-        newDisplayQuestions.push({
-          ...question,
-          displayIndex: baseIndex,
-          repetitionIndex: i,
-        });
-      });
-    }
-    setDisplayQuestions(newDisplayQuestions);
-  }, [availableQuestions, repetitions]);
-
-  // Функция вращения колеса
-  const spinWheel = async () => {
-    if (isSpinning || availableQuestions.length === 0) return;
-
+  const enableAudio = async () => {
     try {
-      // Set spinning state immediately
-      setIsSpinning(true);
-
-      // Определяем размеры в зависимости от устройства
-      const isMobile = window.innerWidth <= 768;
-      const itemHeight = isMobile ? 80 : 120;
-
-      // Очистка полей перед выбором вопроса
-      setSelectedQuestion(null);
-      setSelectedIndex(null);
-
-      // Выбираем случайный вопрос
-      const randomIndex = Math.floor(Math.random() * availableQuestions.length);
-      const question = availableQuestions[randomIndex];
-
-      // Рассчитываем позиции для анимации
-      const spins = 2;
-      const spinDistance = availableQuestions.length * itemHeight * spins;
-      const centerOffset = Math.floor(visibleQuestions / 2);
-      const finalPosition = (centerOffset + randomIndex) * itemHeight;
-
-      // Запускаем анимацию
-      await controls.start({
-        y: [0, -spinDistance, -finalPosition],
-        transition: {
-          duration: 4,
-          times: [0, 0.7, 1],
-          ease: ["easeIn", "easeOut", "circOut"],
-        },
-      });
-
-      // Set the selected question immediately after animation
-      setSelectedQuestion(question);
-      setSelectedIndex(randomIndex);
-      setSpinCount((prev) => prev + 1);
-
-      // Remove the selected question from available questions
-
-      // Остановка вращения и переход на страницу вопроса
-      setTimeout(() => {
-        setAvailableQuestions((prev) =>
-          prev.filter((q) => q.id !== question.id)
-        );
-        setIsSpinning(false);
-      }, 1000);
+      // Пробуем воспроизвести и сразу поставить на паузу
+      await audioRef.current.play();
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setAudioEnabled(true);
+      setShowAudioPrompt(false);
     } catch (error) {
-      console.error("Ошибка при вращении колеса:", error);
-      setIsSpinning(false);
+      console.error('Error enabling audio:', error);
     }
   };
 
-  // Обработка состояния загрузки и ошибок
-  if (isError) {
-    return (
-      <div className={styles.wheelContainer}>
-        <div className={styles.header}>
-          <h1>Ошибка</h1>
-          <p>Не удалось загрузить вопросы. Пожалуйста, попробуйте позже.</p>
-        </div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (isVisible && audioRef.current && audioEnabled) {
+      console.log('Attempting to play sound...');
+      try {
+        audioRef.current.currentTime = 0;
+        const playPromise = audioRef.current.play();
+        
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              console.log('Sound playing successfully');
+            })
+            .catch(error => {
+              console.error('Error playing sound:', error);
+              // Если воспроизведение не удалось, показываем промпт снова
+              setShowAudioPrompt(true);
+              setAudioEnabled(false);
+            });
+        }
+      } catch (error) {
+        console.error('Error in audio play:', error);
+      }
+    }
+    
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    };
+  }, [isVisible, audioEnabled]);
+
+  // Создаем расширенный список вопросов, добавляя вопросы в начало и конец
+  const extendedQuestions = [...questions, ...questions, ...questions];
+
+  const modalVariants = {
+    hidden: {
+      opacity: 0,
+      scale: 0.8,
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.3,
+      },
+    },
+    exit: {
+      opacity: 0,
+      scale: 0.8,
+      transition: {
+        duration: 0.3,
+      },
+    },
+  };
+
+  const wheelVariants = {
+    initial: {
+      y: "0%",
+    },
+    animate: {
+      y: "-66.666%",
+      transition: {
+        duration: animationSpeed,
+        ease: "linear",
+        onComplete: () => {
+          onAnimationComplete?.();
+        },
+      },
+    },
+  };
 
   return (
-    <div className={styles.wheelContainer}>
-      {/* Заголовок и статистика */}
-      <h1 className={styles.choice}>Выбор вопроса</h1>
-
-      {/* Окно колеса */}
-      <div className={styles.wheelWindow}>
-        {/* Фоновые элементы */}
-        <div className={styles.wheelBackground}>
-          <div className={styles.gradientTop} />
-          <div className={styles.gradientBottom} />
-        </div>
-
-        {/* Колесо с вопросами */}
-        <m.div
-          ref={wheelRef}
-          className={styles.wheel}
-          animate={controls}
-          initial={{ y: 0 }}
+    <AnimatePresence mode="wait">
+      {showAudioPrompt && (
+        <motion.div
+          className={styles.audioPrompt}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
         >
-          {displayQuestions.map((question, index) => {
-            const isSelected =
-              selectedQuestion &&
-              question.id === selectedQuestion.id &&
-              question.displayIndex === selectedIndex &&
-              question.repetitionIndex === 1;
-
-            return (
-              <m.div
-                key={`${question.id}-${index}`}
-                className={`${styles.questionItem} ${
-                  isSelected ? styles.selected : ""
-                }`}
-                initial={{ scale: 1 }}
-                animate={{ scale: isSelected ? 1.05 : 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                {question.question}
-              </m.div>
-            );
-          })}
-        </m.div>
-        {/* Указатель */}
-        <div className={styles.pointer} />
-      </div>
-    </div>
+          <button onClick={enableAudio} className={styles.audioButton}>
+            Включить звук
+          </button>
+        </motion.div>
+      )}
+      {isVisible && (
+        <motion.div
+          className={styles.modal}
+          variants={modalVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+        >
+          <div className={styles.wheelContainer}>
+            <motion.div
+              className={styles.wheel}
+              variants={wheelVariants}
+              initial="initial"
+              animate="animate"
+            >
+              {extendedQuestions.map((question, index) => (
+                <div key={index} className={styles.questionItem}>
+                  {truncateText(question)}
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
