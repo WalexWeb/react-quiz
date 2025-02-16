@@ -40,7 +40,7 @@ function Table() {
       </thead>
       <tbody>
         {scoreSortedUsers.map((user, index) => (
-          <tr key={user.id}>
+          <tr key={index}>
             <th>{index + 1}</th>
             <td>{user.username}</td>
             <td>{user.score}</td>

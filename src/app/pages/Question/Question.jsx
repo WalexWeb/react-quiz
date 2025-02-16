@@ -113,12 +113,12 @@ localStorage.setItem('loading', false);
           onChange={(e) => setAnswer(e.target.value)}
           type="text"
         />
-        <Button
+        {timer && <Button
           disabled={(seconds === 0 ? true : false) || loading}
           onClick={sendAnswerData}
         >
           Отправить ответ
-        </Button>
+        </Button>}
       </form>
       <ToastContainer
         position="top-right"
