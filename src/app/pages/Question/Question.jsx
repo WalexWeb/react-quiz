@@ -25,6 +25,7 @@ function Question() {
   const [question, setQuestion] = useState("");
   const [chapter, setChapter] = useState("");
   const [newSeconds, setNewSeconds] = useState(null)
+const [timer, setTimer] = useState(null)
 
   var ws;
 
@@ -45,26 +46,26 @@ function Question() {
       return;
     }
     const data = JSON.parse(event.data);
-    
     // Устанавливаем фиксированное значение для таймера
     const timerDuration = 40;
     setNewSeconds(timerDuration);
     setChapter(data.section);
     setQuestion(data.text);
     setLoading(false)
-
+    setTimer(data.timer)
     localStorage.setItem('loading', false)
     localStorage.setItem('answerTimerSeconds', timerDuration);
     localStorage.setItem('chapter', data.section);
     localStorage.setItem('question', data.text);
   };
+
   // Передаем данные в переменную user
   const { data: user } = useQuery(["user"], fetchUser);
 
   // Отправка ответа
   async function sendAnswerData(e) {
     e.preventDefault();
-    setLoading(false);
+    setLoading(true);
 localStorage.setItem('loading', false);
 
     try {
@@ -90,18 +91,18 @@ localStorage.setItem('loading', false);
   const extractTime = (second) => {
     setSeconds(second);
   };
-
+  console.log(timer)
   return (
     <div className={styles.window}>
       <div className={styles.header}>
         <h1 className={styles.chapter}>{localStorage.getItem('chapter') || "Ожидайте раздел"}</h1>
         <div className={styles.timer}>
-          <AnswerTimer
+{timer && <AnswerTimer
             time={extractTime}
             duration={40}
             onTimeUp={handleTimeUp}
             question={question}
-          />
+          />}
         </div>
         <p className={styles.question}>{localStorage.getItem('question') || "Ждите начала игры..."}</p>
       </div>

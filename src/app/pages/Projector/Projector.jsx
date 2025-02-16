@@ -11,6 +11,7 @@ function Projector() {
   const navigate = useNavigate();
   const [question, setQuestion] = useState("");
   const [chapter, setChapter] = useState('');
+  const [timer, setTimer] = useState(null)
   const [questionImage, setQuestionImage] = useState('');
   const wsRef = useRef(null);
   const reconnectTimeoutRef = useRef(null);
@@ -61,11 +62,11 @@ function Projector() {
           }
 
           const data = JSON.parse(event.data);
-          
-          if (data.type === "answers") {
-            navigate("/jury", { state: { data: data } });
-          } else if (data.type === "rating") {
+          console.log(data)
+          if (data.type === "rating") {
             navigate("/rating", { state: { data: data } });
+          } else if (data.type === "answers") {
+            navigate("/jury", { state: { data: data } });
           } else if (data.type === "question") {
             setQuestion(data.content);
             setChapter(data.section);
@@ -73,7 +74,7 @@ function Projector() {
             const timerDuration = 40;
             setNewSeconds(timerDuration);
             localStorage.setItem('answerTimerSeconds', timerDuration);
-            
+            setTimer(data.timer)
             if (data.question_image) {
               const imagePath = `http://80.253.19.93:8000/static/images/${data.question_image}`
 ;
@@ -117,18 +118,18 @@ function Projector() {
   const extractTime = (second) => {
     setSeconds(second);
   };
-
+console.log(timer)
   return (
     <div className={styles.window}>
       <div className={styles.header}>
         <h1 className={styles.chapter}>{chapter || 'Ожидайте раздел'}</h1>
         <div className={styles.timer}>
-          <AnswerTimer
+        {timer && <AnswerTimer
             time={extractTime}
             duration={40}
             onTimeUp={handleTimeUp}
             question={question}
-          />
+          />}
         </div>
         <p className={styles.question}>{question || "Ожидайте вопрос"}</p>
       </div>

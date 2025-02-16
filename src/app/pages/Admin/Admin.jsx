@@ -34,6 +34,10 @@ function Admin() {
   function showAnswers() {
     fetch("http://80.253.19.93:8000/api/v2/websocket/admin/show_answers", { method: "POST" });
   }
+  function startTimer() {
+    fetch("http://80.253.19.93:8000/api/v2/websocket/admin/start_timer", { method: "POST" });
+
+  }
 
   return (
     <div className={styles.window}>
@@ -61,7 +65,7 @@ function Admin() {
       {/* Таймер */}
       <div className={styles.timer}>
         <h1>Настройки таймера</h1>
-        <p>До конца раунда: </p>
+        <Button onClick={startTimer}>Запуск таймера</Button>
         <div className={styles.time}>
         </div>
       </div>

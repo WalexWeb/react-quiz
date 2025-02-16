@@ -9,10 +9,9 @@ import { useNavigate } from "react-router-dom";
 function Jury() {
   document.title = "Викторина | Просмотр ответов";
 
-
   const navigate = useNavigate();
 
-  const webs = new WebSocket("ws://80.253.19.93:8000/api/v2/websocket/ws/spectator");
+  // const webs = new WebSocket("ws://80.253.19.93:8000/api/v2/websocket/ws/spectator");
 
   function updateDisplay(data) {
     if (data.type === "question") {
@@ -20,10 +19,10 @@ function Jury() {
     }
   }
 
-  webs.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-    updateDisplay(data);
-  };
+  // webs.onmessage = (event) => {
+  //   const data = JSON.parse(event.data);
+  //   updateDisplay(data);
+  // };
 
   const [questionId, setQuestionId] = useState(null);
   const [chapter, setChapter] = useState("");
@@ -62,7 +61,7 @@ function Jury() {
       
       try {
         const data = JSON.parse(event.data);
-
+        updateDisplay(data);
         if (data.type === "question") {
           // Получаем данные из сообщения
           const content = data.content || data.text;
