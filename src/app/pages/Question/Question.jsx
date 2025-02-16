@@ -65,7 +65,8 @@ const [timer, setTimer] = useState(null)
   // Отправка ответа
   async function sendAnswerData(e) {
     e.preventDefault();
-    setLoading(true);
+    if(timer)
+    {setLoading(true);}
 localStorage.setItem('loading', false);
 
     try {
