@@ -1,50 +1,58 @@
 import styles from "./AnswerTimer.module.scss";
 import { useEffect, useRef, useState } from "react";
 
-function AnswerTimer({ duration, onTimeUp, time }) {
+function AnswerTimer({ duration, onTimeUp, time, question }) {
   const [seconds, setSeconds] = useState(() => {
-    const storedSeconds = localStorage.getItem('answerTimerSeconds')
+    const storedSeconds = localStorage.getItem('answerTimerSeconds');
     return storedSeconds ? parseInt(storedSeconds, 10) : duration;
-  })
+  });
   const [progressLoaded, setProgressLoaded] = useState(0);
   const intervalRef = useRef();
+  const prevQuestionRef = useRef(question);
 
-  if(seconds !== null) {
-      // Таймер
-      useEffect(() => {
-        intervalRef.current = setInterval(() => {
-          setSeconds((prevSeconds) => {
-            const newSeconds = prevSeconds - 1;
-            localStorage.setItem('answerTimerSeconds', newSeconds);
-            return newSeconds;
-          });
-        }, 1000);
-    
-        return () => {
-          localStorage.removeItem('answerTimerSeconds');
-          clearInterval(intervalRef.current);
-        };
-      }, []);
+  // Эффект для сброса таймера при изменении вопроса
+  useEffect(() => {
+    if (prevQuestionRef.current !== question && question) {
+      setSeconds(duration);
+      localStorage.setItem('answerTimerSeconds', duration.toString());
+      prevQuestionRef.current = question;
     }
-  // Заполнение контейнера таймера
+  }, [question, duration]);
+
+  // Основной таймер
+  useEffect(() => {
+    if (seconds > 0) {
+      intervalRef.current = setInterval(() => {
+        setSeconds((prevSeconds) => {
+          const newSeconds = prevSeconds - 1;
+          localStorage.setItem('answerTimerSeconds', newSeconds.toString());
+          return newSeconds;
+        });
+      }, 1000);
+
+      return () => {
+        clearInterval(intervalRef.current);
+      };
+    }
+  }, [seconds]); // Перезапускаем эффект когда таймер изменяется
+
+  // Обновление прогресса и проверка окончания времени
   useEffect(() => {
     setProgressLoaded((100 / duration) * seconds);
-
-    // Передаем секунды на уровень выше
     time(seconds);
 
-    if (seconds === 0) {
+    if (seconds <= 0) {
       clearInterval(intervalRef.current);
-
+      localStorage.setItem('answerTimerSeconds', '0');
       setTimeout(() => {
-        onTimeUp(() => seconds);
+        onTimeUp();
       }, 1000);
     }
-  }, [seconds]);
+  }, [seconds, duration, time, onTimeUp]);
 
   return (
     <div className={styles.timer}>
-      <p>{seconds < 10 ? "0" + seconds : seconds}</p>
+      <p>{seconds}</p>
       <div
         style={{ width: `${progressLoaded}%` }}
         className={styles.progress}

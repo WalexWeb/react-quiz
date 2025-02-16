@@ -24,8 +24,8 @@ function Question() {
   const [seconds, setSeconds] = useState(null);
   const [question, setQuestion] = useState("");
   const [chapter, setChapter] = useState("");
-const [newSeconds, setNewSeconds] = useState(null)
-  
+  const [newSeconds, setNewSeconds] = useState(null)
+
   var ws;
 
   ws = new WebSocket("ws://80.253.19.93:8000/api/v2/websocket/ws/player");
@@ -45,14 +45,18 @@ const [newSeconds, setNewSeconds] = useState(null)
       return;
     }
     const data = JSON.parse(event.data);
-
-    setNewSeconds(40);
+    
+    // Устанавливаем фиксированное значение для таймера
+    const timerDuration = 40;
+    setNewSeconds(timerDuration);
     setChapter(data.section);
     setQuestion(data.text);
-    
-    localStorage.setItem('answerTimerSeconds', newSeconds);
-    localStorage.setItem('chapter', data.section)
-    localStorage.setItem('question', data.text)
+    setLoading(false)
+
+    localStorage.setItem('loading', false)
+    localStorage.setItem('answerTimerSeconds', timerDuration);
+    localStorage.setItem('chapter', data.section);
+    localStorage.setItem('question', data.text);
   };
   // Передаем данные в переменную user
   const { data: user } = useQuery(["user"], fetchUser);
@@ -60,7 +64,8 @@ const [newSeconds, setNewSeconds] = useState(null)
   // Отправка ответа
   async function sendAnswerData(e) {
     e.preventDefault();
-    setLoading(true);
+    setLoading(false);
+localStorage.setItem('loading', false);
 
     try {
       await instance.post(
@@ -93,8 +98,9 @@ const [newSeconds, setNewSeconds] = useState(null)
         <div className={styles.timer}>
           <AnswerTimer
             time={extractTime}
-            duration={newSeconds}
+            duration={40}
             onTimeUp={handleTimeUp}
+            question={question}
           />
         </div>
         <p className={styles.question}>{localStorage.getItem('question') || "Ждите начала игры..."}</p>
@@ -106,7 +112,7 @@ const [newSeconds, setNewSeconds] = useState(null)
           type="text"
         />
         <Button
-          // disabled={(seconds === 0 ? true : false) || loading}
+          disabled={(seconds === 0 ? true : false) || loading}
           onClick={sendAnswerData}
         >
           Отправить ответ

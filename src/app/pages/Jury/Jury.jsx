@@ -4,9 +4,27 @@ import { useState, useEffect, useCallback } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { instance } from "../../../api/instance";
 import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
 
 function Jury() {
   document.title = "Викторина | Просмотр ответов";
+
+
+  const navigate = useNavigate();
+
+  const webs = new WebSocket("ws://80.253.19.93:8000/api/v2/websocket/ws/spectator");
+
+  function updateDisplay(data) {
+    if (data.type === "question") {
+      navigate("/projector", { state: { data: data } });
+    }
+  }
+
+  webs.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    updateDisplay(data);
+  };
+
   const [questionId, setQuestionId] = useState(null);
   const [chapter, setChapter] = useState("");
   const [question, setQuestion] = useState("");

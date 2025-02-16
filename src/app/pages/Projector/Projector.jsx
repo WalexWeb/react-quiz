@@ -7,6 +7,7 @@ function Projector() {
   document.title = "Викторина | Проектор";
 
   const [seconds, setSeconds] = useState(0);
+  const [newSeconds, setNewSeconds] = useState(null)
   const navigate = useNavigate();
   const [question, setQuestion] = useState("");
   const [chapter, setChapter] = useState('');
@@ -61,13 +62,18 @@ function Projector() {
 
           const data = JSON.parse(event.data);
           
-          if (data.type === "rating") {
+          if (data.type === "answers") {
+            navigate("/jury", { state: { data: data } });
+          } else if (data.type === "rating") {
             navigate("/rating", { state: { data: data } });
-          }
-          
-          if (data.type === "question") {
+          } else if (data.type === "question") {
             setQuestion(data.content);
             setChapter(data.section);
+
+            const timerDuration = 40;
+            setNewSeconds(timerDuration);
+            localStorage.setItem('answerTimerSeconds', timerDuration);
+            
             if (data.question_image) {
               const imagePath = `http://80.253.19.93:8000/static/images/${data.question_image}`
 ;
@@ -119,8 +125,9 @@ function Projector() {
         <div className={styles.timer}>
           <AnswerTimer
             time={extractTime}
-            duration={60}
+            duration={40}
             onTimeUp={handleTimeUp}
+            question={question}
           />
         </div>
         <p className={styles.question}>{question || "Ожидайте вопрос"}</p>

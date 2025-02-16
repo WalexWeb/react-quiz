@@ -31,9 +31,8 @@ function Admin() {
   function showQuestion() {
     fetch("http://80.253.19.93:8000/api/v2/websocket/admin/show_question", { method: "POST" });
   }
-
   function showAnswers() {
-    
+    fetch("http://80.253.19.93:8000/api/v2/websocket/admin/show_answers", { method: "POST" });
   }
 
   return (
@@ -64,11 +63,6 @@ function Admin() {
         <h1>Настройки таймера</h1>
         <p>До конца раунда: </p>
         <div className={styles.time}>
-          <AnswerTimer
-            time={extractTime}
-            duration={1800}
-            onTimeUp={handleTimeUp}
-          />
         </div>
       </div>
     </div>
