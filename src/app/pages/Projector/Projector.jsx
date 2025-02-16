@@ -25,12 +25,12 @@ function Projector() {
 
   // Инициализация аудио элементов
   useEffect(() => {
-    mainAudioRef.current = new Audio('/timer.mp3');  // Основная музыка таймера
-    finalAudioRef.current = new Audio('/final.mp3'); // Музыка последних секунд
-    
+    mainAudioRef.current = new Audio("/timer.mp3"); // Основная музыка таймера
+    finalAudioRef.current = new Audio("/final.mp3"); // Музыка последних секунд
+
     mainAudioRef.current.volume = 0.5;
     finalAudioRef.current.volume = 0.5;
-    
+
     return () => {
       if (mainAudioRef.current) {
         mainAudioRef.current.pause();
@@ -70,7 +70,7 @@ function Projector() {
           });
         });
       } catch (error) {
-        console.error('Error enabling audio:', error);
+        console.error("Error enabling audio:", error);
       }
       return;
     }
@@ -145,11 +145,9 @@ function Projector() {
           }
 
           const data = JSON.parse(event.data);
-          console.log(data)
+          console.log(data);
           if (data.type === "rating") {
             navigate("/rating", { state: { data: data } });
-          } else if (data.type === "answers") {
-            navigate("/jury", { state: { data: data } });
           } else if (data.type === "question") {
             // Показываем колесо только если timer: false и answer не null
             if (data.timer === false && data.answer !== null) {
