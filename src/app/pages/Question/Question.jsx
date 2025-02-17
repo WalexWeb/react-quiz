@@ -57,6 +57,7 @@ function Question() {
     setTimer(data.timer);
     setLoading(false);
 
+    localStorage.setItem('timer', timer);
     localStorage.setItem("loading", false);
     localStorage.setItem("answerTimerSeconds", timerDuration);
     localStorage.setItem("chapter", data.section);
@@ -115,6 +116,8 @@ function Question() {
             setChapter(pendingQuestion.section);
             setQuestion(pendingQuestion.text);
             setTimer(pendingQuestion.timer);
+
+            localStorage.setItem('timer', pendingQuestion.timer);
             localStorage.setItem("answerTimerSeconds", timerDuration);
             localStorage.setItem("chapter", pendingQuestion.section);
             localStorage.setItem("question", pendingQuestion.text);
@@ -131,7 +134,7 @@ function Question() {
               {localStorage.getItem("chapter") || "Ожидайте раздел"}
             </h1>
             <div className={styles.timer}>
-              {timer && (
+              {localStorage.getItem('timer') && (
                 <AnswerTimer
                   time={extractTime}
                   duration={40}
@@ -150,7 +153,7 @@ function Question() {
               onChange={(e) => setAnswer(e.target.value)}
               type="text"
             />
-            {timer && (
+            {localStorage.getItem('timer') && (
               <Button
                 disabled={(seconds === 0 ? true : false) || loading}
                 onClick={sendAnswerData}
