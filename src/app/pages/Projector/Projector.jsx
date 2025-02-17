@@ -199,6 +199,7 @@ function Projector() {
 
   const extractTime = (second) => {
     setSeconds(second);
+    handleTimerAudio(second);
   };
 
   return (
