@@ -4,11 +4,12 @@ import { instance } from "../../../api/instance";
 import { ToastContainer } from "react-toastify";
 
 function TeamsAnswers({ question }) {
-
   // Получение всех ответов пользователей и времени ответа
   const fetchAnswers = async () => {
     try {
-      const data = await instance.get(`/answers/question/${encodeURIComponent(question)}`);
+      const data = await instance.get(
+        `/answers/question/${encodeURIComponent(question)}`
+      );
       return data.data;
     } catch (error) {
       console.log(error.message);
@@ -28,25 +29,25 @@ function TeamsAnswers({ question }) {
     id: a.id,
   }));
 
-  console.log(formattedAnswers)
+  console.log(formattedAnswers);
   return (
     <div className={styles.example}>
-          <table className={styles.rating}>
-      <thead>
-        <tr>
-          <th>Команда</th>
-          <th>Ответ</th>
-        </tr>
-      </thead>
-      <tbody>
-        {formattedAnswers.map((answer, index) => (
-          <tr key={index}>
-            <td>{answer.username}</td>
-            <td>{answer.answer}</td>
+      <table className={styles.rating}>
+        <thead>
+          <tr>
+            <th>Команда</th>
+            <th>Ответ</th>
           </tr>
-    ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {formattedAnswers.map((answer, index) => (
+            <tr key={index}>
+              <td>{answer.username}</td>
+              <td>{answer.answer}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       <ToastContainer
         position="top-right"
         autoClose={3000}

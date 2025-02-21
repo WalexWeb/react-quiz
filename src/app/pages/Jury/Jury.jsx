@@ -44,13 +44,15 @@ function Jury() {
         if (data?.correct_answer) {
           setCorrectAnswer(data.correct_answer);
         }
-      }
+      },
     }
   );
 
   // Функция создания WebSocket соединения
   const createWebSocket = useCallback(() => {
-    const newWs = new WebSocket("ws://80.253.19.93:8000/api/v2/websocket/ws/spectator");
+    const newWs = new WebSocket(
+      "ws://80.253.19.93:8000/api/v2/websocket/ws/spectator"
+    );
 
     newWs.onmessage = (event) => {
       if (event.data === "clear_storage") {
@@ -58,7 +60,7 @@ function Jury() {
         location.reload();
         return;
       }
-      
+
       try {
         const data = JSON.parse(event.data);
         updateDisplay(data);
@@ -74,7 +76,6 @@ function Jury() {
           if (answer) {
             setCorrectAnswer(answer);
           }
-          
         } else if (data.type === "rating") {
           // Для сообщений с рейтингом обновляем только раздел
           if (data.section) {
@@ -124,7 +125,7 @@ function Jury() {
         <div className={styles.header}>
           <div className={styles.chapterContainer}>
             <h2 className={styles.sectionTitle}>Текущий раздел:</h2>
-            <h1 className={styles.chapter}>{chapter || 'Ожидайте раздел'}</h1>
+            <h1 className={styles.chapter}>{chapter || "Ожидайте раздел"}</h1>
           </div>
 
           {question && (
