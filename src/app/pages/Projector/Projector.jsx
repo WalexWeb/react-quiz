@@ -3,7 +3,8 @@ import AnswerTimer from "../../components/answerTimer/AnswerTimer";
 import QuestionWheel from "../QuestionWheel/QuestionWheel";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useQuery } from "react-query";
+import TeamsAnswers from "../../components/teamsAnswers/TeamsAnswers";
 function Projector() {
   document.title = "Викторина | Проектор";
 
@@ -13,6 +14,7 @@ function Projector() {
   const [question, setQuestion] = useState("");
   const [chapter, setChapter] = useState("");
   const [timer, setTimer] = useState(null);
+  const [showAnswer, setShowAnswer] = useState(null);
   const [questionImage, setQuestionImage] = useState("");
   const [showWheel, setShowWheel] = useState(false);
   const [pendingQuestion, setPendingQuestion] = useState(null);
@@ -22,6 +24,8 @@ function Projector() {
   const mainAudioRef = useRef(null);
   const finalAudioRef = useRef(null);
   const [audioEnabled, setAudioEnabled] = useState(false);
+  const [correctAnswer, setCorrectAnswer] = useState("");
+  const [questionId, setQuestionId] = useState(null);
 
   // Инициализация аудио элементов
   useEffect(() => {
@@ -157,12 +161,16 @@ function Projector() {
               // Если условия не выполняются, просто обновляем данные без анимации
               setQuestion(data.content);
               setChapter(data.section);
+              setCorrectAnswer(data.answer);
               if (data.timer !== undefined) {
                 setTimer(data.timer);
               }
               if (data.seconds !== undefined) {
                 setNewSeconds(data.seconds);
               }
+              if (data.show_answer !== undefined) {
+              }
+              setShowAnswer(data.show_answer);
             }
           }
         } catch (error) {
@@ -202,6 +210,8 @@ function Projector() {
     handleTimerAudio(second);
   };
 
+  console.log(correctAnswer);
+
   return (
     <div className={styles.window}>
       <QuestionWheel
@@ -211,10 +221,12 @@ function Projector() {
           if (pendingQuestion) {
             setQuestion(pendingQuestion.content);
             setChapter(pendingQuestion.section);
+            setCorrectAnswer(pendingQuestion.answer);
             const timerDuration = 40;
             setNewSeconds(timerDuration);
             localStorage.setItem("answerTimerSeconds", timerDuration);
             setTimer(pendingQuestion.timer);
+            setShowAnswer(pendingQuestion.show_answer);
             if (pendingQuestion.question_image) {
               const imagePath = `http://80.253.19.93:8000/static/images/${pendingQuestion.question_image}`;
               setQuestionImage(imagePath);
@@ -241,10 +253,18 @@ function Projector() {
                 />
               )}
             </div>
-            <p className={styles.question}>{question || "Ожидайте вопрос"}</p>
+            {!showAnswer && (
+              <p className={styles.question}>{question || "Ожидайте вопрос"}</p>
+            )}
           </div>
+          {showAnswer && (
+            <div className={styles.correctAnswer}>
+              <div className={styles.answer}>{correctAnswer}</div>
+              <TeamsAnswers question={question} />
+            </div>
+          )}
           <div className={styles.container}>
-            {questionImage ? (
+            {!showAnswer && questionImage ? (
               <img
                 src={questionImage}
                 className={styles.image}
@@ -255,9 +275,7 @@ function Projector() {
                 }}
               />
             ) : (
-              <div className={styles.placeholder}>
-                Изображение появится здесь
-              </div>
+              <div className={styles.placeholder}></div>
             )}
           </div>
         </>

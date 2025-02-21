@@ -47,22 +47,25 @@ function Registration() {
           username
         )}&password=${encodeURIComponent(password)}`
       );
+
+      // Сохраняем токены и имя пользователя
+      const { access_token, refresh_token } = response.data.user;
+      localStorage.setItem("accessToken", access_token);
+      localStorage.setItem("refreshToken", refresh_token);
+      localStorage.setItem("playerName", username);
+
+      // Добавляем флаг, что регистрация завершена
+      localStorage.setItem("registrationComplete", "true");
+
       toast.success(
         "Регистрация успешна! Перенаправляем на страницу вопроса..."
       );
 
-      // Сохраняем токены в localStorage
-      const { access_token, refresh_token } = response.data.user;
-      localStorage.setItem("accessToken", access_token);
-      localStorage.setItem("refreshToken", refresh_token);
-
-      // Сохраняем имя пользователя в localStorage
-      localStorage.setItem("playerName", username);
-
-      // Даем время увидеть уведомление (можешь менять)
+      // Увеличиваем задержку перед редиректом
       setTimeout(() => {
+        localStorage.removeItem("registrationComplete"); // Очищаем флаг
         navigate("/question");
-      }, 2000);
+      }, 3500); // Увеличиваем время до редиректа
     } catch (error) {
       const errorMessage =
         error.response?.data?.detail || "Ошибка при регистрации";

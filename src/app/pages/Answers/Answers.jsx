@@ -101,7 +101,7 @@ function Answers() {
           Правильный ответ на вопрос: {correctAnswer}
         </p>
       </div>
-      {<AnswersTable question={localStorage.getItem("question")} />}
+      <AnswersTable question={localStorage.getItem("question")} />
     </div>
   );
 }

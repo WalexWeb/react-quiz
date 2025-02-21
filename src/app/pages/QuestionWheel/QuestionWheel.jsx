@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./QuestionWheel.module.scss";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 
 const questions = [
   "Подвигу защитникам какой крепости посвящена картина «Бессмертие»?",
@@ -22,25 +22,29 @@ const questions = [
   "Какой истребитель впервые участвовал в боях при Сталинграде?",
   "Какая САУ удивила немцев на Курской дуге?",
   "Как называлось оружие на базе ППШ из блокадного Ленинграда?",
-  "Что означает ИС в названии советского тяжёлого танка?"
+  "Что означает ИС в названии советского тяжёлого танка?",
 ];
 
 const truncateText = (text, maxWords = 8) => {
-  const words = text.split(' ');
+  const words = text.split(" ");
   if (words.length <= maxWords) return text;
-  return words.slice(0, maxWords).join(' ') + '...';
+  return words.slice(0, maxWords).join(" ") + "...";
 };
 
-const QuestionWheel = ({ isVisible, onAnimationComplete, animationSpeed = 4 }) => {
+const QuestionWheel = ({
+  isVisible,
+  onAnimationComplete,
+  animationSpeed = 4,
+}) => {
   const audioRef = useRef(null);
   const [audioEnabled, setAudioEnabled] = useState(false);
   const [showAudioPrompt, setShowAudioPrompt] = useState(true);
 
   useEffect(() => {
     // Создаем аудио элемент при монтировании компонента
-    audioRef.current = new Audio('/wheel.mp3');
+    audioRef.current = new Audio("/wheel.mp3");
     audioRef.current.volume = 0.5;
-    
+
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
@@ -58,34 +62,34 @@ const QuestionWheel = ({ isVisible, onAnimationComplete, animationSpeed = 4 }) =
       setAudioEnabled(true);
       setShowAudioPrompt(false);
     } catch (error) {
-      console.error('Error enabling audio:', error);
+      console.error("Error enabling audio:", error);
     }
   };
 
   useEffect(() => {
     if (isVisible && audioRef.current && audioEnabled) {
-      console.log('Attempting to play sound...');
+      console.log("Attempting to play sound...");
       try {
         audioRef.current.currentTime = 0;
         const playPromise = audioRef.current.play();
-        
+
         if (playPromise !== undefined) {
           playPromise
             .then(() => {
-              console.log('Sound playing successfully');
+              console.log("Sound playing successfully");
             })
-            .catch(error => {
-              console.error('Error playing sound:', error);
+            .catch((error) => {
+              console.error("Error playing sound:", error);
               // Если воспроизведение не удалось, показываем промпт снова
               setShowAudioPrompt(true);
               setAudioEnabled(false);
             });
         }
       } catch (error) {
-        console.error('Error in audio play:', error);
+        console.error("Error in audio play:", error);
       }
     }
-    
+
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
@@ -134,44 +138,51 @@ const QuestionWheel = ({ isVisible, onAnimationComplete, animationSpeed = 4 }) =
   };
 
   return (
-    <AnimatePresence mode="wait">
-      {showAudioPrompt && (
-        <motion.div
-          className={styles.audioPrompt}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          <button onClick={enableAudio} className={styles.audioButton}>
-            Включить звук
-          </button>
-        </motion.div>
-      )}
-      {isVisible && (
-        <motion.div
-          className={styles.modal}
-          variants={modalVariants}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-        >
-          <div className={styles.wheelContainer}>
-            <motion.div
-              className={styles.wheel}
-              variants={wheelVariants}
-              initial="initial"
-              animate="animate"
-            >
-              {extendedQuestions.map((question, index) => (
-                <div key={index} className={styles.questionItem}>
-                  {truncateText(question)}
-                </div>
-              ))}
-            </motion.div>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <>
+      <AnimatePresence>
+        {showAudioPrompt && (
+          <motion.div
+            className={styles.audioPrompt}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <button onClick={enableAudio} className={styles.audioButton}>
+              Включить звук
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {isVisible && (
+          <motion.div
+            className={styles.modal}
+            variants={modalVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <div className={styles.wheelContainer}>
+              <motion.div
+                className={styles.wheel}
+                variants={wheelVariants}
+                initial="initial"
+                animate="animate"
+              >
+                {extendedQuestions.map((question, index) => (
+                  <div
+                    key={`question-${index}`}
+                    className={styles.questionItem}
+                  >
+                    {truncateText(question)}
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

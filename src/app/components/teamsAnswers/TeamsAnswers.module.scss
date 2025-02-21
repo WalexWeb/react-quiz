@@ -1,54 +1,24 @@
-.example {
-  width: 86.5vw;
-  position: relative;
+.rating {
+  text-align: center;
+background-color: white;
 
-  li {
-    flex: 0 0 19.5vw;
-    background: white;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    display: grid;
-    grid-template-rows: auto 20vh auto;
-    justify-content: stretch;
-    align-items: stretch;
+  tbody tr:nth-child(odd) {
+    background-color: var(--red-color);
+    color: white;
+  }
+
+  th {
+    padding: 1rem;
+    background-color: var(--header-color);
+    font-size: 1.2rem;
+    color: white;
+    width: 25vw;
+    height: 5vh;
+  }
+
+  td {
     font-size: 1.5rem;
-    border-radius: 0 0 18px 18px;
-
-    .time {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-bottom: 2px solid gray;
-    }
-
-    .team_answer {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-
-  ul {
-    display: flex;
-    flex: 0 0 600px;
-    list-style: none;
-    height: 50vh;
-    padding: 1.1rem;
-    gap: 2rem;
-    overflow-x: scroll;
-  }
-
-  &::-webkit-scrollbar {
-    height: 5px;
-    width: 5px;
-    background: #fff3;
-    -webkit-border-radius: 1ex;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    -webkit-border-radius: 1ex;
-  }
-
-  &::-webkit-scrollbar-corner {
-    background: #fff3;
+    width: 25vw;
+    height: 5vh;
   }
 }
