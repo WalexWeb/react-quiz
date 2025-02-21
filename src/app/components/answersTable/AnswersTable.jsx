@@ -1,4 +1,4 @@
-import styles from './AnswersTable.module.scss'
+import styles from "./AnswersTable.module.scss";
 import { useRef } from "react";
 import { useQuery } from "react-query";
 import { instance } from "../../../api/instance";
@@ -11,8 +11,10 @@ import {
   useMotionValueEvent,
   useScroll,
 } from "framer-motion";
+
 const transparent = `#0000`;
 const opaque = `#000`;
+
 function useScrollOverflowMask(scrollXProgress) {
   const maskImage = useMotionValue(
     `linear-gradient(90deg, ${transparent}, ${opaque} 20%, ${opaque} 80%, ${transparent})`
@@ -45,27 +47,39 @@ function AnswersTable({ question }) {
   const ref = useRef(null);
   const { scrollXProgress } = useScroll({ container: ref });
   const maskImage = useScrollOverflowMask(scrollXProgress);
+
   // Получение всех ответов пользователей и времени ответа
   const fetchAnswers = async () => {
     try {
-      const data = await instance.get(`/answers/question/${encodeURIComponent(question)}`);
+      const data = await instance.get(
+        `/answers/question/${encodeURIComponent(question)}`
+      );
       return data.data;
     } catch (error) {
       console.log(error.message);
     }
   };
-  const {data: answers, isLoading } = useQuery(['answers'], fetchAnswers)
-if (isLoading) {
-    return <h1>Загрузка...</h1>
-}
+
+  const { data: answers, isLoading } = useQuery(
+    ["answers", question],
+    fetchAnswers,
+    {
+      refetchInterval: 5000, // Обновление каждые 5 секунд (5000 мс)
+      retry: 8, // Повторные попытки при ошибках (3 раза)
+    }
+  );
+
+  if (isLoading) {
+    return <h1>Загрузка...</h1>;
+  }
   // Форматируем
   const formattedAnswers = answers.map((a) => ({
-      answer_at: a.answer_at,
-      question: a.question,
-      username: a.username,
-      answer: a.answer,
-      id: a.id,
-    }));
+    answer_at: a.answer_at,
+    question: a.question,
+    username: a.username,
+    answer: a.answer,
+    id: a.id,
+  }));
 
   function handleClick(e) {
     e.preventDefault();
