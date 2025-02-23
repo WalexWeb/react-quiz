@@ -9,7 +9,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { instance } from "../../../api/instance";
 
 function Registration() {
-  document.title = "Викторина | Регистрация";
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
@@ -77,6 +76,7 @@ function Registration() {
 
   return (
     <div className={styles.window}>
+      <title>Викторина | Регистрация</title>
       <form className={styles.form}>
         <h1 className={styles.header}>Регистрация</h1>
         <label htmlFor="username">Введите название команды</label>

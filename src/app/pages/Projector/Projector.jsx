@@ -5,9 +5,8 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import TeamsAnswers from "../../components/teamsAnswers/TeamsAnswers";
-function Projector() {
-  document.title = "Викторина | Проектор";
 
+function Projector() {
   const [seconds, setSeconds] = useState(0);
   const [newSeconds, setNewSeconds] = useState(null);
   const navigate = useNavigate();
@@ -25,7 +24,6 @@ function Projector() {
   const finalAudioRef = useRef(null);
   const [audioEnabled, setAudioEnabled] = useState(false);
   const [correctAnswer, setCorrectAnswer] = useState("");
-  const [questionId, setQuestionId] = useState(null);
 
   // Инициализация аудио элементов
   useEffect(() => {
@@ -214,6 +212,7 @@ function Projector() {
 
   return (
     <div className={styles.window}>
+      <title>Викторина | Проектор</title>
       <QuestionWheel
         isVisible={showWheel}
         onAnimationComplete={() => {

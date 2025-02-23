@@ -19,7 +19,6 @@ const fetchUser = async () => {
 };
 
 function Question() {
-  document.title = "Викторина";
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
   const [seconds, setSeconds] = useState(null);
@@ -298,6 +297,7 @@ function Question() {
 
   return (
     <div className={styles.window}>
+      <title>Викторина</title>
       {console.log("Rendering with showWheel:", showWheel)}
       {!wsConnected && (
         <div className={styles.connectionStatus}>Подключение к серверу...</div>

@@ -7,8 +7,6 @@ import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 
 function Jury() {
-  document.title = "Викторина | Просмотр ответов";
-
   const navigate = useNavigate();
 
   // const webs = new WebSocket("ws://80.253.19.93:8000/api/v2/websocket/ws/spectator");
@@ -121,6 +119,7 @@ function Jury() {
 
   return (
     <div className={styles.window}>
+      <title>Викторина | Просмотр ответов</title>
       <div className={styles.content}>
         <div className={styles.header}>
           <div className={styles.chapterContainer}>

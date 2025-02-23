@@ -3,8 +3,6 @@ import Table from "../../components/table/Table";
 import { useNavigate } from "react-router-dom";
 
 function Rating() {
-  document.title = "Викторина | Рейтинг";
-
   const navigate = useNavigate();
 
   const ws = new WebSocket(
@@ -24,6 +22,7 @@ function Rating() {
 
   return (
     <div className={styles.window}>
+      <title>Викторина | Рейтинг</title>
       <h1 className={styles.header}>Рейтинг участников</h1>
       <p className={styles.caption}>Рейтинг по количеству набранных баллов</p>
       <div>

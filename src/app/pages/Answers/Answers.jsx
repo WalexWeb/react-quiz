@@ -6,8 +6,6 @@ import { toast } from "react-toastify";
 import { instance } from "../../../api/instance";
 
 function Answers() {
-  document.title = "Викторина | Оценка ответов";
-
   const [questionId, setQuestionId] = useState(null);
   const [question, setQuestion] = useState("");
   const [correctAnswer, setCorrectAnswer] = useState("");
@@ -94,6 +92,7 @@ function Answers() {
 
   return (
     <div className={styles.window}>
+      <title>Викторина | Оценка ответов</title>
       <div className={styles.header}>
         <h1 className={styles.chapter}>Ответы участников</h1>
         <p className={styles.answer}>Вопрос: {question}</p>

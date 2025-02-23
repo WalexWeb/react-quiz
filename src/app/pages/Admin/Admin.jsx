@@ -4,16 +4,6 @@ import { useState } from "react";
 import Button from "../../components/button/Button";
 
 function Admin() {
-  document.title = "Викторина | Панель администратора";
-
-  const [seconds, setSeconds] = useState(null);
-
-  const handleTimeUp = () => {};
-
-  // Извлекаем время из таймера
-  const extractTime = (second) => {
-    setSeconds(second);
-  };
 
   function startGame() {
     fetch("http://80.253.19.93:8000/api/v2/websocket/admin/start", {
@@ -53,8 +43,7 @@ function Admin() {
 
   return (
     <div className={styles.window}>
-      {/* Рейтинг */}
-      <div className={styles.rating}>{/* <Table /> */}</div>
+      <title>Викторина | Панель администратора</title>
 
       {/* Выбор вопроса */}
       <div className={styles.question}>
