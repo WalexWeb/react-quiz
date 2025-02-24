@@ -1,24 +1,33 @@
 import styles from "./Rating.module.scss";
 import Table from "../../components/table/Table";
 import { useNavigate } from "react-router-dom";
+import { useRef, useEffect } from "react";
 
 function Rating() {
   const navigate = useNavigate();
+  const wsRef = useRef(null);
 
-  const ws = new WebSocket(
-    "ws://80.253.19.93:8000/api/v2/websocket/ws/spectator"
-  );
+  useEffect(() => {
+    if (!wsRef.current) {
+      wsRef.current = new WebSocket(
+        "ws://80.253.19.93:8000/api/v2/websocket/ws/spectator"
+      );
 
-  function updateDisplay(data) {
-    if (data.type === "question") {
-      navigate("/projector", { state: { data: data } });
+      wsRef.current.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.type === "question") {
+          navigate("/projector", { state: { data: data } });
+        }
+      };
     }
-  }
 
-  ws.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-    updateDisplay(data);
-  };
+    return () => {
+      if (wsRef.current) {
+        wsRef.current.close();
+        wsRef.current = null;
+      }
+    };
+  }, [navigate]);
 
   return (
     <div className={styles.window}>
