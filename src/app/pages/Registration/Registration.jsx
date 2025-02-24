@@ -7,14 +7,22 @@ import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { instance } from "../../../api/instance";
+import useRegistrationStore from "../../store/useRegistrationStore";
 
 function Registration() {
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordRepeat, setPasswordRepeat] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const {
+    username,
+    password,
+    passwordRepeat,
+    isLoading,
+    setUsername,
+    setPassword,
+    setPasswordRepeat,
+    setIsLoading,
+    setToken,
+  } = useRegistrationStore();
 
   // Валидация формы
   const validateForm = () => {
@@ -47,9 +55,10 @@ function Registration() {
         )}&password=${encodeURIComponent(password)}`
       );
 
-      // Сохраняем токены и имя пользователя
+      // Сохраняем токены в Zustand
       const { access_token, refresh_token } = response.data.user;
-      localStorage.setItem("accessToken", access_token);
+      console.log(response.data.user)
+localStorage.setItem('accessToken', access_token)
       localStorage.setItem("refreshToken", refresh_token);
       localStorage.setItem("playerName", username);
 
