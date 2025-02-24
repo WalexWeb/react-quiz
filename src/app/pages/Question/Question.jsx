@@ -7,6 +7,7 @@ import QuestionWheel from "../QuestionWheel/QuestionWheel";
 import { ToastContainer, toast } from "react-toastify";
 import { instance } from "../../../api/instance";
 import { useQuery } from "react-query";
+import useRegistrationStore from "../../store/useRegistrationStore";
 
 // Получение данных текущего пользователя
 const fetchUser = async () => {
@@ -37,6 +38,7 @@ function Question() {
   const [answerSubmitted, setAnswerSubmitted] = useState(() =>
     JSON.parse(localStorage.getItem("answerSubmitted") || "false")
   );
+  const playerName = useRegistrationStore((state) => state.username);
 
   // Передаем данные в переменную user
   const { data: user } = useQuery(["user"], fetchUser);
@@ -108,7 +110,6 @@ function Question() {
         isReconnecting = false;
 
         if (!hasSetName) {
-          const playerName = localStorage.getItem("playerName");
           if (playerName) {
             console.log("Отправка имени игрока:", playerName);
             setTimeout(() => {
