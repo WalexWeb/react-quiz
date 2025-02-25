@@ -1,53 +1,53 @@
 .example {
-    width: 86vw;
-    position: relative;
+  width: 86vw;
+  position: relative;
 
-    li {
-        flex: 0 0 19.5vw;
-        background: white;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        display: grid;
-        grid-template-rows: auto 20vh auto;
-        justify-content: stretch;
-        align-items: stretch;
-        font-size: 1.5rem;
-        border-radius: 0 0 18px 18px;
+  li {
+    flex: 0 0 19.5vw;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-rows: auto 20vh auto;
+    justify-content: stretch;
+    align-items: stretch;
+    font-size: 1.5rem;
+    border-radius: 0 0 18px 18px;
 
-        .time {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-bottom: 2px solid gray;
-          }
+    .time {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 2px solid gray;
+    }
 
-          .team_answer {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          }
-        }
+    .team_answer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 
-        ul {
-            display: flex;
-            flex: 0 0 600px;
-            list-style: none;
-            height: 50vh;
-            padding: 1.1rem;
-            gap: 2rem;
-            overflow-x: scroll;
-          }
+  ul {
+    display: flex;
+    flex: 0 0 600px;
+    list-style: none;
+    height: 50vh;
+    padding: 1.1rem;
+    gap: 2rem;
+    overflow-x: scroll;
+  }
 
-          &::-webkit-scrollbar {
-            height: 5px;
-            width: 5px;
-            background: #fff3;
-            -webkit-border-radius: 1ex;
-          }
+  &::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+    background: #fff3;
+    -webkit-border-radius: 1ex;
+  }
 
-          &::-webkit-scrollbar-thumb {
-            -webkit-border-radius: 1ex;
-          }
-          &::-webkit-scrollbar-corner {
-            background: #fff3;
-          }
-        }
+  &::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 1ex;
+  }
+  &::-webkit-scrollbar-corner {
+    background: #fff3;
+  }
+}
