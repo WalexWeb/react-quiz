@@ -64,7 +64,7 @@ function AnswersTable({ question }) {
     ["answers", question],
     fetchAnswers,
     {
-      refetchInterval: answers.length < 10 ? 5000 : false, // Останавливаем обновление при 10 ответах
+      refetchInterval: 5000, // Обновляем ответы каждые 5 секунд
       retry: 8, // Повторные попытки при ошибках (8 раз)
     }
   );
