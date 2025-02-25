@@ -55,10 +55,10 @@ function Registration() {
         )}&password=${encodeURIComponent(password)}`
       );
 
-      // Сохраняем токены в Zustand
+      // Сохраняем токены в localStorage
       const { access_token, refresh_token } = response.data.user;
-      console.log(response.data.user)
-localStorage.setItem('accessToken', access_token)
+      console.log(response.data.user);
+      localStorage.setItem("accessToken", access_token);
       localStorage.setItem("refreshToken", refresh_token);
       localStorage.setItem("playerName", username);
 
