@@ -73,13 +73,15 @@ function AnswersTable({ question }) {
     return <h1>Загрузка...</h1>;
   }
   // Форматируем
-  const formattedAnswers = answers.map((a) => ({
-    answer_at: a.answer_at,
-    question: a.question,
-    username: a.username,
-    answer: a.answer,
-    id: a.id,
-  }));
+  const formattedAnswers = answers
+    .map((a) => ({
+      answer_at: a.answer_at,
+      question: a.question,
+      username: a.username,
+      answer: a.answer,
+      id: a.id,
+    }))
+    .sort((a, b) => a.answer_at - b.answer_at); // Сортировка ответов по времени
 
   function handleClick(e) {
     e.preventDefault();
