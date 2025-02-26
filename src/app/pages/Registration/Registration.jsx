@@ -60,7 +60,6 @@ function Registration() {
       console.log(response.data.user);
       localStorage.setItem("accessToken", access_token);
       localStorage.setItem("refreshToken", refresh_token);
-      localStorage.setItem("playerName", username);
 
       // Добавляем флаг, что регистрация завершена
       localStorage.setItem("registrationComplete", "true");

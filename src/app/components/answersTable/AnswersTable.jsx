@@ -64,8 +64,8 @@ function AnswersTable({ question }) {
     ["answers", question],
     fetchAnswers,
     {
-      refetchInterval: 5000, // Обновление каждые 5 секунд (5000 мс)
-      retry: 8, // Повторные попытки при ошибках (3 раза)
+      refetchInterval: 5000, // Обновляем ответы каждые 5 секунд
+      retry: 8, // Повторные попытки при ошибках (8 раз)
     }
   );
 
@@ -73,13 +73,15 @@ function AnswersTable({ question }) {
     return <h1>Загрузка...</h1>;
   }
   // Форматируем
-  const formattedAnswers = answers.map((a) => ({
-    answer_at: a.answer_at,
-    question: a.question,
-    username: a.username,
-    answer: a.answer,
-    id: a.id,
-  }));
+  const formattedAnswers = answers
+    .map((a) => ({
+      answer_at: a.answer_at,
+      question: a.question,
+      username: a.username,
+      answer: a.answer,
+      id: a.id,
+    }))
+    .sort((a, b) => a.answer_at - b.answer_at); // Сортировка ответов по времени
 
   function handleClick(e) {
     e.preventDefault();
