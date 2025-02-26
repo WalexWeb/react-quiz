@@ -21,7 +21,6 @@ function Registration() {
     setPassword,
     setPasswordRepeat,
     setIsLoading,
-    setToken,
   } = useRegistrationStore();
 
   // Валидация формы
@@ -48,6 +47,7 @@ function Registration() {
     if (!validateForm()) return;
 
     setIsLoading(true);
+    
     try {
       const response = await instance.post(
         `/users/registration?username=${encodeURIComponent(
