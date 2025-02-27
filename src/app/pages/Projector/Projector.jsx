@@ -170,6 +170,8 @@ function Projector() {
               }
               setShowAnswer(data.show_answer);
             }
+          } else if (data.type === "screen") {
+            navigate("/screen");
           }
         } catch (error) {
           console.error("Error parsing WebSocket message:", error);

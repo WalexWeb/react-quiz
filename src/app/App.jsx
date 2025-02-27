@@ -8,6 +8,7 @@ import Rating from "../app/pages/Rating/Rating";
 import Jury from "../app/pages/Jury/Jury";
 import Answers from '../app/pages/Answers/Answers'
 import QuestionWheel from "../app/pages/QuestionWheel/QuestionWheel";
+import ScreenSaver from "./pages/ScreenSaver/ScreenSaver";
 import { useState } from "react";
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/answers" element={<Answers />}/>
         <Route path="/jury" element={<Jury />} />
         <Route path="/question-wheel" element={<QuestionWheel onChange={handleQuestion} />} />
+        <Route path='/screen' element={<ScreenSaver/>}/>
       </Routes>
     </div>
   );

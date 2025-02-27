@@ -4,7 +4,6 @@ import { useState } from "react";
 import Button from "../../components/button/Button";
 
 function Admin() {
-
   function startGame() {
     fetch("http://80.253.19.93:8000/api/v2/websocket/admin/start", {
       method: "POST",
@@ -41,6 +40,10 @@ function Admin() {
     });
   }
 
+  function showScreenSaver() {
+    fetch("", { method: "POST" });
+  }
+
   return (
     <div className={styles.window}>
       <title>Викторина | Панель администратора</title>
@@ -56,8 +59,9 @@ function Admin() {
       {/* Проектор */}
       <div className={styles.projector}>
         <h1>Проектор</h1>
-        <Button onClick={showRating}>Показать рейтинг</Button>
+        <Button onClick={showScreenSaver}>Показать заставку</Button>
         <Button onClick={showQuestion}>Показать вопрос</Button>
+        <Button onClick={showRating}>Показать рейтинг</Button>
         <Button onClick={showAnswers}>Показать ответ на вопрос</Button>
       </div>
 
