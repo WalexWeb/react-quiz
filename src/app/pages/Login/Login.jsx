@@ -12,7 +12,8 @@ import useRegistrationStore from "../../store/useRegistrationStore";
 function Login() {
   const navigate = useNavigate();
 
-  const { isLoading, username, password } = useRegistrationStore();
+  const { isLoading, username, password, setIsLoading } =
+    useRegistrationStore();
 
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
@@ -66,6 +67,12 @@ function Login() {
       } finally {
         setIsLoading(false);
       }
+    } else if (username !== loginUsername) {
+      toast.error("Пользователь не существует");
+      setIsLoading(false);
+    } else if (password !== loginPassword) {
+      toast.error("Неверный пароль");
+      setIsLoading(false);Ï
     }
   };
 

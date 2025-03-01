@@ -15,14 +15,13 @@ function Registration() {
   const {
     username,
     password,
-    passwordRepeat,
     isLoading,
     setUsername,
     setPassword,
-    setPasswordRepeat,
     setIsLoading,
-    setToken,
   } = useRegistrationStore();
+
+  const [passwordRepeat, setPasswordRepeat] = useState("");
 
   // Валидация формы
   const validateForm = () => {
