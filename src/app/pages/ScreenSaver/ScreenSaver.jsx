@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import styles from "./ScreenSaver.module.scss";
 import { useNavigate } from "react-router-dom";
 
