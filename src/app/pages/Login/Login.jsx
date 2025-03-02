@@ -8,7 +8,14 @@ import "react-toastify/dist/ReactToastify.css";
 import useAuth from "../../hooks/useAuth";
 
 function Login() {
-  const { loginUsername, setLoginUsername, loginPassword, setLoginPassword, handleLogin, isLoading } = useAuth(); // Используем хук
+  const {
+    loginUsername,
+    setLoginUsername,
+    loginPassword,
+    setLoginPassword,
+    handleLogin,
+    isLoading,
+  } = useAuth(); // Используем хук
 
   return (
     <div className={styles.window}>
