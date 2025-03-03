@@ -41,9 +41,7 @@ function Login() {
             Нет аккаунта? <Link to="/">Зарегистрироваться</Link>
           </p>
         </div>
-        <Button onClick={handleLogin} disabled={isLoading}>
-          {isLoading ? "Вход..." : "Войти"}
-        </Button>
+        <Button onClick={handleLogin}>Войти</Button>
       </form>
       <ToastContainer
         position="top-right"
