@@ -1,25 +1,21 @@
 import styles from "./Login.module.scss";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/input/Input";
 import Button from "../../components/button/Button";
 import { Link } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { instance } from "../../../api/instance";
-import useRegistrationStore from "../../store/useRegistrationStore";
-import useLogin from "../../hooks/useLogin";
+import useAuth from "../../hooks/useAuth";
 
 function Login() {
-  const navigate = useNavigate();
-
   const {
     loginUsername,
     setLoginUsername,
     loginPassword,
     setLoginPassword,
     handleLogin,
-  } = useLogin(navigate); // Используем кастомный хук
+    isLoading,
+  } = useAuth(); // Используем хук
 
   return (
     <div className={styles.window}>
