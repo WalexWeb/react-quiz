@@ -356,9 +356,12 @@ function Question() {
           <form className={styles.form} onSubmit={sendAnswerData}>
             <Input
               value={answer}
+              maxLength={50}
               onChange={(e) => setAnswer(e.target.value)}
               type="text"
-              disabled={!wsConnected || !timer || answerSubmitted || seconds === 0}
+              disabled={
+                !wsConnected || !timer || answerSubmitted || seconds === 0
+              }
               placeholder={!wsConnected ? "Подключение..." : "Введите ответ"}
             />
             <Button
