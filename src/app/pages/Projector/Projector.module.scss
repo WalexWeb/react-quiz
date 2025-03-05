@@ -25,7 +25,7 @@
     justify-content: center;
 
     .answer {
-      font-size: 1.5rem;
+      font-size: 2rem;
       width: 50.2vw;
       color: var(--correct-color);
       background: rgba(90, 210, 94, 0.1);
@@ -34,9 +34,18 @@
       border: 1px solid rgba(59, 172, 63, 0.3);
       text-align: center;
 
+      @media (max-width: 1024px) {
+        font-size: 2rem;
+        padding: 1rem;
+      }
+
       @media (max-width: 768px) {
-        font-size: 1.1rem;
-        padding: 0.8rem;
+        font-size: 1.7rem;
+        padding: 1rem;
+      }
+
+      @media (max-width: 480px) {
+        font-size: 1rem;
       }
     }
   }

@@ -65,7 +65,7 @@ function Question() {
 
   // Добавим логирование при инициализации
   useEffect(() => {
-    // console.log("Initial showWheel:", localStorage.getItem("showWheel"));
+    console.log("Initial showWheel:", localStorage.getItem("showWheel"));
     console.log(
       "Initial pendingQuestion:",
       localStorage.getItem("pendingQuestion")
@@ -299,7 +299,7 @@ function Question() {
   return (
     <div className={styles.window}>
       <title>Викторина</title>
-      {/* {console.log("Rendering with showWheel:", showWheel)} */}
+      {console.log("Rendering with showWheel:", showWheel)}
       {!wsConnected && (
         <div className={styles.connectionStatus}>Подключение к серверу...</div>
       )}
@@ -359,9 +359,7 @@ function Question() {
               maxLength={50}
               onChange={(e) => setAnswer(e.target.value)}
               type="text"
-              disabled={
-                !wsConnected || !timer || answerSubmitted || seconds === 0
-              }
+              disabled={!wsConnected || !timer || answerSubmitted}
               placeholder={!wsConnected ? "Подключение..." : "Введите ответ"}
             />
             <Button

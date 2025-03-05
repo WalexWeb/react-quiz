@@ -1,12 +1,9 @@
 import styles from "./Admin.module.scss";
-import Button from "../../components/button/Button";
-import Input from "../../components/input/Input";
+import AnswerTimer from "../../components/answerTimer/AnswerTimer";
 import { useState } from "react";
-import axios from "axios";
+import Button from "../../components/button/Button";
 
 function Admin() {
-  const [section, setSection] = useState("");
-
   function startGame() {
     fetch("http://80.253.19.93:8000/api/v2/websocket/admin/start", {
       method: "POST",
@@ -14,11 +11,6 @@ function Admin() {
   }
   function nextQuestion() {
     fetch("http://80.253.19.93:8000/api/v2/websocket/admin/next", {
-      method: "POST",
-    });
-  }
-  function nextSection() {
-    fetch("http://80.253.19.93:8000/api/v2/websocket/admin/next-section", {
       method: "POST",
     });
   }
@@ -37,7 +29,6 @@ function Admin() {
       method: "POST",
     });
   }
-
   function showAnswers() {
     fetch("http://80.253.19.93:8000/api/v2/websocket/admin/show_answer", {
       method: "POST",
@@ -48,41 +39,20 @@ function Admin() {
       method: "POST",
     });
   }
+
   function showScreenSaver() {
     fetch("", { method: "POST" });
-  }
-  function clearRedis() {
-    fetch("http://80.253.19.93:8000/api/v2/websocket/admin/clear-redis", {
-      method: "POST",
-    });
-  }
-  function startCaptainRound() {
-    axios.post(
-      "http://80.253.19.93:8000/api/v2/websocket/admin/update_sections",
-      [section]
-    );
   }
 
   return (
     <div className={styles.window}>
       <title>Викторина | Панель администратора</title>
-      {/* Настройки */}
-      <div className={styles.settings}>
-        <Button onClick={clearRedis}>Очистить редис</Button>
-        <Input
-          value={section}
-          onChange={(e) => setSection(e.target.value)}
-          type="text"
-        />
-        <Button onClick={startCaptainRound}>Начать</Button>
-      </div>
 
       {/* Выбор вопроса */}
       <div className={styles.question}>
         <h1>Выбор вопроса</h1>
         <Button onClick={startGame}>Начать игру</Button>
         <Button onClick={nextQuestion}>Следующий вопрос</Button>
-        <Button onClick={nextSection}>Следующий раздел</Button>
         <Button onClick={stopGame}>Закончить игру</Button>
       </div>
 

@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { instance } from "../../../api/instance";
 import { ToastContainer } from "react-toastify";
 
-function TeamsAnswers({ question }) {
+function TeamsAnswers({ question, answerImage }) {
   // Получение всех ответов пользователей и времени ответа
   const fetchAnswers = async () => {
     try {
@@ -48,6 +48,17 @@ function TeamsAnswers({ question }) {
           ))}
         </tbody>
       </table>
+      <div className={styles.answerImageContainer}>
+        <img
+          src={answerImage}
+          className={styles.image}
+          alt="Изображение к вопросу"
+          onError={(e) => {
+            console.error("Failed to load image:", answerImage);
+            e.target.style.display = "none";
+          }}
+        />
+      </div>
       <ToastContainer
         position="top-right"
         autoClose={3000}
