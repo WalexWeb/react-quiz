@@ -231,7 +231,7 @@ function Projector() {
             if (pendingQuestion.question_image) {
               const imagePath = `http://80.253.19.93:8000/static/images/${pendingQuestion.question_image}`;
               setQuestionImage(imagePath);
-              console.log(pendingQuestion)
+              console.log(pendingQuestion);
             } else {
               setQuestionImage("");
             }
@@ -267,8 +267,21 @@ function Projector() {
           </div>
           {showAnswer && (
             <div className={styles.correctAnswer}>
-              <div className={styles.answer}>{correctAnswer}</div>
-              <TeamsAnswers question={question} answerImage={answerImage} />
+              <div className={styles.correctAnswer__header}>
+                <div className={styles.answer}>{correctAnswer}</div>
+                <TeamsAnswers className={styles.answers} question={question} />
+              </div>
+              <div className={styles.answerImageContainer}>
+                <img
+                  src={answerImage}
+                  className={styles.image}
+                  alt="Изображение к вопросу"
+                  onError={(e) => {
+                    console.error("Failed to load image:", answerImage);
+                    e.target.style.display = "none";
+                  }}
+                />
+              </div>
             </div>
           )}
           <div className={styles.container}>
