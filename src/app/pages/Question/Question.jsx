@@ -162,7 +162,7 @@ function Question() {
 
           if (isComponentMounted) {
             const isNewQuestion =
-              data.text !== localStorage.getItem("question");
+              data.content !== localStorage.getItem("question");
 
             if (isNewQuestion) {
               // Сброс состояний только для нового вопроса
@@ -190,14 +190,14 @@ function Question() {
 
             // Обновляем остальные данные
             setChapter(data.section || "");
-            setQuestion(data.text || "");
+            setQuestion(data.content || "");
             setTimer(data.timer);
             setLoading(false);
 
             localStorage.setItem("timer", data.timer ? "true" : "false");
             localStorage.setItem("loading", "false");
             localStorage.setItem("chapter", data.section || "");
-            localStorage.setItem("question", data.text || "");
+            localStorage.setItem("question", data.content || "");
 
             if (data.timer === false && data.answer !== null) {
               console.log("Устанавливаем новое колесо");
@@ -312,7 +312,7 @@ function Question() {
             const timerDuration = 40;
             setNewSeconds(timerDuration);
             setChapter(pendingQuestion.section || "");
-            setQuestion(pendingQuestion.text || "");
+            setQuestion(pendingQuestion.content || "");
             setTimer(pendingQuestion.timer);
 
             localStorage.setItem(
@@ -324,7 +324,7 @@ function Question() {
               timerDuration.toString()
             );
             localStorage.setItem("chapter", pendingQuestion.section || "");
-            localStorage.setItem("question", pendingQuestion.text || "");
+            localStorage.setItem("question", pendingQuestion.content || "");
             setPendingQuestion(null);
             setShowWheel(false);
             localStorage.setItem("showWheel", "false");

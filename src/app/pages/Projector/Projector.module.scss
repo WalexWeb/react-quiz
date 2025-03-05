@@ -18,6 +18,7 @@
   .correctAnswer {
     display: flex;
     flex-direction: row;
+
     .correctAnswer__header {
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       padding-top: 1.5rem;
@@ -67,8 +68,8 @@
       }
       img {
         border-radius: 18px;
-        width: 40vw;
-        height: 55vh;
+        max-width: 40vw;
+        max-height: 55vh;
       }
     }
   }
@@ -137,7 +138,6 @@
       height: 100%;
     }
     img {
-      // border: 1px solid var(--red-color);
       border-radius: 18px;
     }
   }
