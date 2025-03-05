@@ -1,6 +1,8 @@
 .rating {
   text-align: center;
-background-color: white;
+  background-color: white;
+  justify-content: start;
+  align-items: start;
 
   tbody tr:nth-child(odd) {
     background-color: var(--red-color);
@@ -14,11 +16,26 @@ background-color: white;
     color: white;
     width: 25vw;
     height: 5vh;
+    text-align: center;
+
+    @media (max-width: 1024px) {
+      font-size: 1.1rem;
+      padding: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 1rem;
+      padding: 0.8rem;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 0.8rem;
+      padding: 0.5rem;
+    }
   }
 
   td {
     font-size: 1.5rem;
-    width: 25vw;
     height: 5vh;
   }
 }

@@ -65,7 +65,7 @@ function Question() {
 
   // Добавим логирование при инициализации
   useEffect(() => {
-    // console.log("Initial showWheel:", localStorage.getItem("showWheel"));
+    console.log("Initial showWheel:", localStorage.getItem("showWheel"));
     console.log(
       "Initial pendingQuestion:",
       localStorage.getItem("pendingQuestion")
@@ -162,7 +162,7 @@ function Question() {
 
           if (isComponentMounted) {
             const isNewQuestion =
-              data.text !== localStorage.getItem("question");
+              data.content !== localStorage.getItem("question");
 
             if (isNewQuestion) {
               // Сброс состояний только для нового вопроса
@@ -190,14 +190,14 @@ function Question() {
 
             // Обновляем остальные данные
             setChapter(data.section || "");
-            setQuestion(data.text || "");
+            setQuestion(data.content || "");
             setTimer(data.timer);
             setLoading(false);
 
             localStorage.setItem("timer", data.timer ? "true" : "false");
             localStorage.setItem("loading", "false");
             localStorage.setItem("chapter", data.section || "");
-            localStorage.setItem("question", data.text || "");
+            localStorage.setItem("question", data.content || "");
 
             if (data.timer === false && data.answer !== null) {
               console.log("Устанавливаем новое колесо");
@@ -299,7 +299,7 @@ function Question() {
   return (
     <div className={styles.window}>
       <title>Викторина</title>
-      {/* {console.log("Rendering with showWheel:", showWheel)} */}
+      {console.log("Rendering with showWheel:", showWheel)}
       {!wsConnected && (
         <div className={styles.connectionStatus}>Подключение к серверу...</div>
       )}
@@ -312,7 +312,7 @@ function Question() {
             const timerDuration = 40;
             setNewSeconds(timerDuration);
             setChapter(pendingQuestion.section || "");
-            setQuestion(pendingQuestion.text || "");
+            setQuestion(pendingQuestion.content || "");
             setTimer(pendingQuestion.timer);
 
             localStorage.setItem(
@@ -324,7 +324,7 @@ function Question() {
               timerDuration.toString()
             );
             localStorage.setItem("chapter", pendingQuestion.section || "");
-            localStorage.setItem("question", pendingQuestion.text || "");
+            localStorage.setItem("question", pendingQuestion.content || "");
             setPendingQuestion(null);
             setShowWheel(false);
             localStorage.setItem("showWheel", "false");
@@ -356,9 +356,10 @@ function Question() {
           <form className={styles.form} onSubmit={sendAnswerData}>
             <Input
               value={answer}
+              maxLength={50}
               onChange={(e) => setAnswer(e.target.value)}
               type="text"
-              disabled={!wsConnected || !timer || answerSubmitted || seconds === 0}
+              disabled={!wsConnected || !timer || answerSubmitted}
               placeholder={!wsConnected ? "Подключение..." : "Введите ответ"}
             />
             <Button

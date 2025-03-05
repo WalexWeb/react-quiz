@@ -3,7 +3,6 @@ import AnswerTimer from "../../components/answerTimer/AnswerTimer";
 import QuestionWheel from "../QuestionWheel/QuestionWheel";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "react-query";
 import TeamsAnswers from "../../components/teamsAnswers/TeamsAnswers";
 
 function Projector() {
@@ -15,6 +14,7 @@ function Projector() {
   const [timer, setTimer] = useState(null);
   const [showAnswer, setShowAnswer] = useState(null);
   const [questionImage, setQuestionImage] = useState("");
+  const [answerImage, setAnswerImage] = useState("");
   const [showWheel, setShowWheel] = useState(false);
   const [pendingQuestion, setPendingQuestion] = useState(null);
   const wsRef = useRef(null);
@@ -231,8 +231,15 @@ function Projector() {
             if (pendingQuestion.question_image) {
               const imagePath = `http://80.253.19.93:8000/static/images/${pendingQuestion.question_image}`;
               setQuestionImage(imagePath);
+              console.log(pendingQuestion);
             } else {
               setQuestionImage("");
+            }
+            if (pendingQuestion.answer_image) {
+              const answerImagePath = `http://80.253.19.93:8000/static/images/${pendingQuestion.answer_image}`;
+              setAnswerImage(answerImagePath);
+            } else {
+              setAnswerImage("");
             }
             setPendingQuestion(null);
           }
@@ -260,8 +267,21 @@ function Projector() {
           </div>
           {showAnswer && (
             <div className={styles.correctAnswer}>
-              <div className={styles.answer}>{correctAnswer}</div>
-              <TeamsAnswers question={question} />
+              <div className={styles.correctAnswer__header}>
+                <div className={styles.answer}>{correctAnswer}</div>
+                <TeamsAnswers className={styles.answers} question={question} />
+              </div>
+              <div className={styles.answerImageContainer}>
+                <img
+                  src={answerImage}
+                  className={styles.image}
+                  alt="Изображение к вопросу"
+                  onError={(e) => {
+                    console.error("Failed to load image:", answerImage);
+                    e.target.style.display = "none";
+                  }}
+                />
+              </div>
             </div>
           )}
           <div className={styles.container}>
