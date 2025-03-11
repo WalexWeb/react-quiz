@@ -5,6 +5,35 @@
   width: 100vw;
   height: 100vh;
 
+  .next {
+    background-color: #4169e1;
+    color: #fff;
+    margin: 2rem;
+    width: 18rem;
+    height: 4rem;
+    border-radius: 15px;
+    padding: 1rem 2.7rem;
+    font-size: 1.1rem;
+    font-family: "Helios";
+    border: none;
+    cursor: pointer;
+    transition: border-color 0.25s;
+  
+    &:hover {
+      background-color: #456fec;
+    }
+  
+    &:focus,
+    :focus-visible {
+      background-color: #395ece;
+    }
+  
+    &:disabled {
+      cursor: not-allowed;
+      background-color: gray;
+    }
+  }
+
   .rating,
   .projector,
   .question,
@@ -25,8 +54,12 @@
     left: 0;
     display: flex;
     justify-content: center;
-    overflow-y: scroll;
-    object-fit: fill;
+    align-items: center;
+
+    .count {
+      font-size: 2.5rem;
+      text-align: center;
+    }
   }
 
   .question {
@@ -42,7 +75,6 @@
   .timer {
     top: 50%;
     left: 50%;
-
 
     .time {
       margin: 2rem 2rem 3rem;
