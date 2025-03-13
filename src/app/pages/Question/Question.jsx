@@ -87,7 +87,7 @@ function Question() {
 
     const WS_URL =
       import.meta.env.VITE_WS_URL ||
-      "ws://80.253.19.93:8000/api/v2/websocket/ws/player";
+      "ws://localhost:8000/api/v2/websocket/ws/player";
     let ws = null;
     let reconnectTimer;
     let isReconnecting = false;
