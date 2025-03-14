@@ -2,7 +2,6 @@ import styles from "./Rating.module.scss";
 import Table from "../../components/table/Table";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useRef, useEffect } from "react";
-import { getWebSocketUrl } from "../../../api/websocketConfig";
 
 function Rating() {
   const navigate = useNavigate();
@@ -15,7 +14,7 @@ function Rating() {
     if (!wsRef.current && !isConnecting.current) {
       isConnecting.current = true;
       wsRef.current = new WebSocket(
-        getWebSocketUrl("/ws/spectator")
+        "ws://localhost:8000/api/v2/websocket/ws/spectator"
       );
 
       wsRef.current.onmessage = (event) => {

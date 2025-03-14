@@ -3,12 +3,13 @@ import TeamsAnswers from "../../components/teamsAnswers/TeamsAnswers";
 import { useState, useEffect, useCallback } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { instance } from "../../../api/instance";
-import { getWebSocketUrl } from "../../../api/websocketConfig";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 
 function Jury() {
   const navigate = useNavigate();
+
+  // const webs = new WebSocket("ws://localhost:8000/api/v2/websocket/ws/spectator");
 
   function updateDisplay(data) {
     if (data.type === "question") {
@@ -47,8 +48,9 @@ function Jury() {
 
   // Функция создания WebSocket соединения
   const createWebSocket = useCallback(() => {
-    const newWs = new WebSocket(getWebSocketUrl("/ws/spectator")); // Используем функцию для получения URL
-
+    const newWs = new WebSocket(
+      "ws://localhost:8000/api/v2/websocket/ws/spectator"
+    );
 
     newWs.onmessage = (event) => {
       if (event.data === "clear_storage") {

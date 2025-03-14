@@ -6,7 +6,6 @@ import AnswerTimer from "../../components/answerTimer/AnswerTimer";
 import QuestionWheel from "../QuestionWheel/QuestionWheel";
 import { ToastContainer, toast } from "react-toastify";
 import { instance } from "../../../api/instance";
-import { getWebSocketUrl } from './websocketConfig';
 import { useQuery } from "react-query";
 import useRegistrationStore from "../../store/useRegistrationStore";
 
@@ -85,7 +84,10 @@ function Question() {
     if (localStorage.getItem("registrationComplete") === "true") {
       return;
     }
-      
+
+    const WS_URL =
+      import.meta.env.VITE_WS_URL ||
+      "ws://localhost:8000/api/v2/websocket/ws/player";
     let ws = null;
     let reconnectTimer;
     let isReconnecting = false;
@@ -100,8 +102,7 @@ function Question() {
         ws.close();
       }
 
-      ws = new WebSocket(getWebSocketUrl("/ws/player"));
-
+      ws = new WebSocket(WS_URL);
 
       ws.onopen = () => {
         console.log("WebSocket соединение установлено");
