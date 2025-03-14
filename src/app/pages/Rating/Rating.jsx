@@ -14,7 +14,7 @@ function Rating() {
     if (!wsRef.current && !isConnecting.current) {
       isConnecting.current = true;
       wsRef.current = new WebSocket(
-        "ws://localhost:8000/api/v2/websocket/ws/spectator"
+        "ws://10.10.0.88:8000/api/v2/websocket/ws/spectator"
       );
 
       wsRef.current.onmessage = (event) => {
