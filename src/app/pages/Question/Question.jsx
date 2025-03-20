@@ -87,7 +87,7 @@ function Question() {
 
     const WS_URL =
       import.meta.env.VITE_WS_URL ||
-      "ws://10.10.0.88:8000/api/v2/websocket/ws/player";
+      "ws://80.253.19.93:8000/api/v2/websocket/ws/player";
     let ws = null;
     let reconnectTimer;
     let isReconnecting = false;
@@ -287,6 +287,30 @@ function Question() {
       toast.error(errorMessage);
     }
   }
+
+  useEffect(() => {
+    if (seconds === 0 && !answerSubmitted) {
+      const sendNoAnswer = async () => {
+        try {
+          await instance.post(
+            `/answers/?question=${encodeURIComponent(
+              question
+            )}&username=${encodeURIComponent(
+              user?.username || ""
+            )}&answer=${encodeURIComponent("Нет ответа")}`
+          );
+          toast.warning("Время истекло. Ответ отправлен автоматически.");
+          setAnswerSubmitted(true);
+          localStorage.setItem("answerSubmitted", "true");
+        } catch (error) {
+          toast.error("Ошибка при автоматической отправке ответа");
+        }
+      };
+
+      sendNoAnswer();
+    }
+  }, [seconds, answerSubmitted, question, user]);
+
 
   const handleTimeUp = () => {
     // Можно добавить дополнительную логику при истечении времени

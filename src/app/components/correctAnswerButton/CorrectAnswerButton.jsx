@@ -3,7 +3,7 @@ import { instance } from "../../../api/instance";
 import { toast } from "react-toastify";
 import { useState } from "react";
 
-function CorrectAnswerButton({ username }) {
+function CorrectAnswerButton({ username, disabled }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = () => {
@@ -12,7 +12,7 @@ function CorrectAnswerButton({ username }) {
   };
 
   return (
-    <button className={styles.btn} onClick={handleClick} disabled={isLoading}>
+    <button className={styles.btn} onClick={handleClick} disabled={isLoading || disabled}>
       <svg
         width="37"
         height="30"

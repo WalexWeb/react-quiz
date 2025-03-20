@@ -92,12 +92,14 @@ function AnswersTable({ question }) {
       <m.ul ref={ref} style={{ maskImage }}>
         {formattedAnswers.map((answer, index) => (
           <li key={index}>
-            <div className={styles.time}>{answer.answer_at}</div>
+            <div className={styles.username}>{answer.username}</div>
             <div className={styles.team_answer}>{answer.answer}</div>
+            <div className={styles.time}>{answer.answer_at}</div>
             <div className={styles.currentAnswer}>
               <CorrectAnswerButton
                 onClick={handleClick}
                 username={answer.username}
+                disabled={answer.answer === "Нет ответа"}
               />
             </div>
           </li>

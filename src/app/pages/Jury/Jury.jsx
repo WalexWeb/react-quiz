@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 function Jury() {
   const navigate = useNavigate();
 
-  // const webs = new WebSocket("ws://10.10.0.88:8000/api/v2/websocket/ws/spectator");
+  // const webs = new WebSocket("ws://80.253.19.93:8000/api/v2/websocket/ws/spectator");
 
   function updateDisplay(data) {
     if (data.type === "question") {
@@ -49,7 +49,7 @@ function Jury() {
   // Функция создания WebSocket соединения
   const createWebSocket = useCallback(() => {
     const newWs = new WebSocket(
-      "ws://10.10.0.88:8000/api/v2/websocket/ws/spectator"
+      "ws://80.253.19.93:8000/api/v2/websocket/ws/spectator"
     );
 
     newWs.onmessage = (event) => {

@@ -7,39 +7,39 @@ function Admin() {
   const [count, setCount] = useState(0);
 
   function startGame() {
-    fetch("http://10.10.0.88:8000/api/v2/websocket/admin/start", {
+    fetch("http://80.253.19.93:8000/api/v2/websocket/admin/start", {
       method: "POST",
     });
   }
   function nextQuestion() {
-    fetch("http:/10.10.0.88:8000/api/v2/websocket/admin/next", {
+    fetch("http://80.253.19.93:8000/api/v2/websocket/admin/next", {
       method: "POST",
     });
 
     setCount((count) => count + 1);
   }
   function stopGame() {
-    fetch("http://10.10.0.88:8000/api/v2/websocket/admin/stop", {
+    fetch("http://80.253.19.93:8000/api/v2/websocket/admin/stop", {
       method: "POST",
     });
   }
   function showRating() {
-    fetch("http://10.10.0.88:8000/api/v2/websocket/admin/show_rating", {
+    fetch("http://80.253.19.93:8000/api/v2/websocket/admin/show_rating", {
       method: "POST",
     });
   }
   function showQuestion() {
-    fetch("http://10.10.0.88:8000/api/v2/websocket/admin/show_question", {
+    fetch("http://80.253.19.93:8000/api/v2/websocket/admin/show_question", {
       method: "POST",
     });
   }
   function showAnswers() {
-    fetch("http://10.10.0.88:8000/api/v2/websocket/admin/show_answer", {
+    fetch("http://80.253.19.93:8000/api/v2/websocket/admin/show_answer", {
       method: "POST",
     });
   }
   function startTimer() {
-    fetch("http://10.10.0.88:8000/api/v2/websocket/admin/start_timer", {
+    fetch("http://80.253.19.93:8000/api/v2/websocket/admin/start_timer", {
       method: "POST",
     });
   }

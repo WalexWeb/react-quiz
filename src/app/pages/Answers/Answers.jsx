@@ -32,7 +32,7 @@ function Answers() {
   // Функция создания WebSocket соединения
   const createWebSocket = useCallback(() => {
     const newWs = new WebSocket(
-      "ws://10.10.0.88:8000/api/v2/websocket/ws/spectator"
+      "ws://80.253.19.93:8000/api/v2/websocket/ws/spectator"
     );
 
     newWs.onmessage = (event) => {
