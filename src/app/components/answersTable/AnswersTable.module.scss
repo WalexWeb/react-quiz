@@ -7,23 +7,30 @@
     background: white;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     display: grid;
-    grid-template-rows: auto 20vh auto;
+    grid-template-rows: auto 15vh auto;
     justify-content: stretch;
     align-items: stretch;
     font-size: 1.5rem;
     border-radius: 0 0 18px 18px;
 
-    .time {
+    .username {
       display: flex;
       justify-content: center;
       align-items: center;
       border-bottom: 2px solid gray;
     }
 
+    .time {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     .team_answer {
       display: flex;
       justify-content: center;
       align-items: center;
+      border-bottom: 2px solid gray;
     }
   }
 

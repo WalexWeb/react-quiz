@@ -18,16 +18,16 @@
     border: none;
     cursor: pointer;
     transition: border-color 0.25s;
-  
+
     &:hover {
       background-color: #456fec;
     }
-  
+
     &:focus,
     :focus-visible {
       background-color: #395ece;
     }
-  
+
     &:disabled {
       cursor: not-allowed;
       background-color: gray;
@@ -59,6 +59,35 @@
     .count {
       font-size: 2.5rem;
       text-align: center;
+    }
+
+    .count__btn {
+      background-color: #38c665;
+      color: #fff;
+      margin: 2rem;
+      width: 18rem;
+      height: 4rem;
+      border-radius: 15px;
+      padding: 1rem 2.7rem;
+      font-size: 1.1rem;
+      font-family: "Helios";
+      border: none;
+      cursor: pointer;
+      transition: border-color 0.25s;
+
+      &:hover {
+        background-color: #40dc67;
+      }
+
+      &:focus,
+      :focus-visible {
+        background-color: #31b465;
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+        background-color: rgb(128, 128, 128);
+      }
     }
   }
 

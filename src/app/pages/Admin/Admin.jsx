@@ -1,6 +1,7 @@
 import styles from "./Admin.module.scss";
 import Button from "../../components/button/Button";
 import { useState } from "react";
+import { m } from "framer-motion";
 
 function Admin() {
   const [count, setCount] = useState(0);
@@ -53,14 +54,28 @@ function Admin() {
 
       <div className={styles.rating}>
         <p className={styles.count}>Номер вопроса: {count}</p>
-        <Button onClick={() => setCount((count) => count + 1)}>+</Button>
+        <m.button
+          onClick={() => setCount((count) => count + 1)}
+          className={styles.count__btn}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 1 }}
+        >
+          +
+        </m.button>
       </div>
 
       {/* Выбор вопроса */}
       <div className={styles.question}>
         <h1>Выбор вопроса</h1>
         <Button onClick={startGame}>Начать игру</Button>
-        <button className={styles.next} onClick={nextQuestion}>Следующий вопрос</button>
+        <m.button
+          className={styles.next}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 1 }}
+          onClick={nextQuestion}
+        >
+          Следующий вопрос
+        </m.button>
         <Button onClick={stopGame}>Закончить игру</Button>
       </div>
 
@@ -68,7 +83,14 @@ function Admin() {
       <div className={styles.projector}>
         <h1>Проектор</h1>
         <Button onClick={showScreenSaver}>Показать заставку</Button>
-        <button className={styles.next} onClick={showQuestion}>Показать вопрос</button>
+        <m.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 1 }}
+          className={styles.next}
+          onClick={showQuestion}
+        >
+          Показать вопрос
+        </m.button>
         <Button onClick={showRating}>Показать рейтинг</Button>
         <Button onClick={showAnswers}>Показать ответ на вопрос</Button>
       </div>
