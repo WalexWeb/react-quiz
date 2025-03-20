@@ -18,6 +18,7 @@ function Projector() {
   const [showWheel, setShowWheel] = useState(false);
   const [pendingQuestion, setPendingQuestion] = useState(null);
   const wsRef = useRef(null);
+  const prevQuestionRef = useRef("");
   const reconnectTimeoutRef = useRef(null);
   const isConnecting = useRef(false);
   const mainAudioRef = useRef(null);
@@ -151,10 +152,11 @@ function Projector() {
           if (data.type === "rating") {
             navigate("/rating", { state: { data: data } });
           } else if (data.type === "question") {
-            // Показываем колесо только если timer: false и answer не null
-            if (data.timer === false && data.answer !== null) {
-              setPendingQuestion(data);
+            if (data.content !== prevQuestionRef.current) {
               setShowWheel(true);
+              prevQuestionRef.current = data.content; // Сохраняем текущий вопрос
+
+              setPendingQuestion(data);
             } else {
               // Если условия не выполняются, просто обновляем данные без анимации
               setQuestion(data.content);
@@ -218,7 +220,6 @@ function Projector() {
       <QuestionWheel
         isVisible={showWheel}
         onAnimationComplete={() => {
-          // После завершения анимации обновляем данные
           if (pendingQuestion) {
             setQuestion(pendingQuestion.content);
             setChapter(pendingQuestion.section);
@@ -228,19 +229,16 @@ function Projector() {
             localStorage.setItem("answerTimerSeconds", timerDuration);
             setTimer(pendingQuestion.timer);
             setShowAnswer(pendingQuestion.show_answer);
-            if (pendingQuestion.question_image) {
-              const imagePath = `http://80.253.19.93:8000/static/images/${pendingQuestion.question_image}`;
-              setQuestionImage(imagePath);
-              console.log(pendingQuestion);
-            } else {
-              setQuestionImage("");
-            }
-            if (pendingQuestion.answer_image) {
-              const answerImagePath = `http://80.253.19.93:8000/static/images/${pendingQuestion.answer_image}`;
-              setAnswerImage(answerImagePath);
-            } else {
-              setAnswerImage("");
-            }
+            setQuestionImage(
+              pendingQuestion.question_image
+                ? `http://80.253.19.93:8000/static/images/${pendingQuestion.question_image}`
+                : ""
+            );
+            setAnswerImage(
+              pendingQuestion.answer_image
+                ? `http://80.253.19.93:8000/static/images/${pendingQuestion.answer_image}`
+                : ""
+            );
             setPendingQuestion(null);
           }
           setShowWheel(false);

@@ -82,7 +82,6 @@ function Admin() {
       {/* Проектор */}
       <div className={styles.projector}>
         <h1>Проектор</h1>
-        <Button onClick={showScreenSaver}>Показать заставку</Button>
         <m.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 1 }}
