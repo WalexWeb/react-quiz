@@ -4,6 +4,7 @@ import QuestionWheel from "../QuestionWheel/QuestionWheel";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import TeamsAnswers from "../../components/teamsAnswers/TeamsAnswers";
+import { getWebSocketUrl } from "../../../api/websocketConfig";
 
 function Projector() {
   const [seconds, setSeconds] = useState(0);
@@ -115,9 +116,7 @@ function Projector() {
 
     try {
       isConnecting.current = true;
-      const websocket = new WebSocket(
-        "ws://80.253.19.93:8000/api/v2/websocket/ws/spectator"
-      );
+      const websocket = new WebSocket(getWebSocketUrl("/ws/spectator"));
 
       websocket.onopen = () => {
         isConnecting.current = false;

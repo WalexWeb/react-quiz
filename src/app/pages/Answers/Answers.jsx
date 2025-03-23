@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from "react";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { instance } from "../../../api/instance";
+import { getWebSocketUrl } from "../../../api/websocketConfig";
 
 function Answers() {
   const [questionId, setQuestionId] = useState(null);
@@ -31,9 +32,7 @@ function Answers() {
 
   // Функция создания WebSocket соединения
   const createWebSocket = useCallback(() => {
-    const newWs = new WebSocket(
-      "ws://80.253.19.93:8000/api/v2/websocket/ws/spectator"
-    );
+    const newWs = new WebSocket(getWebSocketUrl("/ws/spectator")); // Используем функцию для получения URL
 
     newWs.onmessage = (event) => {
       if (event.data === "clear_storage") {
