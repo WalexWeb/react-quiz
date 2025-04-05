@@ -264,10 +264,6 @@ function Projector() {
           </div>
           {showAnswer && (
             <div className={styles.correctAnswer}>
-              <div className={styles.correctAnswer__header}>
-                <div className={styles.answer}>{correctAnswer}</div>
-                <TeamsAnswers className={styles.answers} question={question} />
-              </div>
               <div className={styles.answerImageContainer}>
                 <img
                   src={answerImage}
@@ -278,6 +274,10 @@ function Projector() {
                     e.target.style.display = "none";
                   }}
                 />
+              </div>
+              <div className={styles.correctAnswer__header}>
+                <div className={styles.answer}>{correctAnswer}</div>
+                <TeamsAnswers className={styles.answers} question={question} />
               </div>
             </div>
           )}
