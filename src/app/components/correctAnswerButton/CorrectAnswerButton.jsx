@@ -5,14 +5,27 @@ import { useState } from "react";
 
 function CorrectAnswerButton({ username, disabled }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isSelected, setIsSelected] = useState(false); // Отслеживание выбранного ответа
 
-  const handleClick = () => {
-    addPoints(username);
+  const handleClick = async () => {
     setIsLoading(true);
+
+    const points = isSelected ? -1 : 1; // Если уже добавлен балл, то убираем его
+    const success = await updatePoints(username, points);
+
+    if (success) {
+      setIsSelected(!isSelected); // Переключаем состояние
+    }
+
+    setIsLoading(false);
   };
 
   return (
-    <button className={styles.btn} onClick={handleClick} disabled={isLoading || disabled}>
+    <button
+      className={`${styles.btn} ${isSelected ? styles.selected : ""}`}
+      onClick={handleClick}
+      disabled={isLoading || disabled}
+    >
       <svg
         width="37"
         height="30"
@@ -40,18 +53,20 @@ function CorrectAnswerButton({ username, disabled }) {
 }
 
 // Добавление баллов конкретному пользователю
-const addPoints = async (username) => {
+const updatePoints = async (username, points) => {
   try {
     await instance.post(
       `/users/score/add?username=${encodeURIComponent(
         username
-      )}&points=${encodeURIComponent(1)}`
+      )}&points=${encodeURIComponent(points)}`
     );
-    toast.success("Балл присвоен!");
+    toast.success(points > 0 ? "Балл добавлен!" : "Балл удален!");
+    return true;
   } catch (error) {
     const errorMessage =
       error.response?.data?.detail || "Ошибка при отправке данных";
     toast.error(errorMessage);
+    return false;
   }
 };
 

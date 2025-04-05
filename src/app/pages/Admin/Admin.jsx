@@ -3,43 +3,45 @@ import Button from "../../components/button/Button";
 import { useState } from "react";
 import { m } from "framer-motion";
 
+const BASE_URL = "http://80.253.19.93:8000/api/v2/websocket/admin";
+
 function Admin() {
   const [count, setCount] = useState(0);
 
   function startGame() {
-    fetch("http://80.253.19.93:8000/api/v2/websocket/admin/start", {
+    fetch(`${BASE_URL}/start`, {
       method: "POST",
     });
   }
   function nextQuestion() {
-    fetch("http://80.253.19.93:8000/api/v2/websocket/admin/next", {
+    fetch(`${BASE_URL}/next`, {
       method: "POST",
     });
 
     setCount((count) => count + 1);
   }
   function stopGame() {
-    fetch("http://80.253.19.93:8000/api/v2/websocket/admin/stop", {
+    fetch(`${BASE_URL}/stop`, {
       method: "POST",
     });
   }
   function showRating() {
-    fetch("http://80.253.19.93:8000/api/v2/websocket/admin/show_rating", {
+    fetch(`${BASE_URL}/show_rating`, {
       method: "POST",
     });
   }
   function showQuestion() {
-    fetch("http://80.253.19.93:8000/api/v2/websocket/admin/show_question", {
+    fetch(`${BASE_URL}/show_question`, {
       method: "POST",
     });
   }
   function showAnswers() {
-    fetch("http://80.253.19.93:8000/api/v2/websocket/admin/show_answer", {
+    fetch(`${BASE_URL}/show_answer`, {
       method: "POST",
     });
   }
   function startTimer() {
-    fetch("http://80.253.19.93:8000/api/v2/websocket/admin/start_timer", {
+    fetch(`${BASE_URL}/start_timer`, {
       method: "POST",
     });
   }
@@ -82,7 +84,6 @@ function Admin() {
       {/* Проектор */}
       <div className={styles.projector}>
         <h1>Проектор</h1>
-        <Button onClick={showScreenSaver}>Показать заставку</Button>
         <m.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 1 }}

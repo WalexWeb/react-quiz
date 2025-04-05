@@ -2,6 +2,7 @@ import styles from "./Rating.module.scss";
 import Table from "../../components/table/Table";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useRef, useEffect } from "react";
+import { getWebSocketUrl } from "../../../api/websocketConfig";
 
 function Rating() {
   const navigate = useNavigate();
@@ -13,9 +14,7 @@ function Rating() {
     // Создаем WebSocket только если еще не создан и не в процессе создания
     if (!wsRef.current && !isConnecting.current) {
       isConnecting.current = true;
-      wsRef.current = new WebSocket(
-        "ws://80.253.19.93:8000/api/v2/websocket/ws/spectator"
-      );
+      wsRef.current = new WebSocket(getWebSocketUrl("/ws/spectator"));
 
       wsRef.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
