@@ -21,4 +21,17 @@
     cursor: not-allowed;
     background-color: gray;
   }
+
+  &.selected {
+    background-color: rgb(2, 163, 51);
+
+    &:hover {
+      background-color: rgb(10, 180, 10);
+    }
+
+    &:focus,
+    :focus-visible {
+      background-color: rgb(8, 150, 8);
+    }
+  }
 }
