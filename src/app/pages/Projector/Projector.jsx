@@ -30,48 +30,30 @@ function Projector() {
   // Инициализация аудио элементов
   useEffect(() => {
     mainAudioRef.current = new Audio("/timer.mp3"); // Основная музыка таймера
-    finalAudioRef.current = new Audio("/final.mp3"); // Музыка последних секунд
-
     mainAudioRef.current.volume = 0.5;
-    finalAudioRef.current.volume = 0.5;
 
     return () => {
       if (mainAudioRef.current) {
         mainAudioRef.current.pause();
         mainAudioRef.current = null;
       }
-      if (finalAudioRef.current) {
-        finalAudioRef.current.pause();
-        finalAudioRef.current = null;
-      }
     };
   }, []);
 
   useEffect(() => {
-    if (!timer) {
-      // Если таймер выключен, останавливаем все аудио
-      if (mainAudioRef.current) {
-        mainAudioRef.current.pause();
-        mainAudioRef.current.currentTime = 0;
-      }
-      if (finalAudioRef.current) {
-        finalAudioRef.current.pause();
-        finalAudioRef.current.currentTime = 0;
-      }
+    if (!timer && mainAudioRef.current) {
+      mainAudioRef.current.pause();
+      mainAudioRef.current.currentTime = 0;
     }
   }, [timer, question]);
 
   // Функция для управления аудио таймера
   const handleTimerAudio = (second) => {
     if (!audioEnabled) {
-      // Пробуем включить аудио при первом тике таймера
       try {
         mainAudioRef.current.play().then(() => {
           mainAudioRef.current.pause();
-          finalAudioRef.current.play().then(() => {
-            finalAudioRef.current.pause();
-            setAudioEnabled(true);
-          });
+          setAudioEnabled(true);
         });
       } catch (error) {
         console.error("Error enabling audio:", error);
@@ -79,26 +61,9 @@ function Projector() {
       return;
     }
 
-    if (second <= 2) {
-      // Последние 2 секунды
-      if (mainAudioRef.current) {
-        mainAudioRef.current.pause();
-        mainAudioRef.current.currentTime = 0;
-      }
-      if (finalAudioRef.current) {
-        finalAudioRef.current.currentTime = 0;
-        finalAudioRef.current.play();
-      }
-    } else if (second === 40) {
-      // Начало таймера
-      if (finalAudioRef.current) {
-        finalAudioRef.current.pause();
-        finalAudioRef.current.currentTime = 0;
-      }
-      if (mainAudioRef.current) {
-        mainAudioRef.current.currentTime = 0;
-        mainAudioRef.current.play();
-      }
+    if (second === 40 && mainAudioRef.current) {
+      mainAudioRef.current.currentTime = 0;
+      mainAudioRef.current.play();
     }
   };
 
@@ -264,10 +229,6 @@ function Projector() {
           </div>
           {showAnswer && (
             <div className={styles.correctAnswer}>
-              <div className={styles.correctAnswer__header}>
-                <div className={styles.answer}>{correctAnswer}</div>
-                <TeamsAnswers className={styles.answers} question={question} />
-              </div>
               <div className={styles.answerImageContainer}>
                 <img
                   src={answerImage}
@@ -278,6 +239,10 @@ function Projector() {
                     e.target.style.display = "none";
                   }}
                 />
+              </div>
+              <div className={styles.correctAnswer__header}>
+                <div className={styles.answer}>{correctAnswer}</div>
+                <TeamsAnswers className={styles.answers} question={question} />
               </div>
             </div>
           )}
