@@ -195,12 +195,12 @@ function Projector() {
             setShowAnswer(pendingQuestion.show_answer);
             setQuestionImage(
               pendingQuestion.question_image
-                ? `http://80.253.19.93:8000/static/images/${pendingQuestion.question_image}`
+                ? `http://10.10.0.88:8000/static/images/${pendingQuestion.question_image}`
                 : ""
             );
             setAnswerImage(
               pendingQuestion.answer_image
-                ? `http://80.253.19.93:8000/static/images/${pendingQuestion.answer_image}`
+                ? `http://10.10.0.88:8000/static/images/${pendingQuestion.answer_image}`
                 : ""
             );
             setPendingQuestion(null);
