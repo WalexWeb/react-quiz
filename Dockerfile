@@ -1,30 +1,22 @@
-FROM node:latest
-WORKDIR /
+FROM node:18-alpine as builder
+
+
+RUN apk update && apk --no-cache --virtual .build-deps add \
+    python3 \
+    make \
+    g++ \
+    build-base
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci
+RUN npm run clean
 COPY . .
-COPY package.json package.json
-#RUN apk --no-cache add --virtual builds-deps build-base python
-RUN npm i
-RUN npm install vite@latest
-EXPOSE 8080
-#RUN npm run build
-#RUN npm install express
+RUN npm run build -- --mode production
 
-CMD ["npm", "run", "preview"] 
-#"--host", "0.0.0.0", "--port", "8080"
+RUN apk del .build-deps
 
-
-#export default defineConfig({
-#  base: "/",
-#  plugins: [react()],
-#  preview: {
-#    port: 8080,
-#    strictPort: true,
-#  },
-#  server: {
-#    port: 8080,
-#    strictPort: true,
-#    host: true,
-#    origin: "http://0.0.0.0:8080",
-#  },
-#})
-
+FROM nginx:1.25-alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+COPY nginx/conf.d /etc/nginx/conf.d
