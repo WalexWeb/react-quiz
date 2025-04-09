@@ -1,30 +1,18 @@
-FROM node:latest
-WORKDIR /
+FROM node:18-alpine as builder
+
+RUN apk add --no-cache python3 make g++
+WORKDIR /app
+COPY package*.json .
+RUN npm ci
 COPY . .
-COPY package.json package.json
-#RUN apk --no-cache add --virtual builds-deps build-base python
-RUN npm i
-RUN npm install vite@latest
-EXPOSE 8080
-#RUN npm run build
-#RUN npm install express
+RUN npm run build
 
-CMD ["npm", "run", "preview"] 
-#"--host", "0.0.0.0", "--port", "8080"
+FROM nginx:1.25-alpine
 
+COPY nginx/static.conf /etc/nginx/conf.d/default.conf
 
-#export default defineConfig({
-#  base: "/",
-#  plugins: [react()],
-#  preview: {
-#    port: 8080,
-#    strictPort: true,
-#  },
-#  server: {
-#    port: 8080,
-#    strictPort: true,
-#    host: true,
-#    origin: "http://0.0.0.0:8080",
-#  },
-#})
+RUN rm -rf /usr/share/nginx/html/*
 
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+RUN chmod -R 755 /usr/share/nginx/html
