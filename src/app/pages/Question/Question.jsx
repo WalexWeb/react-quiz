@@ -156,7 +156,7 @@ function Question() {
           console.log("Получены данные:", data);
           console.log("Тип данных:", typeof data);
 
-          const timerDuration = 40;
+          const timerDuration = 10;
 
           if (isComponentMounted) {
             const isNewQuestion =
@@ -330,7 +330,7 @@ function Question() {
         onAnimationComplete={() => {
           console.log("Animation completed");
           if (pendingQuestion) {
-            const timerDuration = 40;
+            const timerDuration = 10;
             setNewSeconds(timerDuration);
             setChapter(pendingQuestion.section || "");
             setQuestion(pendingQuestion.content || "");
