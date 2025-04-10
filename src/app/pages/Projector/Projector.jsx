@@ -59,6 +59,16 @@ function Projector() {
     }
   }, [timer, question]);
 
+  useEffect(() => {
+    const timerDuration = localStorage.getItem("answerTimerSeconds");
+    if (timerDuration) {
+      const duration = parseInt(timerDuration, 10);
+      setNewSeconds(duration);
+    } else {
+      setNewSeconds(null); // Устанавливаем null, если значение отсутствует
+    }
+  }, []);
+
   // Функция для управления аудио таймера
   const handleTimerAudio = (second) => {
     if (!audioEnabled) {
@@ -131,17 +141,24 @@ function Projector() {
 
       websocket.onmessage = (event) => {
         try {
-          if (event.data === "clear_storage") {
-            localStorage.clear();
-            location.reload();
-            return;
-          }
-
           const data = JSON.parse(event.data);
           console.log("Получено WebSocket сообщение:", data);
-          if (data.type === "rating") {
+
+          if (data.type === "timer") {
+            console.log("Получено сообщение о таймере:", data);
+
+            // Устанавливаем значение таймера только если оно есть в data.timer
+            if (data.timer !== undefined) {
+              setNewSeconds(data.timer);
+            } else {
+              setNewSeconds(null); // Если таймер не передан, устанавливаем null
+            }
+
+            setTimer(true);
+          } else if (data.type === "rating") {
             navigate("/rating", { state: { data: data } });
           } else if (data.type === "question") {
+            localStorage.removeItem("answerTimerSeconds");
             if (data.content !== prevQuestionRef.current) {
               setShowWheel(true);
               prevQuestionRef.current = data.content; // Сохраняем текущий вопрос
@@ -164,22 +181,6 @@ function Projector() {
             }
           } else if (data.type === "screen") {
             navigate("/screen");
-          } else if (data.type === "timer") {
-            // Обработка сообщения о запуске таймера
-            console.log("Получено сообщение о таймере:", data);
-            
-            // Получаем длительность таймера из localStorage
-            const timerDuration = localStorage.getItem("answerTimerSeconds");
-            console.log("Длительность таймера из localStorage:", timerDuration);
-            
-            if (timerDuration) {
-              const duration = parseInt(timerDuration, 10);
-              setNewSeconds(duration);
-            } else {
-              setNewSeconds(40);
-            }
-            
-            setTimer(true);
           }
         } catch (error) {
           console.error("Error parsing WebSocket message:", error);
@@ -263,7 +264,7 @@ function Projector() {
               {timer && (
                 <AnswerTimer
                   time={extractTime}
-                  duration={newSeconds || 40}
+                  duration={newSeconds}
                   onTimeUp={handleTimeUp}
                   question={question}
                 />
