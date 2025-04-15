@@ -1,16 +1,20 @@
 .timer {
-   display: flex;
-   align-items: center;
-   width: 45vw;
+  display: flex;
+  align-items: center;
+  width: 45vw;
 
-   .progress {
-     background: var(--gradient);
-     border-radius: 18px;
-     margin-left: 0.5rem;
-     height: 1.1rem;
-     inset: 0;
-     width: 100%;
-     transition-duration: 1s;
-     transition-timing-function: linear;
-   }
- }
+  .seconds {
+    font-size: 2.5rem;
+  }
+
+  .progress {
+    background: var(--gradient);
+    border-radius: 18px;
+    margin-left: 0.5rem;
+    height: 1.1rem;
+    inset: 0;
+    width: 100%;
+    transition-duration: 1s;
+    transition-timing-function: linear;
+  }
+}

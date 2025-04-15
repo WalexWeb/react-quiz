@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 
 function AnswerTimer({ duration, onTimeUp, time, question }) {
   const [seconds, setSeconds] = useState(() => {
-    const storedSeconds = localStorage.getItem('answerTimerSeconds');
+    const storedSeconds = localStorage.getItem("answerTimerSeconds");
     return storedSeconds ? parseInt(storedSeconds, 10) : duration;
   });
   const [progressLoaded, setProgressLoaded] = useState(0);
@@ -14,7 +14,7 @@ function AnswerTimer({ duration, onTimeUp, time, question }) {
   useEffect(() => {
     if (prevQuestionRef.current !== question && question) {
       setSeconds(duration);
-      localStorage.setItem('answerTimerSeconds', duration.toString());
+      localStorage.setItem("answerTimerSeconds", duration.toString());
       prevQuestionRef.current = question;
     }
   }, [question, duration]);
@@ -25,7 +25,7 @@ function AnswerTimer({ duration, onTimeUp, time, question }) {
       intervalRef.current = setInterval(() => {
         setSeconds((prevSeconds) => {
           const newSeconds = prevSeconds - 1;
-          localStorage.setItem('answerTimerSeconds', newSeconds.toString());
+          localStorage.setItem("answerTimerSeconds", newSeconds.toString());
           return newSeconds;
         });
       }, 1000);
@@ -43,7 +43,7 @@ function AnswerTimer({ duration, onTimeUp, time, question }) {
 
     if (seconds <= 0) {
       clearInterval(intervalRef.current);
-      localStorage.setItem('answerTimerSeconds', '0');
+      localStorage.setItem("answerTimerSeconds", "0");
       setTimeout(() => {
         onTimeUp();
       }, 1000);
@@ -52,7 +52,7 @@ function AnswerTimer({ duration, onTimeUp, time, question }) {
 
   return (
     <div className={styles.timer}>
-      <p>{seconds}</p>
+      <p className={styles.seconds}>{seconds}</p>
       <div
         style={{ width: `${progressLoaded}%` }}
         className={styles.progress}
