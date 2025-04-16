@@ -34,10 +34,10 @@ function TeamsAnswers({ question }) {
     <div className={styles.example}>
       <table className={styles.rating}>
         <thead>
-          <tr>
+          {/* <tr>
             <th>Команда</th>
             <th>Ответ</th>
-          </tr>
+          </tr> */}
         </thead>
         <tbody>
           {formattedAnswers.map((answer, index) => (

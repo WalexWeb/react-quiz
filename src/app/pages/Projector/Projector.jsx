@@ -112,7 +112,6 @@ function Projector() {
           }
 
           const data = JSON.parse(event.data);
-          console.log(data);
           if (data.type === "rating") {
             navigate("/rating", { state: { data: data } });
           } else if (data.type === "question") {
@@ -133,8 +132,11 @@ function Projector() {
                 setNewSeconds(data.seconds);
               }
               if (data.show_answer !== undefined) {
-              }
+              
               setShowAnswer(data.show_answer);
+
+
+              }
             }
           } else if (data.type === "screen") {
             navigate("/screen");
@@ -169,14 +171,15 @@ function Projector() {
     };
   }, [connectWebSocket]);
 
-  const handleTimeUp = () => {};
+  const handleTimeUp = () => {
+    setTimer(null)
+  };
 
   const extractTime = (second) => {
     setSeconds(second);
     handleTimerAudio(second);
   };
 
-  console.log(correctAnswer);
 
   return (
     <div className={styles.window}>

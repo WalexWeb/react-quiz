@@ -8,35 +8,37 @@
   text-align: center;
   font-family: "Inter", sans-serif;
   
-  th {
-    padding: 1rem;
-    background-color: rgb(226, 60, 71);
-    color: white;
-    font-size: 2.7rem;
-    font-weight: 600;
-  }
+  // th {
+  //   padding: 1rem;
+  //   background-color: rgb(226, 60, 71);
+  //   color: white;
+  //   font-size: 1.8rem;
+  //   font-weight: 600;
+  // }
   
-  tbody {
-    tr {
-      color: #1c1c1c;
-      &:last-child {
-        td {
-          &:first-child {
-            border-bottom-left-radius: 1rem;
-          }
+  // tbody {
+  //   tr {
+  //     color: #1c1c1c;
+  //     &:last-child {
+  //       td {
+  //         &:first-child {
+  //           border-bottom-left-radius: 1rem;
+  //         }
           
-          &:last-child {
-            border-bottom-right-radius: 1rem;
-          }
-        }
-      }
+  //         &:last-child {
+  //           border-bottom-right-radius: 1rem;
+  //         }
+  //       }
+  //     }
       
       td {
-        padding: 0.75rem;
-        font-size: 2.5rem;
+        padding: .5rem;
+        font-size: 2.38rem;
+        color: gray;
+       font-weight: bolder;
         border-bottom: 1px solid rgba(0, 0, 0, 0.195);
         text-align: center;
       }
     }
-  }
-}
+//   }
+// }
