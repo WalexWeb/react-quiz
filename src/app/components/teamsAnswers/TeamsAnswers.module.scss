@@ -1,5 +1,6 @@
 .rating {
-  width: 100%;
+  width: 66vw;
+  height: 80vh;
   border-collapse: collapse;
   border-radius: 1rem;
   backdrop-filter: blur(10px);
@@ -32,9 +33,9 @@
   //     }
       
       td {
-        padding: .5rem;
-        font-size: 2.38rem;
-        color: gray;
+        padding: .3rem;
+        font-size: 2.8rem;
+        color: rgb(104, 104, 104);
        font-weight: bolder;
         border-bottom: 1px solid rgba(0, 0, 0, 0.195);
         text-align: center;

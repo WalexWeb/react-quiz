@@ -64,14 +64,14 @@ function Question() {
     }
   }, []);
 
-  // Добавим логирование при инициализации
-  useEffect(() => {
-    console.log("Initial showWheel:", localStorage.getItem("showWheel"));
-    console.log(
-      "Initial pendingQuestion:",
-      localStorage.getItem("pendingQuestion")
-    );
-  }, []);
+  // // Добавим логирование при инициализации
+  // useEffect(() => {
+  //   console.log("Initial showWheel:", localStorage.getItem("showWheel"));
+  //   console.log(
+  //     "Initial pendingQuestion:",
+  //     localStorage.getItem("pendingQuestion")
+  //   );
+  // }, []);
 
   // Добавим очистку при размонтировании компонента
   useEffect(() => {
@@ -103,13 +103,11 @@ function Question() {
       ws = new WebSocket(getWebSocketUrl("/ws/player"));
 
       ws.onopen = () => {
-        console.log("WebSocket соединение установлено");
         setWsConnected(true);
         isReconnecting = false;
 
         if (!hasSetName) {
           if (playerName) {
-            console.log("Отправка имени игрока:", playerName);
             setTimeout(() => {
               if (ws.readyState === WebSocket.OPEN) {
                 ws.send(
@@ -153,8 +151,6 @@ function Question() {
           }
 
           const data = JSON.parse(event.data);
-          console.log("Получены данные:", data);
-          console.log("Тип данных:", typeof data);
 
           const timerDuration = 40;
 
@@ -198,7 +194,6 @@ function Question() {
             localStorage.setItem("question", data.content || "");
 
             if (data.timer === false && data.answer !== null) {
-              console.log("Устанавливаем новое колесо");
               setPendingQuestion(data);
               setShowWheel(true);
               localStorage.setItem("pendingQuestion", JSON.stringify(data));
@@ -320,7 +315,6 @@ function Question() {
   return (
     <div className={styles.window}>
       <title>Викторина</title>
-      {console.log("Rendering with showWheel:", showWheel)}
       {!wsConnected && (
         <div className={styles.connectionStatus}>Подключение к серверу...</div>
       )}
@@ -328,7 +322,6 @@ function Question() {
         key="question-wheel"
         isVisible={showWheel}
         onAnimationComplete={() => {
-          console.log("Animation completed");
           if (pendingQuestion) {
             const timerDuration = 40;
             setNewSeconds(timerDuration);

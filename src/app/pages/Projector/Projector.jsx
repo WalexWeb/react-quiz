@@ -132,10 +132,7 @@ function Projector() {
                 setNewSeconds(data.seconds);
               }
               if (data.show_answer !== undefined) {
-              
-              setShowAnswer(data.show_answer);
-
-
+                setShowAnswer(data.show_answer);
               }
             }
           } else if (data.type === "screen") {
@@ -172,14 +169,13 @@ function Projector() {
   }, [connectWebSocket]);
 
   const handleTimeUp = () => {
-    setTimer(null)
+    setTimer(null);
   };
 
   const extractTime = (second) => {
     setSeconds(second);
     handleTimerAudio(second);
   };
-
 
   return (
     <div className={styles.window}>
@@ -232,6 +228,7 @@ function Projector() {
           </div>
           {showAnswer && (
             <div className={styles.correctAnswer}>
+              <div className={styles.answer}>{correctAnswer}</div>
               <div className={styles.answerImageContainer}>
                 <img
                   src={answerImage}
@@ -242,10 +239,12 @@ function Projector() {
                     e.target.style.display = "none";
                   }}
                 />
-              </div>
-              <div className={styles.correctAnswer__header}>
-                <div className={styles.answer}>{correctAnswer}</div>
-                <TeamsAnswers className={styles.answers} question={question} />
+                <div className={styles.correctAnswer__header}>
+                  <TeamsAnswers
+                    className={styles.answers}
+                    question={question}
+                  />
+                </div>
               </div>
             </div>
           )}
