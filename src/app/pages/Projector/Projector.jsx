@@ -1,7 +1,7 @@
 import styles from "./Projector.module.scss";
 import AnswerTimer from "../../components/answerTimer/AnswerTimer";
 import QuestionWheel from "../QuestionWheel/QuestionWheel";
-import { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import TeamsAnswers from "../../components/teamsAnswers/TeamsAnswers";
 import { getWebSocketUrl } from "../../../api/websocketConfig";
@@ -61,7 +61,7 @@ function Projector() {
       return;
     }
 
-    if (second ===10 && mainAudioRef.current) {
+    if (second === 10 && mainAudioRef.current) {
       mainAudioRef.current.currentTime = 0;
       mainAudioRef.current.play();
     }
@@ -223,7 +223,16 @@ function Projector() {
               )}
             </div>
             {!showAnswer && (
-              <p className={styles.question}>{question || "Ожидайте вопрос"}</p>
+              <p className={styles.question}>
+                {question
+                  ? question.split(/\r?\n|\u000A/g).map((line, index) => (
+                      <React.Fragment key={index}>
+                        {line}
+                        <br />
+                      </React.Fragment>
+                    ))
+                  : "Ожидайте вопрос"}
+              </p>
             )}
           </div>
           {showAnswer && (
