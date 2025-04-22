@@ -40,14 +40,21 @@ function Admin() {
       method: "POST",
     });
   }
-  function startTimer() {
-    fetch(`${BASE_URL}/start_timer`, {
+  function startTimerTenSeconds() {
+    fetch(`${BASE_URL}/start_timer_10`, {
+      method: "POST",
+    });
+  }
+  function startTimerFourteenSeconds() {
+    fetch(`${BASE_URL}/start_timer_40`, {
       method: "POST",
     });
   }
 
-  function showScreenSaver() {
-    fetch("", { method: "POST" });
+  function stopTimer() {
+    fetch(`${BASE_URL}/stop_timer`, {
+      method: "POST",
+    });
   }
 
   return (
@@ -99,7 +106,20 @@ function Admin() {
       {/* Таймер */}
       <div className={styles.timer}>
         <h1>Настройки таймера</h1>
-        <Button onClick={startTimer}>Запуск таймера</Button>
+        <m.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 1 }}
+          className={styles.next}
+          onClick={startTimerFourteenSeconds}
+        >
+          Запуск таймера на 40 секунд
+        </m.button>
+        <Button onClick={startTimerTenSeconds}>
+          Запуск таймера на 10 секунд
+        </Button>
+        <Button onClick={stopTimer}>
+          ОСТАНОВИТЬ ТАЙМЕР
+                  </Button>
         <div className={styles.time}></div>
       </div>
     </div>
