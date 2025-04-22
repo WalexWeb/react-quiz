@@ -152,7 +152,7 @@ function Question() {
 
           const data = JSON.parse(event.data);
 
-          const timerDuration = 40;
+          const timerDuration = 10;
 
           if (isComponentMounted) {
             const isNewQuestion =
@@ -323,7 +323,7 @@ function Question() {
         isVisible={showWheel}
         onAnimationComplete={() => {
           if (pendingQuestion) {
-            const timerDuration = 40;
+            const timerDuration = 10;
             setNewSeconds(timerDuration);
             setChapter(pendingQuestion.section || "");
             setQuestion(pendingQuestion.content || "");
