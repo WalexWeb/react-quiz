@@ -207,9 +207,8 @@ function Projector() {
             navigate("/rating", { state: { data: data } });
           } else if (data.type === "question") {
             if (data.content !== prevQuestionRef.current) {
-              setAnswerImage(""); // <-- Очистка answerImage при смене вопроса
               setShowWheel(true);
-              prevQuestionRef.current = data.content;
+              prevQuestionRef.current = data.content; // Сохраняем текущий вопрос
               setPendingQuestion(data);
             } else {
               // Если условия не выполняются, просто обновляем данные без анимации
@@ -272,8 +271,6 @@ function Projector() {
     setSeconds(second);
     handleTimerUpdate(second);
   };
-
-console.log(answerImage)
 
   return (
     <div className={styles.window}>
@@ -338,7 +335,7 @@ console.log(answerImage)
               <div className={styles.answer}>{correctAnswer}</div>
               <div className={styles.answerImageContainer}>
                 <img
-                  src="../../../../1_18_answer.jpg"
+                  src={answerImage}
                   className={styles.image}
                   alt="Изображение к вопросу"
                   onError={(e) => {
