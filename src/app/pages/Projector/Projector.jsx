@@ -10,7 +10,7 @@ const useAudioPlayer = () => {
   const audioRefs = {
     main: useRef(null),
     timer40: useRef(null),
-    timer10: useRef(null)
+    timer10: useRef(null),
   };
 
   useEffect(() => {
@@ -20,13 +20,13 @@ const useAudioPlayer = () => {
     audioRefs.timer10.current = new Audio("/timer_10.mp3");
 
     // Установка громкости
-    Object.values(audioRefs).forEach(ref => {
+    Object.values(audioRefs).forEach((ref) => {
       if (ref.current) ref.current.volume = 0.5;
     });
 
     return () => {
       // Очистка
-      Object.values(audioRefs).forEach(ref => {
+      Object.values(audioRefs).forEach((ref) => {
         if (ref.current) {
           ref.current.pause();
           ref.current = null;
@@ -48,7 +48,7 @@ const useAudioPlayer = () => {
 
     // Воспроизводим выбранное аудио
     audio.currentTime = 0;
-    audio.play().catch(e => console.error(`Error playing ${type} audio:`, e));
+    audio.play().catch((e) => console.error(`Error playing ${type} audio:`, e));
   };
 
   return { playAudio };
@@ -56,16 +56,17 @@ const useAudioPlayer = () => {
 
 function Projector() {
   const [seconds, setSeconds] = useState(0);
-  const [timerSeconds, setTimerSeconds] = useState('')
+  const [timerSeconds, setTimerSeconds] = useState("");
   const [newSeconds, setNewSeconds] = useState(null);
   const navigate = useNavigate();
   const timer40AudioRef = useRef(null); // Audio for 40 seconds
-  const timer10AudioRef = useRef(null); // Audio for 10 seconds    
+  const timer10AudioRef = useRef(null); // Audio for 10 seconds
   const [playedAudios, setPlayedAudios] = useState({
     timer40: false,
     timer10: false,
-    main: false
-  });  const [question, setQuestion] = useState("");
+    main: false,
+  });
+  const [question, setQuestion] = useState("");
   const [chapter, setChapter] = useState("");
   const [timer, setTimer] = useState(null);
   const [showAnswer, setShowAnswer] = useState(null);
@@ -86,13 +87,13 @@ function Projector() {
   useEffect(() => {
     mainAudioRef.current = new Audio("/timer.mp3");
     mainAudioRef.current.volume = 0.5;
-    
+
     timer40AudioRef.current = new Audio("/timer.mp3"); // Audio for 40 seconds
     timer40AudioRef.current.volume = 0.5;
-    
+
     timer10AudioRef.current = new Audio("/timer_10.mp3"); // Audio for 10 seconds
     timer10AudioRef.current.volume = 0.5;
-  
+
     return () => {
       if (mainAudioRef.current) {
         mainAudioRef.current.pause();
@@ -126,16 +127,25 @@ function Projector() {
   // Обработчик таймера
   const handleTimerUpdate = (currentSecond) => {
     // Проверяем, нужно ли воспроизводить звук
-    if (timerSeconds === 40 && currentSecond === 40 && lastTriggeredSecond !== 40) {
-      playAudio('timer40');
+    if (
+      timerSeconds === 40 &&
+      currentSecond === 40 &&
+      lastTriggeredSecond !== 40
+    ) {
+      playAudio("timer40");
       setLastTriggeredSecond(40);
-    } 
-    else if (timerSeconds === 10 && currentSecond === 10 && lastTriggeredSecond !== 10) {
-      playAudio('timer10');
+    } else if (
+      timerSeconds === 10 &&
+      currentSecond === 10 &&
+      lastTriggeredSecond !== 10
+    ) {
+      playAudio("timer10");
       setLastTriggeredSecond(10);
-    }
-    else if (currentSecond === timerSeconds && lastTriggeredSecond !== currentSecond) {
-      playAudio('main');
+    } else if (
+      currentSecond === timerSeconds &&
+      lastTriggeredSecond !== currentSecond
+    ) {
+      playAudio("main");
       setLastTriggeredSecond(currentSecond);
     }
 
@@ -197,9 +207,9 @@ function Projector() {
             navigate("/rating", { state: { data: data } });
           } else if (data.type === "question") {
             if (data.content !== prevQuestionRef.current) {
+              setAnswerImage(""); // <-- Очистка answerImage при смене вопроса
               setShowWheel(true);
-              prevQuestionRef.current = data.content; // Сохраняем текущий вопрос
-
+              prevQuestionRef.current = data.content;
               setPendingQuestion(data);
             } else {
               // Если условия не выполняются, просто обновляем данные без анимации
@@ -262,6 +272,8 @@ function Projector() {
     setSeconds(second);
     handleTimerUpdate(second);
   };
+
+console.log(answerImage)
 
   return (
     <div className={styles.window}>
@@ -326,7 +338,7 @@ function Projector() {
               <div className={styles.answer}>{correctAnswer}</div>
               <div className={styles.answerImageContainer}>
                 <img
-                  src={answerImage}
+                  src="../../../../1_18_answer.jpg"
                   className={styles.image}
                   alt="Изображение к вопросу"
                   onError={(e) => {
