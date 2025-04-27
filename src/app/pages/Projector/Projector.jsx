@@ -59,8 +59,8 @@ function Projector() {
   const [timerSeconds, setTimerSeconds] = useState("");
   const [newSeconds, setNewSeconds] = useState(null);
   const navigate = useNavigate();
-  const timer40AudioRef = useRef(null); // Audio for 40 seconds
-  const timer10AudioRef = useRef(null); // Audio for 10 seconds
+  const timer40AudioRef = useRef(null);
+  const timer10AudioRef = useRef(null);
   const [playedAudios, setPlayedAudios] = useState({
     timer40: false,
     timer10: false,
@@ -374,4 +374,3 @@ function Projector() {
 }
 
 export default Projector;
- 
