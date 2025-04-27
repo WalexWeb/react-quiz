@@ -65,14 +65,14 @@ function Question() {
     }
   }, []);
 
-  // // Добавим логирование при инициализации
-  // useEffect(() => {
-  //   console.log("Initial showWheel:", localStorage.getItem("showWheel"));
-  //   console.log(
-  //     "Initial pendingQuestion:",
-  //     localStorage.getItem("pendingQuestion")
-  //   );
-  // }, []);
+  // Добавим логирование при инициализации
+  useEffect(() => {
+    console.log("Initial showWheel:", localStorage.getItem("showWheel"));
+    console.log(
+      "Initial pendingQuestion:",
+      localStorage.getItem("pendingQuestion")
+    );
+  }, []);
 
   // Добавим очистку при размонтировании компонента
   useEffect(() => {

@@ -3,7 +3,7 @@ import Button from "../../components/button/Button";
 import { useState } from "react";
 import { m } from "framer-motion";
 
-const BASE_URL = "http://80.253.19.93:8000/api/v2/websocket/admin";
+const BASE_URL = "http://10.10.0.88:8000/api/v2/websocket/admin";
 
 function Admin() {
   const [count, setCount] = useState(0);
