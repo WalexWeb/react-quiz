@@ -61,7 +61,7 @@ function Projector() {
       return;
     }
 
-    if (second === 10 && mainAudioRef.current) {
+    if (second === 40 && mainAudioRef.current) {
       mainAudioRef.current.currentTime = 0;
       mainAudioRef.current.play();
     }
