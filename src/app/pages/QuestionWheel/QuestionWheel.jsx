@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./QuestionWheel.module.scss";
 import { useEffect, useRef, useState } from "react";
-import { instance } from "../../../api/instance";
+import instance from "../../../api/instance";
 
 const truncateText = (text, maxWords = 8) => {
   const words = text.split(" ");
@@ -19,21 +19,21 @@ const QuestionWheel = ({
   const [showAudioPrompt, setShowAudioPrompt] = useState(true);
   const [questions, setQuestions] = useState([]);
 
-  // Загрузка вопросов из API
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await instance.get("/question");
-        const data = response.data;
-        const questionTexts = data.slice(0, 20).map((item) => item.question);
-        setQuestions(questionTexts);
-      } catch (error) {
-        console.error("Ошибка при загрузке вопросов:", error);
+        const res = await instance.get("/question");
+        const fetchedQuestions = res.data.map((item) => item.question);
+        setQuestions(fetchedQuestions);
+      } catch (err) {
+        console.error("Ошибка загрузки вопросов:", err);
       }
     };
 
     fetchQuestions();
   }, []);
+
+  const extendedQuestions = [...questions, ...questions, ...questions];
 
   useEffect(() => {
     audioRef.current = new Audio("/wheel.mp3");
@@ -61,6 +61,7 @@ const QuestionWheel = ({
 
   useEffect(() => {
     if (isVisible && audioRef.current && audioEnabled) {
+      console.log("Attempting to play sound...");
       try {
         audioRef.current.currentTime = 0;
         const playPromise = audioRef.current.play();
@@ -87,8 +88,6 @@ const QuestionWheel = ({
       }
     };
   }, [isVisible, audioEnabled]);
-
-  const extendedQuestions = [...questions, ...questions, ...questions];
 
   const modalVariants = {
     hidden: {
