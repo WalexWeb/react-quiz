@@ -28,7 +28,6 @@ function App() {
         <Route path="/rating" element={<Rating />} />
         <Route path="/answers" element={<Answers />}/>
         <Route path="/question-wheel" element={<QuestionWheel onChange={handleQuestion} />} />
-        <Route path='/screen' element={<ScreenSaver/>}/>
       </Routes>
     </div>
   );
