@@ -14,7 +14,7 @@ function Login() {
     setLoginPassword,
     handleLogin,
     isLoading,
-  } = useAuth(); // Используем хук
+  } = useAuth();
 
   return (
     <div className={styles.window}>

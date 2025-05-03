@@ -4,16 +4,16 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { instance } from "../../../api/instance";
+import { getWebSocketUrl } from "../../../api/websocketConfig";
 
 function Answers() {
-  const [questionId, setQuestionId] = useState(null);
+  const questionId = useRef(null);
   const [question, setQuestion] = useState("");
   const [correctAnswer, setCorrectAnswer] = useState("");
   const wsRef = useRef(null);
   const reconnectTimeoutRef = useRef(null);
   const isConnecting = useRef(false);
 
-  // Получение правильного ответа
   const { data: questionData } = useQuery(
     ["question", questionId],
     async () => {
@@ -31,7 +31,6 @@ function Answers() {
     }
   );
 
-  // Функция создания WebSocket соединения
   const createWebSocket = useCallback(() => {
     if (isConnecting.current) {
       return;
@@ -44,9 +43,7 @@ function Answers() {
 
     try {
       isConnecting.current = true;
-      const newWs = new WebSocket(
-        "ws://10.10.0.88:8000/api/v2/websocket/ws/spectator"
-      );
+      const newWs = new WebSocket(getWebSocketUrl("/ws/spectator"));
 
       newWs.onopen = () => {
         isConnecting.current = false;
@@ -56,7 +53,7 @@ function Answers() {
       newWs.onclose = () => {
         wsRef.current = null;
         isConnecting.current = false;
-        
+
         reconnectTimeoutRef.current = setTimeout(() => {
           createWebSocket();
         }, 3000);
@@ -73,11 +70,9 @@ function Answers() {
           const data = JSON.parse(event.data);
 
           if (data.type === "question") {
-            // Получаем данные из сообщения
             const content = data.content || data.text;
             const answer = data.answer;
 
-            // Обновляем состояние
             if (content) {
               setQuestion(content);
               localStorage.setItem("question", content);
@@ -87,7 +82,6 @@ function Answers() {
             }
           }
         } catch (error) {
-          // Если не удалось распарсить JSON, проверяем не текстовый ли это вопрос
           console.error("Error parsing WebSocket message:", error);
         }
       };
@@ -100,7 +94,7 @@ function Answers() {
     } catch (error) {
       console.error("Error creating WebSocket connection:", error);
       isConnecting.current = false;
-      
+
       reconnectTimeoutRef.current = setTimeout(() => {
         createWebSocket();
       }, 3000);

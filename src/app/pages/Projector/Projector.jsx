@@ -27,9 +27,8 @@ function Projector() {
   const [audioEnabled, setAudioEnabled] = useState(false);
   const [correctAnswer, setCorrectAnswer] = useState("");
 
-  // Инициализация аудио элементов
   useEffect(() => {
-    mainAudioRef.current = new Audio("/timer.mp3"); // Основная музыка таймера
+    mainAudioRef.current = new Audio("/timer.mp3");
     mainAudioRef.current.volume = 0.5;
 
     return () => {
@@ -47,7 +46,6 @@ function Projector() {
     }
   }, [timer, question]);
 
-  // Функция для управления аудио таймера
   const handleTimerAudio = (second) => {
     if (!audioEnabled) {
       try {
@@ -68,7 +66,6 @@ function Projector() {
   };
 
   const connectWebSocket = useCallback(() => {
-    // Если уже идет подключение, не создаем новое
     if (isConnecting.current) {
       return;
     }
@@ -117,11 +114,10 @@ function Projector() {
           } else if (data.type === "question") {
             if (data.content !== prevQuestionRef.current) {
               setShowWheel(true);
-              prevQuestionRef.current = data.content; // Сохраняем текущий вопрос
+              prevQuestionRef.current = data.content;
 
               setPendingQuestion(data);
             } else {
-              // Если условия не выполняются, просто обновляем данные без анимации
               setQuestion(data.content);
               setChapter(data.section);
               setCorrectAnswer(data.answer);
@@ -146,7 +142,6 @@ function Projector() {
       console.error("Error creating WebSocket connection:", error);
       isConnecting.current = false;
 
-      // Пытаемся переподключиться через 2 секунды
       reconnectTimeoutRef.current = setTimeout(() => {
         connectWebSocket();
       }, 2000);
@@ -156,7 +151,6 @@ function Projector() {
   useEffect(() => {
     connectWebSocket();
 
-    // Очистка при размонтировании
     return () => {
       if (reconnectTimeoutRef.current) {
         clearTimeout(reconnectTimeoutRef.current);
@@ -194,12 +188,12 @@ function Projector() {
             setShowAnswer(pendingQuestion.show_answer);
             setQuestionImage(
               pendingQuestion.question_image
-                ? `http://10.10.0.88:8000/static/images/${pendingQuestion.question_image}`
+                ? `http://0.0.0.0:8000/static/images/${pendingQuestion.question_image}`
                 : ""
             );
             setAnswerImage(
               pendingQuestion.answer_image
-                ? `http://10.10.0.88:8000/static/images/${pendingQuestion.answer_image}`
+                ? `http://0.0.0.0:8000/static/images/${pendingQuestion.answer_image}`
                 : ""
             );
             setPendingQuestion(null);
