@@ -7,7 +7,6 @@ import Admin from "../app/pages/Admin/Admin";
 import Rating from "../app/pages/Rating/Rating";
 import Answers from '../app/pages/Answers/Answers'
 import QuestionWheel from "../app/pages/QuestionWheel/QuestionWheel";
-import ScreenSaver from "./pages/ScreenSaver/ScreenSaver";
 import { useState } from "react";
 
 function App() {
