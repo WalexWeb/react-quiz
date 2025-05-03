@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./QuestionWheel.module.scss";
 import { useEffect, useRef, useState } from "react";
-import instance from "../../../api/instance";
+import { instance } from "../../../api/instance";
 
 const truncateText = (text, maxWords = 8) => {
   const words = text.split(" ");

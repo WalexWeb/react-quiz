@@ -10,7 +10,6 @@ function AnswerTimer({ duration, onTimeUp, time, question }) {
   const intervalRef = useRef();
   const prevQuestionRef = useRef(question);
 
-  // Эффект для сброса таймера при изменении вопроса
   useEffect(() => {
     if (prevQuestionRef.current !== question && question) {
       setSeconds(duration);
@@ -19,7 +18,6 @@ function AnswerTimer({ duration, onTimeUp, time, question }) {
     }
   }, [question, duration]);
 
-  // Основной таймер
   useEffect(() => {
     if (seconds > 0) {
       intervalRef.current = setInterval(() => {
@@ -34,9 +32,8 @@ function AnswerTimer({ duration, onTimeUp, time, question }) {
         clearInterval(intervalRef.current);
       };
     }
-  }, [seconds]); // Перезапускаем эффект когда таймер изменяется
+  }, [seconds]);
 
-  // Обновление прогресса и проверка окончания времени
   useEffect(() => {
     setProgressLoaded((100 / duration) * seconds);
     time(seconds);
