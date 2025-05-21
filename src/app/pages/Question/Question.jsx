@@ -10,7 +10,6 @@ import { useQuery } from "react-query";
 import useRegistrationStore from "../../store/useRegistrationStore";
 import { getWebSocketUrl } from "../../../api/websocketConfig";
 
-// Получение данных текущего пользователя
 const fetchUser = async () => {
   try {
     const data = await instance.get("/users/me");
@@ -41,17 +40,14 @@ function Question() {
   );
   const playerName = useRegistrationStore((state) => state.username);
 
-  // Передаем данные в переменную user
   const { data: user } = useQuery(["user"], fetchUser);
 
-  // Добавляем этот useEffect в начало компонента
   useEffect(() => {
     const savedTimer = localStorage.getItem("timer");
     const savedAnswerSubmitted = localStorage.getItem("answerSubmitted");
     const savedSeconds = localStorage.getItem("answerTimerSeconds");
     const savedQuestion = localStorage.getItem("question");
 
-    // Восстанавливаем все сохраненные состояния при монтировании
     if (savedTimer) {
       setTimer(savedTimer === "true");
     }
@@ -64,7 +60,6 @@ function Question() {
     }
   }, []);
 
-  // Добавим очистку при размонтировании компонента
   useEffect(() => {
     return () => {
       localStorage.removeItem("showWheel");
@@ -150,7 +145,6 @@ function Question() {
               data.content !== localStorage.getItem("question");
 
             if (isNewQuestion) {
-              // Сброс состояний только для нового вопроса
               localStorage.removeItem("showWheel");
               localStorage.removeItem("pendingQuestion");
               localStorage.setItem("answerSubmitted", "false");
@@ -165,7 +159,6 @@ function Question() {
               setNewSeconds(timerDuration);
               setSeconds(timerDuration);
             } else {
-              // Для существующего вопроса восстанавливаем сохраненное время
               const savedSeconds = localStorage.getItem("answerTimerSeconds");
               if (savedSeconds) {
                 setNewSeconds(parseInt(savedSeconds));
@@ -173,7 +166,6 @@ function Question() {
               }
             }
 
-            // Обновляем остальные данные
             setChapter(data.section || "");
             setQuestion(data.content || "");
             setTimer(data.timer);
@@ -213,14 +205,12 @@ function Question() {
     };
   }, []);
 
-  // Обновляем localStorage при изменении времени
   useEffect(() => {
     if (seconds !== null) {
       localStorage.setItem("answerTimerSeconds", seconds.toString());
     }
   }, [seconds]);
 
-  // Добавьте этот useEffect после остальных
   useEffect(() => {
     const savedTimer = localStorage.getItem("timer");
     const savedAnswerSubmitted = localStorage.getItem("answerSubmitted");
@@ -238,7 +228,6 @@ function Question() {
     }
   }, []);
 
-  // Отправка ответа
   async function sendAnswerData(e) {
     e.preventDefault();
     if (!answer.trim()) {
@@ -296,7 +285,6 @@ function Question() {
   }, [seconds, answerSubmitted, question, user]);
 
   const handleTimeUp = () => {
-    // Можно добавить дополнительную логику при истечении времени
   };
 
   const extractTime = (second) => {

@@ -5,7 +5,6 @@ export const instance = axios.create({
   withCredentials: false,
 });
 
-// Добавляем токен к каждому запросу
 instance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("accessToken");

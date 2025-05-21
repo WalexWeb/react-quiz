@@ -27,7 +27,6 @@ function TeamsAnswers({ question }) {
     id: a.id,
   }));
 
-  console.log(formattedAnswers);
   return (
     <div className={styles.example}>
       <table className={styles.rating}>

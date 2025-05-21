@@ -22,7 +22,6 @@ function Table() {
     username: u.username,
   }));
 
-  // Сортировка по убыванию количества баллов
   const scoreSortedUsers = formattedUsers
     ? [...formattedUsers].sort((a, b) => b.score - a.score)
     : [];
