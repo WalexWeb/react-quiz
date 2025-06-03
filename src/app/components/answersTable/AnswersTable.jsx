@@ -1,8 +1,8 @@
 import styles from "./AnswersTable.module.scss";
-import { useRef } from "react";
-import { useQuery } from "react-query";
-import { instance } from "../../../api/instance";
 import CorrectAnswerButton from "../correctAnswerButton/CorrectAnswerButton";
+import { useRef } from "react";
+import { instance } from "../../../api/instance";
+import { useQuery } from "react-query";
 import { ToastContainer } from "react-toastify";
 import {
   animate,
@@ -48,7 +48,6 @@ function AnswersTable({ question }) {
   const { scrollXProgress } = useScroll({ container: ref });
   const maskImage = useScrollOverflowMask(scrollXProgress);
 
-  // Получение всех ответов пользователей и времени ответа
   const fetchAnswers = async () => {
     try {
       const data = await instance.get(
@@ -64,15 +63,15 @@ function AnswersTable({ question }) {
     ["answers", question],
     fetchAnswers,
     {
-      refetchInterval: 5000, // Обновляем ответы каждые 5 секунд
-      retry: 8, // Повторные попытки при ошибках (8 раз)
+      refetchInterval: 5000,
+      retry: 8,
     }
   );
 
   if (isLoading) {
     return <h1>Загрузка...</h1>;
   }
-  // Форматируем
+
   const formattedAnswers = answers
     .map((a) => ({
       answer_at: a.answer_at,
@@ -81,7 +80,11 @@ function AnswersTable({ question }) {
       answer: a.answer,
       id: a.id,
     }))
-    .sort((a, b) => a.answer_at - b.answer_at); // Сортировка ответов по времени
+    .sort((a, b) => {
+      const [hA, mA, sA] = a.answer_at.split(":").map(Number);
+      const [hB, mB, sB] = b.answer_at.split(":").map(Number);
+      return hA * 3600 + mA * 60 + sA - (hB * 3600 + mB * 60 + sB);
+    });
 
   function handleClick(e) {
     e.preventDefault();

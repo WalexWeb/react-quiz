@@ -5,16 +5,16 @@ import { useState } from "react";
 
 function CorrectAnswerButton({ username, disabled }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [isSelected, setIsSelected] = useState(false); // Отслеживание выбранного ответа
+  const [isSelected, setIsSelected] = useState(false); 
 
   const handleClick = async () => {
     setIsLoading(true);
 
-    const points = isSelected ? -1 : 1; // Если уже добавлен балл, то убираем его
+    const points = isSelected ? -1 : 1;
     const success = await updatePoints(username, points);
 
     if (success) {
-      setIsSelected(!isSelected); // Переключаем состояние
+      setIsSelected(!isSelected); 
     }
 
     setIsLoading(false);

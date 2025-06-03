@@ -11,7 +11,6 @@ function Rating() {
   const isConnecting = useRef(false);
 
   useEffect(() => {
-    // Создаем WebSocket только если еще не создан и не в процессе создания
     if (!wsRef.current && !isConnecting.current) {
       isConnecting.current = true;
       wsRef.current = new WebSocket(getWebSocketUrl("/ws/spectator"));
@@ -19,7 +18,6 @@ function Rating() {
       wsRef.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.type === "question") {
-          // Закрываем соединение перед переходом
           if (wsRef.current) {
             wsRef.current.close();
             wsRef.current = null;

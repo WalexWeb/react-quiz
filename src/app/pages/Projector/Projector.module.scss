@@ -10,6 +10,7 @@
   width: 100vw;
   height: 100vh;
   padding: 1rem;
+  overflow: hidden;
 
   @media (max-width: 1024px) {
     padding: 0;
@@ -43,31 +44,36 @@
         max-width: 55vw;
         max-height: 70vh;
       }
+
+      .correctAnswer__header {
+        flex: 1;
+        max-width: 55%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        max-height: 100%;
+        font-family: "Helios";
+
+        .answers {
+          font-size: 2.5rem;
+          background: rgba(90, 210, 94, 0.724);
+          padding: 1rem;
+          margin-bottom: 1rem;
+          text-align: center;
+          border-radius: 0.5rem;
+        }
+      }
     }
 
-    .correctAnswer__header {
-      flex: 1;
-      max-width: 55%;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      max-height: 100%;
-      font-family: "Helios";
-
-      .answer {
-        font-size: 2.5rem;
-        background: rgba(90, 210, 94, 0.724);
-        padding: 1rem;
-        margin-bottom: 1rem;
-        text-align: center;
-        border-radius: 0.5rem;
-      }
-
-      .answers {
-        flex: 1;
-
-        max-height: 100%;
-      }
+    .answer {
+      font-family: "Inter", sans-serif;
+      font-size: 3.3rem;
+      font-weight: bolder;
+      width: 100vw;
+      background: rgba(74, 207, 30, 0.496);
+      padding: 0.2rem;
+      text-align: center;
+      border-radius: 0.5rem;
     }
   }
 
@@ -81,11 +87,11 @@
     }
 
     .chapter {
-      font-size: 3rem;
+      font-size: 4rem;
       color: var(--header-color);
 
       @media (max-width: 1024px) {
-        font-size: 3rem;
+        font-size: 4rem;
         margin-bottom: 0.5rem;
       }
 
@@ -100,8 +106,7 @@
     }
 
     .question {
-      font-size: 3rem;
-      margin-bottom: 1rem;
+      font-size: 2.5rem;
       width: 75vw;
       display: flex;
       justify-content: center;

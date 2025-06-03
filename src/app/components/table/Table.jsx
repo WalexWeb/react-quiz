@@ -2,7 +2,6 @@ import styles from "./Table.module.scss";
 import { useQuery } from "react-query";
 import { instance } from "../../../api/instance";
 
-// Получение списка пользователей
 const fetchUsers = async () => {
   try {
     const data = await instance.get("/users/");
@@ -18,13 +17,11 @@ function Table() {
     return <h1>Загрузка...</h1>;
   }
 
-  // Форматируем список пользователей
   const formattedUsers = users.map((u) => ({
     score: u.score,
     username: u.username,
   }));
 
-  // Сортировка по убыванию количества баллов
   const scoreSortedUsers = formattedUsers
     ? [...formattedUsers].sort((a, b) => b.score - a.score)
     : [];

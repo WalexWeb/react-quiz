@@ -10,7 +10,6 @@ import { useQuery } from "react-query";
 import useRegistrationStore from "../../store/useRegistrationStore";
 import { getWebSocketUrl } from "../../../api/websocketConfig";
 
-// Получение данных текущего пользователя
 const fetchUser = async () => {
   try {
     const data = await instance.get("/users/me");
@@ -41,17 +40,14 @@ function Question() {
   );
   const playerName = useRegistrationStore((state) => state.username);
 
-  // Передаем данные в переменную user
   const { data: user } = useQuery(["user"], fetchUser);
 
-  // Добавляем этот useEffect в начало компонента
   useEffect(() => {
     const savedTimer = localStorage.getItem("timer");
     const savedAnswerSubmitted = localStorage.getItem("answerSubmitted");
     const savedSeconds = localStorage.getItem("answerTimerSeconds");
     const savedQuestion = localStorage.getItem("question");
 
-    // Восстанавливаем все сохраненные состояния при монтировании
     if (savedTimer) {
       setTimer(savedTimer === "true");
     }
@@ -64,16 +60,6 @@ function Question() {
     }
   }, []);
 
-  // Добавим логирование при инициализации
-  useEffect(() => {
-    console.log("Initial showWheel:", localStorage.getItem("showWheel"));
-    console.log(
-      "Initial pendingQuestion:",
-      localStorage.getItem("pendingQuestion")
-    );
-  }, []);
-
-  // Добавим очистку при размонтировании компонента
   useEffect(() => {
     return () => {
       localStorage.removeItem("showWheel");
@@ -103,13 +89,11 @@ function Question() {
       ws = new WebSocket(getWebSocketUrl("/ws/player"));
 
       ws.onopen = () => {
-        console.log("WebSocket соединение установлено");
         setWsConnected(true);
         isReconnecting = false;
 
         if (!hasSetName) {
           if (playerName) {
-            console.log("Отправка имени игрока:", playerName);
             setTimeout(() => {
               if (ws.readyState === WebSocket.OPEN) {
                 ws.send(
@@ -153,8 +137,6 @@ function Question() {
           }
 
           const data = JSON.parse(event.data);
-          console.log("Получены данные:", data);
-          console.log("Тип данных:", typeof data);
 
           const timerDuration = 40;
 
@@ -163,7 +145,6 @@ function Question() {
               data.content !== localStorage.getItem("question");
 
             if (isNewQuestion) {
-              // Сброс состояний только для нового вопроса
               localStorage.removeItem("showWheel");
               localStorage.removeItem("pendingQuestion");
               localStorage.setItem("answerSubmitted", "false");
@@ -178,7 +159,6 @@ function Question() {
               setNewSeconds(timerDuration);
               setSeconds(timerDuration);
             } else {
-              // Для существующего вопроса восстанавливаем сохраненное время
               const savedSeconds = localStorage.getItem("answerTimerSeconds");
               if (savedSeconds) {
                 setNewSeconds(parseInt(savedSeconds));
@@ -186,7 +166,6 @@ function Question() {
               }
             }
 
-            // Обновляем остальные данные
             setChapter(data.section || "");
             setQuestion(data.content || "");
             setTimer(data.timer);
@@ -198,7 +177,6 @@ function Question() {
             localStorage.setItem("question", data.content || "");
 
             if (data.timer === false && data.answer !== null) {
-              console.log("Устанавливаем новое колесо");
               setPendingQuestion(data);
               setShowWheel(true);
               localStorage.setItem("pendingQuestion", JSON.stringify(data));
@@ -227,14 +205,12 @@ function Question() {
     };
   }, []);
 
-  // Обновляем localStorage при изменении времени
   useEffect(() => {
     if (seconds !== null) {
       localStorage.setItem("answerTimerSeconds", seconds.toString());
     }
   }, [seconds]);
 
-  // Добавьте этот useEffect после остальных
   useEffect(() => {
     const savedTimer = localStorage.getItem("timer");
     const savedAnswerSubmitted = localStorage.getItem("answerSubmitted");
@@ -252,7 +228,6 @@ function Question() {
     }
   }, []);
 
-  // Отправка ответа
   async function sendAnswerData(e) {
     e.preventDefault();
     if (!answer.trim()) {
@@ -310,7 +285,6 @@ function Question() {
   }, [seconds, answerSubmitted, question, user]);
 
   const handleTimeUp = () => {
-    // Можно добавить дополнительную логику при истечении времени
   };
 
   const extractTime = (second) => {
@@ -320,7 +294,6 @@ function Question() {
   return (
     <div className={styles.window}>
       <title>Викторина</title>
-      {console.log("Rendering with showWheel:", showWheel)}
       {!wsConnected && (
         <div className={styles.connectionStatus}>Подключение к серверу...</div>
       )}
@@ -328,7 +301,6 @@ function Question() {
         key="question-wheel"
         isVisible={showWheel}
         onAnimationComplete={() => {
-          console.log("Animation completed");
           if (pendingQuestion) {
             const timerDuration = 40;
             setNewSeconds(timerDuration);

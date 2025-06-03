@@ -4,7 +4,6 @@ import { instance } from "../../../api/instance";
 import { ToastContainer } from "react-toastify";
 
 function TeamsAnswers({ question }) {
-  // Получение всех ответов пользователей и времени ответа
   const fetchAnswers = async () => {
     try {
       const data = await instance.get(
@@ -20,7 +19,6 @@ function TeamsAnswers({ question }) {
     return <h1>Загрузка...</h1>;
   }
 
-  // Форматируем
   const formattedAnswers = answers.map((a) => ({
     answer_at: a.answer_at,
     question: a.question,
@@ -29,15 +27,10 @@ function TeamsAnswers({ question }) {
     id: a.id,
   }));
 
-  console.log(formattedAnswers);
   return (
     <div className={styles.example}>
       <table className={styles.rating}>
         <thead>
-          <tr>
-            <th>Команда</th>
-            <th>Ответ</th>
-          </tr>
         </thead>
         <tbody>
           {formattedAnswers.map((answer, index) => (

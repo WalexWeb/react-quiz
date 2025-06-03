@@ -40,14 +40,13 @@ function Registration() {
     return true;
   };
 
-  // Отправка данных из формы в БД
   async function sendRegistrationData(e) {
     e.preventDefault();
 
     if (!validateForm()) return;
 
     setIsLoading(true);
-    
+
     try {
       const response = await instance.post(
         `/users/registration?username=${encodeURIComponent(
@@ -55,24 +54,21 @@ function Registration() {
         )}&password=${encodeURIComponent(password)}`
       );
 
-      // Сохраняем токены в localStorage
       const { access_token, refresh_token } = response.data.user;
       console.log(response.data.user);
       localStorage.setItem("accessToken", access_token);
       localStorage.setItem("refreshToken", refresh_token);
 
-      // Добавляем флаг, что регистрация завершена
       localStorage.setItem("registrationComplete", "true");
 
       toast.success(
         "Регистрация успешна! Перенаправляем на страницу вопроса..."
       );
 
-      // Увеличиваем задержку перед редиректом
       setTimeout(() => {
-        localStorage.removeItem("registrationComplete"); // Очищаем флаг
+        localStorage.removeItem("registrationComplete");
         navigate("/question");
-      }, 3500); // Увеличиваем время до редиректа
+      }, 3500); 
     } catch (error) {
       const errorMessage =
         error.response?.data?.detail || "Ошибка при регистрации";

@@ -1,29 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./QuestionWheel.module.scss";
 import { useEffect, useRef, useState } from "react";
-
-const questions = [
-  "Подвигу защитникам какой крепости посвящена картина «Бессмертие»?",
-  "Назовите имя поэтессы блокадного Ленинграда, автора «Никто не забыт...»",
-  "Как называлась первая советская кинокартина, получившая «Оскар»?",
-  "В каком прифронтовом городе написана песня «Прощай, любимый город»?",
-  "Как назывался коллектив художников, создавший плакат о внуках Суворова?",
-  "Какое оружие получило прозвище «папаша»?",
-  "Как бойцы называли 45-мм противотанковую пушку?",
-  "Какое противотанковое изобретение представляло собой шестиконечную фигуру?",
-  "Какой самолет называли «летающим танком»?",
-  "Какой танк изображен на советской медали «За отвагу»?",
-  "Как называется поэма Твардовского о переправе?",
-  "Как называется песня 1943 года из фильма «Два бойца»?",
-  "Какому событию посвящена карикатура «Потеряла я колечко»?",
-  "Обороне какого города посвящена картина Дейнеки 1942 года?",
-  "Как называется картина Сергея Герасимова 1943 года?",
-  "Какой грузовик называли «Захар Иванович»?",
-  "Какой истребитель впервые участвовал в боях при Сталинграде?",
-  "Какая САУ удивила немцев на Курской дуге?",
-  "Как называлось оружие на базе ППШ из блокадного Ленинграда?",
-  "Что означает ИС в названии советского тяжёлого танка?",
-];
+import { instance } from "../../../api/instance";
 
 const truncateText = (text, maxWords = 8) => {
   const words = text.split(" ");
@@ -39,9 +17,25 @@ const QuestionWheel = ({
   const audioRef = useRef(null);
   const [audioEnabled, setAudioEnabled] = useState(false);
   const [showAudioPrompt, setShowAudioPrompt] = useState(true);
+  const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
-    // Создаем аудио элемент при монтировании компонента
+    const fetchQuestions = async () => {
+      try {
+        const res = await instance.get("/question");
+        const fetchedQuestions = res.data.map((item) => item.question);
+        setQuestions(fetchedQuestions);
+      } catch (err) {
+        console.error("Ошибка загрузки вопросов:", err);
+      }
+    };
+
+    fetchQuestions();
+  }, []);
+
+  const extendedQuestions = [...questions, ...questions, ...questions];
+
+  useEffect(() => {
     audioRef.current = new Audio("/wheel.mp3");
     audioRef.current.volume = 0.5;
 
@@ -55,7 +49,6 @@ const QuestionWheel = ({
 
   const enableAudio = async () => {
     try {
-      // Пробуем воспроизвести и сразу поставить на паузу
       await audioRef.current.play();
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
@@ -80,7 +73,6 @@ const QuestionWheel = ({
             })
             .catch((error) => {
               console.error("Error playing sound:", error);
-              // Если воспроизведение не удалось, показываем промпт снова
               setShowAudioPrompt(true);
               setAudioEnabled(false);
             });
@@ -96,9 +88,6 @@ const QuestionWheel = ({
       }
     };
   }, [isVisible, audioEnabled]);
-
-  // Создаем расширенный список вопросов, добавляя вопросы в начало и конец
-  const extendedQuestions = [...questions, ...questions, ...questions];
 
   const modalVariants = {
     hidden: {
