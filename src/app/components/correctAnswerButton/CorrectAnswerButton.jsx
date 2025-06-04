@@ -15,6 +15,7 @@ function CorrectAnswerButton({ username, disabled }) {
 
     if (success) {
       setIsSelected(!isSelected); 
+      await notifyAdminAboutCorrectPlayer(username);
     }
 
     setIsLoading(false);
@@ -68,6 +69,19 @@ const updatePoints = async (username, points) => {
     toast.error(errorMessage);
     return false;
   }
+};
+
+const notifyAdminAboutCorrectPlayer = async (username) => {
+  try {
+    await instance.post(
+      `/websocket/admin/add_correct_player/{player_name}?username=${encodeURIComponent(
+        username
+      )}`
+    );
+  } catch (error) {
+    const errorMessage =
+      error.response?.data?.detail || "Ошибка при отправке имени пользователя";
+    toast.error(errorMessage);  }
 };
 
 export default CorrectAnswerButton;
