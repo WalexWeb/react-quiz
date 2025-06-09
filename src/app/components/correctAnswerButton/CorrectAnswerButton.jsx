@@ -5,7 +5,7 @@ import { useState } from "react";
 
 function CorrectAnswerButton({ username, disabled }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [isSelected, setIsSelected] = useState(false); 
+  const [isSelected, setIsSelected] = useState(false);
 
   const handleClick = async () => {
     setIsLoading(true);
@@ -14,8 +14,8 @@ function CorrectAnswerButton({ username, disabled }) {
     const success = await updatePoints(username, points);
 
     if (success) {
-      setIsSelected(!isSelected); 
-      await notifyAdminAboutCorrectPlayer(username);
+      await notifyAdminAboutPlayer(username, isSelected);
+      setIsSelected(!isSelected);
     }
 
     setIsLoading(false);
@@ -71,17 +71,23 @@ const updatePoints = async (username, points) => {
   }
 };
 
-const notifyAdminAboutCorrectPlayer = async (username) => {
+const notifyAdminAboutPlayer = async (username, isRemoving) => {
   try {
-    await instance.post(
-      `/websocket/admin/add_correct_player/{player_name}?username=${encodeURIComponent(
-        username
-      )}`
-    );
+    const endpoint = isRemoving
+      ? `/websocket/admin/remove_correct_player/{player_name}?username=${encodeURIComponent(
+          username
+        )}`
+      : `/websocket/admin/add_correct_player/{player_name}?username=${encodeURIComponent(
+          username
+        )}`;
+
+    await instance.post(endpoint);
   } catch (error) {
     const errorMessage =
-      error.response?.data?.detail || "Ошибка при отправке имени пользователя";
-    toast.error(errorMessage);  }
+      error.response?.data?.detail || "Ошибка при уведомлении администратора";
+    toast.error(errorMessage);
+    throw error;
+  }
 };
 
 export default CorrectAnswerButton;
