@@ -12,7 +12,7 @@ function TeamsAnswers({ question }) {
   const fetchCorrectPlayers = async () => {
     try {
       const response = await axios.post(
-        "http://0.0.0.0:8000/api/v2/websocket/get_correct_player"
+        "http://10.10.0.88:8000/api/v2/websocket/get_correct_player"
       );
 
       return response.data.users;
